@@ -1819,10 +1819,10 @@ npm-run-path@^4.0.1:
   dependencies:
     path-key "^3.0.0"
 
-okareo-ts-sdk@^0.0.14:
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/okareo-ts-sdk/-/okareo-ts-sdk-0.0.14.tgz#3a223150fc4e3f63998537910f4c25a710a32e58"
-  integrity sha512-K6Yrs36xuuvYKDcQWsfT8Zj8ChZk2RXVTlwHbqb/NuaecBJMZxrgD9zhICZmWNjbLmH+cg8JeRVnz8JKUqBw6A==
+okareo-ts-sdk@^0.0.18:
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/okareo-ts-sdk/-/okareo-ts-sdk-0.0.18.tgz#77cf734f0f331c1da3aaecfc53cf0f0a6fe7767c"
+  integrity sha512-8ubhYGw29EfXjum9zIPX9851yH5ZTF3x5des5Hf/dlqc8xslNtH2rBKuAzJ7NfFdy0L2qtyPVVHZCEaCd6xqXQ==
   dependencies:
     openapi-fetch "^0.9.3"
 
