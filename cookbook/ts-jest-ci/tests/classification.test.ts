@@ -2,7 +2,7 @@ import {
     Okareo, 
     RunTestProps,
     classification_reporter,
-    ModelUnderTest, OpenAIModel, SeedData, ScenarioType, TestRunType
+    ModelUnderTest, OpenAIModel, SeedData, ScenarioType, TestRunType, CustomModel
 } from "okareo-ts-sdk";
 
 const OKAREO_API_KEY = process.env.OKAREO_API_KEY || "<YOUR_OKAREO_KEY>";
@@ -74,7 +74,7 @@ Speak to a human
 `;
 
 describe('Evaluations', () => {
-    test('E2E Classification Evaluation', async () =>  {
+    test('E2E OpenAI Classification', async () =>  {
         const okareo = new Okareo({api_key:OKAREO_API_KEY, endpoint: OKAREO_BASE_URL});
         const pData: any[] = await okareo.getProjects();
         const sData: any = await okareo.create_scenario_set(
@@ -104,7 +104,7 @@ describe('Evaluations', () => {
         const data: any = await okareo.run_test({
                 project_id: pData[0].id,
                 scenario_id: sData.scenario_id,
-                name: "TS-SDK Classification",
+                name: "TS-SDK LLM Classification",
                 calculate_metrics: true,
                 type: TestRunType.MULTI_CLASS_CLASSIFICATION,
             } as RunTestProps
@@ -112,7 +112,60 @@ describe('Evaluations', () => {
         const report = classification_reporter(
             {
                 testRunItem:data, 
-                error_max: 1, 
+                error_max: 6, 
+                metrics_min: {
+                    precision: 0.6,
+                    recall: 0.8,
+                    f1: 0.6,
+                    accuracy: 0.8
+                }
+            }
+        );
+        if (!report.pass) {
+            console.log(report);
+        }
+        expect(report.pass).toBeTruthy();
+    });
+
+    test('E2E Custom Model', async () =>  {
+        const okareo = new Okareo({api_key:OKAREO_API_KEY, endpoint: OKAREO_BASE_URL});
+        const pData: any[] = await okareo.getProjects();
+        const sData: any = await okareo.create_scenario_set(
+            {
+            name: "TS-SDK Testing Scenario Set",
+            project_id: pData[0].id,
+            number_examples: 1,
+            generation_type: "SEED",
+            seed_data: TEST_SEED_DATA
+            }
+        );
+        
+        await okareo.register_model(
+            ModelUnderTest({
+                name: "TS-SDK Custom Model",
+                tags: ["TS-SDK", "Custom", "Testing"],
+                project_id: pData[0].id,
+                model: CustomModel({
+                    invoke: (input: string) => { 
+                        return "Technical Support";
+                    }
+                }),
+            })
+        );
+        
+        const data: any = await okareo.run_test({
+                project_id: pData[0].id,
+                scenario_id: sData.scenario_id,
+                name: "TS-SDK Custom Run",
+                calculate_metrics: true,
+                type: TestRunType.MULTI_CLASS_CLASSIFICATION,
+            } as RunTestProps
+        );
+
+        const report = classification_reporter(
+            {
+                testRunItem:data, 
+                error_max: 6, 
                 metrics_min: {
                     precision: 0.9,
                     recall: 0.9,

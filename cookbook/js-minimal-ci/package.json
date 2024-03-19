@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": "false",
   "devDependencies": {
-    "okareo-ts-sdk": "^0.0.18"
+    "okareo-ts-sdk": "^0.0.19"
   },
   "scripts": {
     "start": "node ./src/index.js"
