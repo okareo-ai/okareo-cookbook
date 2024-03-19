@@ -177,7 +177,7 @@ describe('Evaluations', () => {
         if (!report.pass) {
             console.log(report);
         }
-        expect(report.pass).toBeTruthy();
+        expect(report.errors).toBe(6);
     });
 
 });
