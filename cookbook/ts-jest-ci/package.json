@@ -17,7 +17,8 @@
   },
   "scripts": {
     "start": "tsc && node dist/index.js",
-    "test": "jest"
+    "test": "jest:model",
+    "jest:model": "jest test-models --config ./jest.model-config.ts"
   },
   "dependencies": {}
 }

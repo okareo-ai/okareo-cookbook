@@ -1,8 +1,11 @@
 ### A Very Simple Project using Okareo
 
-## Example Project
-This project is a minimalistic example of how Okareo can be used to build an E2E repo for model testing.
-The approach used here can be used in any typescript project.
+# Okareo + Jest + Typescript
+This recipe demonstrates the use of Okareo as part of an existing project that incldues Jest.
+
+The approach used here creates a unique and parallel jest unit testing path specific to model testing.  The approach is particularly useful and necessary when building within a mono-repo or a full-stack typescript application with client and server components.
+
+<h2>Setup</h2>
 
 - yarn init
 - yarn add --dev typescript @types/node ts-node
@@ -21,7 +24,7 @@ The approach used here can be used in any typescript project.
 }
 ```
 - yarn add -D jest @types/jest ts-jest
-- create jest.config.ts
+- create jest.model-config.ts
 ``` Typescript
 import type {Config} from '@jest/types';
 // Sync object
@@ -33,7 +36,11 @@ const config: Config.InitialOptions = {
 };
 export default config;
 ```
-- update package.json to include ```"test": "jest"``` in the "scripts" list
+- update package.json to include two scripts
+```
+  "test": "jest"
+  "jest:model": "jest test-models --config ./jest.model-config.js",
+```
 - yarn add --dev okareo-ts-sdk
 - add a mechanism to run the project to package.json
 ``` json
@@ -41,7 +48,7 @@ export default config;
     "run": "tsc && node dist/index.js"
   }
   ```
-- make a directory called tests
+- make a directory called test-models
 - add your first test
 - Example: projects.test.ts
 ``` Typescript
