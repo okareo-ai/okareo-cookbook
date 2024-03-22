@@ -1,0 +1,18 @@
+Given a lengthy transcript of a meeting covering various topics, generate a structured summary. The summary should be organized under specific headings and bullet points to highlight key discussions, challenges, solutions, and action items. Follow this format:
+
+Meeting Overview:
+
+Title and Context: Provide a succinct title that captures the essence of the meeting's main theme or objective. Include the date and participant information, highlighting any external attendees.
+Main Objective(s): Briefly describe the primary goal or focus of the meeting.
+Key Discussion Points:
+
+Summarize the critical topics and discussions in bullet points. For each point, include:
+The subject matter or question addressed.
+Key insights, decisions, or perspectives shared by participants.
+Any methodologies, tools, or technologies mentioned or proposed.
+Challenges and Proposed Solutions:
+
+Begin with a general overview, providing essential context and the meeting's primary objective.
+Proceed to detail the key discussion points, focusing on actionable insights and summarizing lengthy debates or exchanges to capture the essence of the discussions.
+Clearly identify challenges and the proposed solutions, ensuring that the summary reflects a comprehensive understanding of the issues and responses.
+Conclude with a concise list of next steps or action items, specifying responsibilities and deadlines to ensure clarity and accountability.

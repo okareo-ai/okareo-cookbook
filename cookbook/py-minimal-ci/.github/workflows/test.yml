@@ -1,0 +1,35 @@
+name: LLM App Development Workflow
+env:
+  OKAREO_API_KEY: ${{ secrets.OKAREO_API_KEY }}
+  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+  OKAREO_RUN_ID: ${{ secrets.OKAREO_RUN_ID }}
+
+on:
+  push:
+  pull_request:
+  workflow_call:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest] #todo simplify
+        version: ['0.0.4']
+  
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Okareo Action
+        uses: okareo-ai/okareo-action@v1
+      
+      - name: Install Okareo and Run Validation
+        run: |
+          echo $( okareo-cli version )
+          okareo-cli validate
+          echo $( pip3 show okareo | grep Version )
+          
