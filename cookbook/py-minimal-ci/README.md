@@ -12,7 +12,7 @@ Install Okareo and setup your config
 2. Add the okareo-cli to your path.
 ``` shell
 export OKAREO_BASE = "/path/to/cli/"
-export PATH = $PATH;$OKAREO_BASE
+export PATH = $PATH:$OKAREO_BASE
 ```
 
 3. Create a folder called ```.okareo``` in the location where you will be using the cli
