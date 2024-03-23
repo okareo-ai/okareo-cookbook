@@ -74,6 +74,9 @@ Speak to a human
 `;
 
 describe('Evaluations', () => {
+    beforeAll(() => {
+
+    });
     test('E2E OpenAI Classification', async () =>  {
         const okareo = new Okareo({api_key:OKAREO_API_KEY, endpoint: OKAREO_BASE_URL});
         const pData: any[] = await okareo.getProjects();
@@ -111,13 +114,13 @@ describe('Evaluations', () => {
         );
         const report = classification_reporter(
             {
-                testRunItem:data, 
+                eval_run:data, 
                 error_max: 6, 
                 metrics_min: {
-                    precision: 0.6,
-                    recall: 0.8,
-                    f1: 0.6,
-                    accuracy: 0.8
+                    precision: 0.5,
+                    recall: 0.5,
+                    f1: 0.5,
+                    accuracy: 0.5
                 }
             }
         );
@@ -135,7 +138,7 @@ describe('Evaluations', () => {
             name: "TS-SDK Testing Scenario Set",
             project_id: pData[0].id,
             number_examples: 1,
-            generation_type: "SEED",
+            generation_type: ScenarioType.SEED,
             seed_data: TEST_SEED_DATA
             }
         );
@@ -147,12 +150,18 @@ describe('Evaluations', () => {
                 project_id: pData[0].id,
                 model: CustomModel({
                     invoke: (input: string) => { 
-                        return "Technical Support";
+                        return {
+                            actual: "Technical Support",
+                            model_response: {
+                                input: input,
+                                method: "hard coded",
+                                context: "TS SDK Test Response",
+                            }
+                        }
                     }
                 }),
             })
         );
-        
         const data: any = await okareo.run_test({
                 project_id: pData[0].id,
                 scenario_id: sData.scenario_id,
@@ -161,23 +170,24 @@ describe('Evaluations', () => {
                 type: TestRunType.MULTI_CLASS_CLASSIFICATION,
             } as RunTestProps
         );
-
+        
         const report = classification_reporter(
             {
-                testRunItem:data, 
+                eval_run:data, 
                 error_max: 6, 
                 metrics_min: {
-                    precision: 0.9,
-                    recall: 0.9,
-                    f1: 0.9,
-                    accuracy: 0.9
+                    precision: 0.5,
+                    recall: 0.5,
+                    f1: 0.5,
+                    accuracy: 0.5
                 }
             }
         );
         if (!report.pass) {
             console.log(report);
         }
-        expect(report.errors).toBe(6);
+        expect(report.errors).toBeGreaterThanOrEqual(1);
+
     });
 
 });

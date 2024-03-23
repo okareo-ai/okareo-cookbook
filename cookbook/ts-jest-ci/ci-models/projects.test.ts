@@ -1,11 +1,8 @@
 import { Okareo } from 'okareo-ts-sdk';
-import { RunTestProps } from 'okareo-ts-sdk';
 import { classification_reporter } from 'okareo-ts-sdk';
-import { ModelUnderTest, OpenAIModel, SeedData, ScenarioType, TestRunType } from 'okareo-ts-sdk';
 
 const OKAREO_API_KEY = process.env.OKAREO_API_KEY || "<YOUR_OKAREO_KEY>";
 const OKAREO_BASE_URL = process.env.OKAREO_BASE_URL || "https://api.okareo.com/";
-
 
 const TEST_RUN_ITEM: any = {
     id: '2eed4076-fd4e-484d-928c-c56d5a4ed4fc',
@@ -55,7 +52,7 @@ describe(' Working with Projects', () => {
         //const tData = await okareo.get_test_run(eval_id);
         const report = classification_reporter(
             {
-                testRunItem:TEST_RUN_ITEM, 
+                eval_run:TEST_RUN_ITEM, 
                 error_max: 8, 
                 metrics_min: {
                     precision: 0.7,
