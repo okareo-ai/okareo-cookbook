@@ -13,7 +13,7 @@
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.2",
-    "okareo-ts-sdk": "^0.0.24"
+    "okareo-ts-sdk": "latest"
   },
   "scripts": {
     "start": "tsc && node dist/index.js",

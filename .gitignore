@@ -114,3 +114,7 @@ public/
 docs
 **/dist
 **/node_modules
+**/yarn.lock
+**/package-lock.json
+yarn.lock
+package-lock.json
