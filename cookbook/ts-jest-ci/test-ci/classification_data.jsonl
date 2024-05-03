@@ -1,0 +1,136 @@
+{ "input": "How do I fix error code 404?", "result": "Technical Support"}
+{ "input": "Can I cancel my subscription?", "result": "Billing"}
+{ "input": "What are the steps to add a member to my team?", "result": "Account Management"}
+{ "input": "How can I contact your sales team?", "result": "General Inquiry"}
+{ "input": "Do you offer a free trial?", "result": "General Inquiry"}
+{ "input": "Why is my payment not going through?", "result": "Billing"}
+{ "input": "I forgot my password. Can you help me reset it?", "result": "Account Management"}
+{ "input": "How do I integrate your product with my existing system?", "result": "Technical Support"}
+{ "input": "What are the new features in the latest update?", "result": "Technical Support"}
+{ "input": "Can you explain the charges on my bill?", "result": "Billing"}
+{ "input": "How do I close my account?", "result": "Account Management"}
+{ "input": "Do you offer discounts for bulk purchases?", "result": "General Inquiry"}
+{ "input": "Why did I receive an invoice for an upgrade I didn't request?", "result": "Billing"}
+{ "input": "My account got hacked. What should I do?", "result": "Account Management"}
+{ "input": "Is there a way to dispute a recent charge on my account?", "result": "Billing"}
+{ "input": "Can I provide feedback on your service?", "result": "General Inquiry"}
+{ "input": "How can I speak to a human representative?", "result": "General Inquiry"}
+{ "input": "I can't login to my account. What's wrong?", "result": "Technical Support"}
+{ "input": "Can I downgrade my subscription plan?", "result": "Billing"}
+{ "input": "Is there a limit to the number of team members I can add?", "result": "Account Management"}
+{ "input": "Is there a way to track my usage of your product?", "result": "Technical Support"}
+{ "input": "How secure is my personal information with your service?", "result": "Account Management"}
+{ "input": "I received an email about an account change I didn't authorize. What's happening?", "result": "Account Management"}
+{ "input": "Can I pay with a different credit card than the one on file?", "result": "Billing"}
+{ "input": "Where can I find information about your company's pricing plans?", "result": "General Inquiry"}
+{ "input": "What happens if I downgrade my account to a free plan?", "result": "Account Management"}
+{ "input": "I need help setting up the new software update. What do I do?", "result": "Technical Support"}
+{ "input": "How can I opt out of receiving promotional emails?", "result": "General Inquiry"}
+{ "input": "What should I do if the product is not working as expected?", "result": "Technical Support"}
+{ "input": "Can I get a refund for my recent purchase?", "result": "Billing"}
+{ "input": "Is there a limit to the number of devices I can use with your product?", "result": "Technical Support"}
+{ "input": "When will the next software update be released?", "result": "Technical Support"}
+{ "input": "I can't access my account. How can I retrieve my login details?", "result": "Account Management"}
+{ "input": "How do I close my account without losing my data?", "result": "Account Management"}
+{ "input": "Can I change my subscription plan mid-billing cycle?", "result": "Billing"}
+{ "input": "Why was I charged extra on my last bill?", "result": "Billing"}
+{ "input": "Are there any hidden fees I should be aware of in your subscription plans?", "result": "General Inquiry"}
+{ "input": "Can I change the email address associated with my account?", "result": "Account Management"}
+{ "input": "I need help troubleshooting an issue with the latest update. Can you assist me?", "result": "Technical Support"}
+{ "input": "How can I add an additional layer of security to my account?", "result": "Account Management"}
+{ "input": "Do you offer live chat support for technical issues?", "result": "Technical Support"}
+{ "input": "Can I transfer my account to another person?", "result": "Account Management"}
+{ "input": "What is the process to dispute a billing error?", "result": "Billing"}
+{ "input": "Why does the product keep crashing on my device?", "result": "Technical Support"}
+{ "input": "How do I change my payment method for future invoices?", "result": "Billing"}
+{ "input": "Is there a way to speed up the integration process with your product?", "result": "Technical Support"}
+{ "input": "Can I access a demo before making a purchase?", "result": "General Inquiry"}
+{ "input": "My account was charged twice for the same service. How can I resolve this?", "result": "Billing"}
+{ "input": "What are the system requirements for using your product?", "result": "Technical Support"}
+{ "input": "I no longer want to receive automated emails from your service. How can I stop them?", "result": "General Inquiry"}
+{ "input": "How can I provide suggestions for improving your product?", "result": "General Inquiry"}
+{ "input": "Can I set a spending limit on my account to avoid unexpected charges?", "result": "Billing"}
+{ "input": "Are there any upcoming promotions or discounts for your product?", "result": "General Inquiry"}
+{ "input": "I need help troubleshooting a bug I found in the system. What should I do?", "result": "Technical Support"}
+{ "input": "Can I customize the features included in my subscription plan?", "result": "General Inquiry"}
+{ "input": "How do I reset my security question on my account?", "result": "Account Management"}
+{ "input": "Is it possible to add two-factor authentication to my account for added security?", "result": "Account Management"}
+{ "input": "I accidentally upgraded my account. Can I downgrade it without losing data?", "result": "Account Management"}
+{ "input": "Why am I being charged a fee for a service I never signed up for?", "result": "Billing"}
+{ "input": "Will changing my payment method affect my current subscription?", "result": "Billing"}
+{ "input": "How can I get a copy of all my billing statements for the past year?", "result": "Billing"}
+{ "input": "Can I change the currency used for billing on my account?", "result": "Billing"}
+{ "input": "How can I find information on the latest product releases and updates?", "result": "Technical Support"}
+{ "input": "What is the procedure for upgrading my account to a higher plan?", "result": "Billing"}
+{ "input": "Why did my account get locked? Can you help me regain access?", "result": "Account Management"}
+{ "input": "I'm having trouble setting up the account for a new team member. Can you assist?", "result": "Account Management"}
+{ "input": "Do you offer a money-back guarantee if I'm not satisfied with the service?", "result": "General Inquiry"}
+{ "input": "How do I export my account data before closing it?", "result": "Account Management"}
+{ "input": "Can I change the billing cycle for my subscription plan?", "result": "Billing"}
+{ "input": "Why is my account showing a different activity log than my actions?", "result": "Account Management"}
+{ "input": "Can I change the contact information associated with my account?", "result": "Account Management"}
+{ "input": "How can I reach customer support for technical assistance?", "result": "Technical Support"}
+{ "input": "What are the privacy settings available for my account?", "result": "Account Management"}
+{ "input": "Can I switch my subscription to a different product without losing my data?", "result": "Account Management"}
+{ "input": "Why is my account being restricted access to certain features?", "result": "Account Management"}
+{ "input": "Can I change the timezone settings for notifications on my account?", "result": "Account Management"}
+{ "input": "How often are product updates released?", "result": "Technical Support"}
+{ "input": "What happens if I don't pay my bill on time?", "result": "Billing"}
+{ "input": "I accidentally made a purchase on the wrong account. Can you transfer it to the correct one?", "result": "Billing"}
+{ "input": "Can I add multiple payment methods to my account for flexibility?", "result": "Account Management"}
+{ "input": "How do I change the language settings in my account?", "result": "Account Management"}
+{ "input": "Can I change the name associated with my account?", "result": "Account Management"}
+{ "input": "How can I hide certain features on my account dashboard?", "result": "Account Management"}
+{ "input": "Can I transfer my subscription to a colleague?", "result": "Account Management"}
+{ "input": "What steps can I take to troubleshoot a slow performance issue?", "result": "Technical Support"}
+{ "input": "I found a bug in the system. How do I report it for fixing?", "result": "Technical Support"}
+{ "input": "How do I request a refund for a service I no longer require?", "result": "Billing"}
+{ "input": "Is it possible to change the billing date for my account?", "result": "Billing"}
+{ "input": "Why is the system not recognizing my login credentials?", "result": "Technical Support"}
+{ "input": "Can I downgrade my account without losing any saved data?", "result": "Account Management"}
+{ "input": "How do I cancel a feature integration that I no longer need?", "result": "Technical Support"}
+{ "input": "Will my data be safe if I downgrade my account?", "result": "Account Management"}
+{ "input": "Can I transfer my subscription to a different product within your service?", "result": "Account Management"}
+{ "input": "What can I do if I accidentally shared sensitive information on the platform?", "result": "Account Management"}
+{ "input": "Can I have more than one administrator on my account?", "result": "Account Management"}
+{ "input": "How can I sync my account across multiple devices?", "result": "General Inquiry"}
+{ "input": "Is there a way to merge two accounts into one with combined data?", "result": "Account Management"}
+{ "input": "Why am I experiencing a delay in receiving notifications from the system?", "result": "Technical Support"}
+{ "input": "Can I pause my subscription for a period if I'm not using the service?", "result": "General Inquiry"}
+{ "input": "How do I update my credit card details for billing purposes?", "result": "Billing"}
+{ "input": "What is the best way to protect my account from unauthorized access?", "result": "Account Management"}
+{ "input": "Can I change my registered email address to a new one?", "result": "Account Management"}
+{ "input": "Why are some features in my account not functioning correctly?", "result": "Technical Support"}
+{ "input": "Can I set a reminder for upcoming billing cycles on my account?", "result": "Billing"}
+{ "input": "How do I check for updates manually on my account?", "result": "Technical Support"}
+{ "input": "What is the best way to provide suggestions for improving your product?", "result": "General Inquiry"}
+{ "input": "Can I request a customized plan based on specific needs for my account?", "result": "General Inquiry"}
+{ "input": "How can I enable two-factor authentication on my account?", "result": "Account Management"}
+{ "input": "I received an alert about a login attempt from an unfamiliar location. What do I do?", "result": "Account Management"}
+{ "input": "Can I search for past invoices in my account history?", "result": "Billing"}
+{ "input": "How do I restrict access to certain features for certain team members?", "result": "Account Management"}
+{ "input": "Can I request a phone call from customer support for assistance?", "result": "General Inquiry"}
+{ "input": "Why am I not receiving email notifications for account activities?", "result": "Technical Support"}
+{ "input": "Can I transfer my subscription to a different account under my management?", "result": "Account Management"}
+{ "input": "How can I opt out of receiving marketing communications from your service?", "result": "General Inquiry"}
+{ "input": "What should I do if I accidentally deleted important data from my account?", "result": "Account Management"}
+{ "input": "Can I customize notifications for different events in my account?", "result": "Account Management"}
+{ "input": "Why is the system not syncing my data across devices?", "result": "Technical Support"}
+{ "input": "Can I change the appearance of the user interface in my account?", "result": "Account Management"}
+{ "input": "How do I request a refund for a service I'm not satisfied with?", "result": "Billing"}
+{ "input": "Is there a way to check the status of a payment I made on my account?", "result": "Billing"}
+{ "input": "Can I set a custom billing cycle for my account?", "result": "Billing"}
+{ "input": "How can I report a bug in the system that is affecting my work?", "result": "Technical Support"}
+{ "input": "What are the steps to upgrade my account to the latest features?", "result": "Billing"}
+{ "input": "Why am I seeing a different pricing plan than what I subscribed to?", "result": "Billing"}
+{ "input": "Can I change the display language used in my account?", "result": "Account Management"}
+{ "input": "How do I add additional security measures to my account?", "result": "Account Management"}
+{ "input": "Is there a way to test out a new feature before it's fully integrated?", "result": "General Inquiry"}
+{ "input": "I believe my account has been compromised. How can I secure it?", "result": "Account Management"}
+{ "input": "Can I change the notification settings for different events on my account?", "result": "Account Management"}
+{ "input": "Why is the system not recognizing my new payment method?", "result": "Billing"}
+{ "input": "Can I switch my subscription to a different product within your service?", "result": "Account Management"}
+{ "input": "How do I request a refund for a recent charge that was not authorized?", "result": "Billing"}
+{ "input": "Is it possible to change the billing address on my account?", "result": "Account Management"}
+{ "input": "Why are some features in my account missing after the latest update?", "result": "Technical Support"}
+{ "input": "Can I downgrade my account plan without losing certain features?", "result": "Account Management"}

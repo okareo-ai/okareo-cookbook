@@ -1,0 +1,15 @@
+name: CLI Evaluation 
+api-key: ${OKAREO_API_KEY}
+model-keys:
+  -openai: ${OPENAI_API_KEY}
+run:
+  flows:
+    configs:
+      - name: "Example Flow"
+        model-id: "MODEL_ID"
+        scenario-id: "SCENARIO_ID"
+        type: "NL_GENERATION"
+        openai-key: "${OPENAI_API_KEY}"
+        checks:
+          - uniqueness
+          - fluency

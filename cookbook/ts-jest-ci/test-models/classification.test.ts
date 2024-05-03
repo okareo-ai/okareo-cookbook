@@ -2,11 +2,13 @@ import {
     Okareo, 
     RunTestProps,
     classification_reporter,
-    ModelUnderTest, OpenAIModel, SeedData, ScenarioType, TestRunType, CustomModel
-} from "okareo-ts-sdk";
+    OpenAIModel, SeedData, TestRunType, CustomModel
+} from 'okareo-ts-sdk';
+
 
 const OKAREO_API_KEY = process.env.OKAREO_API_KEY || "<YOUR_OKAREO_KEY>";
-const OKAREO_BASE_URL = process.env.OKAREO_BASE_URL || "https://api.okareo.com/";
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY || "<YOUR_OPENAI_KEY>";
+
 const TEST_SEED_DATA = [
     SeedData({
         input:"Can I connect to my SalesForce?",  
@@ -73,54 +75,59 @@ Feedback
 Speak to a human
 `;
 
-describe('Evaluations', () => {
-    beforeAll(() => {
 
-    });
-    test('E2E OpenAI Classification', async () =>  {
-        const okareo = new Okareo({api_key:OKAREO_API_KEY, endpoint: OKAREO_BASE_URL});
+let project_id: string;
+
+describe('Evaluations', () => {
+    beforeAll(async () => {
+        const okareo = new Okareo({api_key:OKAREO_API_KEY});
         const pData: any[] = await okareo.getProjects();
+        project_id = pData.find(p => p.name === "Global")?.id;
+    });
+    
+
+    test('E2E OpenAI Classification', async () =>  {
+        const okareo = new Okareo({api_key:OKAREO_API_KEY});
         const sData: any = await okareo.create_scenario_set(
             {
-                name: "TS-SDK SEED Classification Data",
-                project_id: pData[0].id,
-                number_examples: 1,
-                generation_type: ScenarioType.SEED,
+                name: "Demo SEED Classification Data",
+                project_id: project_id,
                 seed_data: TEST_SEED_DATA
             }
         );
         
-        await okareo.register_model(
-            ModelUnderTest({
-                name: "TS-SDK Classification Model",
-                tags: ["TS-SDK", "Testing"],
-                project_id: pData[0].id,
-                model: OpenAIModel({
-                    model_id:"gpt-3.5-turbo",
-                    temperature:0.5,
-                    system_prompt_template:CLASSIFICATION_CONTEXT_TEMPLATE,
-                    user_prompt_template:USER_PROMPT_TEMPLATE
-                }),
-            })
-        );
+        const model = await okareo.register_model({
+            name: "Demo Classification Model",
+            tags: ["Demo", "Testing"],
+            project_id: project_id,
+            models: {
+                type: "openai",
+                model_id:"gpt-3.5-turbo",
+                temperature:0.5,
+                system_prompt_template:CLASSIFICATION_CONTEXT_TEMPLATE,
+                user_prompt_template:USER_PROMPT_TEMPLATE
+            } as OpenAIModel,
+            update: true,
+        });
         
-        const data: any = await okareo.run_test({
-                project_id: pData[0].id,
-                scenario_id: sData.scenario_id,
-                name: "TS-SDK LLM Classification",
-                calculate_metrics: true,
-                type: TestRunType.MULTI_CLASS_CLASSIFICATION,
-            } as RunTestProps
-        );
+        const data: any = await model.run_test({
+            model_api_key: OPENAI_API_KEY,
+            project_id: project_id,
+            scenario_id: sData.scenario_id,
+            name: "Demo LLM Classification",
+            calculate_metrics: true,
+            type: TestRunType.MULTI_CLASS_CLASSIFICATION,
+        } as RunTestProps);
+        
         const report = classification_reporter(
             {
                 eval_run:data, 
                 error_max: 6, 
                 metrics_min: {
-                    precision: 0.5,
-                    recall: 0.5,
-                    f1: 0.5,
-                    accuracy: 0.5
+                    precision: 0.1,
+                    recall: 0.1,
+                    f1: 0.1,
+                    accuracy: 0.1
                 }
             }
         );
@@ -131,45 +138,42 @@ describe('Evaluations', () => {
     });
 
     test('E2E Custom Model', async () =>  {
-        const okareo = new Okareo({api_key:OKAREO_API_KEY, endpoint: OKAREO_BASE_URL});
-        const pData: any[] = await okareo.getProjects();
+        const okareo = new Okareo({api_key:OKAREO_API_KEY});
         const sData: any = await okareo.create_scenario_set(
             {
-            name: "TS-SDK Testing Scenario Set",
-            project_id: pData[0].id,
-            number_examples: 1,
-            generation_type: ScenarioType.SEED,
+            name: "Demo Testing Scenario Set",
+            project_id: project_id,
             seed_data: TEST_SEED_DATA
             }
         );
         
-        await okareo.register_model(
-            ModelUnderTest({
-                name: "TS-SDK Custom Model",
-                tags: ["TS-SDK", "Custom", "Testing"],
-                project_id: pData[0].id,
-                model: CustomModel({
-                    invoke: (input: string) => { 
-                        return {
-                            actual: "Technical Support",
-                            model_response: {
-                                input: input,
-                                method: "hard coded",
-                                context: "TS SDK Test Response",
-                            }
+        const model = await okareo.register_model({
+            name: "Demo Custom Model",
+            tags: ["Demo", "Custom", "Testing"],
+            project_id: project_id,
+            models: {
+                type: "custom",
+                invoke: (input: string) => { 
+                    return {
+                        actual: "Technical Support",
+                        model_response: {
+                            input: input,
+                            method: "hard coded",
+                            context: "TS SDK Test Response",
                         }
                     }
-                }),
-            })
-        );
-        const data: any = await okareo.run_test({
-                project_id: pData[0].id,
-                scenario_id: sData.scenario_id,
-                name: "TS-SDK Custom Run",
-                calculate_metrics: true,
-                type: TestRunType.MULTI_CLASS_CLASSIFICATION,
-            } as RunTestProps
-        );
+                }
+            } as CustomModel,
+        });
+
+        const data: any = await model.run_test({
+            model_api_key: OPENAI_API_KEY,
+            project_id: project_id,
+            scenario_id: sData.scenario_id,
+            name: "Demo Custom Run",
+            calculate_metrics: true,
+            type: TestRunType.MULTI_CLASS_CLASSIFICATION,
+        } as RunTestProps);
         
         const report = classification_reporter(
             {

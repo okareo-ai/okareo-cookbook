@@ -1,8 +1,10 @@
-import { Okareo } from 'okareo-ts-sdk';
-import { classification_reporter } from 'okareo-ts-sdk';
+import { 
+    Okareo,
+    classification_reporter 
+} from 'okareo-ts-sdk';
 
 const OKAREO_API_KEY = process.env.OKAREO_API_KEY || "<YOUR_OKAREO_KEY>";
-const OKAREO_BASE_URL = process.env.OKAREO_BASE_URL || "https://api.okareo.com/";
+
 
 const TEST_RUN_ITEM: any = {
     id: '2eed4076-fd4e-484d-928c-c56d5a4ed4fc',
@@ -41,15 +43,13 @@ const TEST_RUN_ITEM: any = {
 
 describe(' Working with Projects', () => {
     test('Get Projects', async () =>  {
-        const okareo = new Okareo({api_key:OKAREO_API_KEY, endpoint: OKAREO_BASE_URL});
+        const okareo = new Okareo({api_key:OKAREO_API_KEY});
         const data: any[] = await okareo.getProjects();
         expect(data.length).toBeGreaterThanOrEqual(0);
     });
 
 
     test('E2E Classification Reporter', async () =>  {
-        const okareo = new Okareo({api_key:OKAREO_API_KEY, endpoint: OKAREO_BASE_URL});
-        //const tData = await okareo.get_test_run(eval_id);
         const report = classification_reporter(
             {
                 eval_run:TEST_RUN_ITEM, 
