@@ -109,6 +109,7 @@ const main = async () => {
       models: {
           type: "custom",
           invoke: async (input: string, expected: string) => { 
+            try {
               const chatCompletion: any = await openai.chat.completions.create({
                   messages: [
                       { role: 'user', content:  input },
@@ -116,26 +117,25 @@ const main = async () => {
                   ],
                   model: 'gpt-3.5-turbo',
               });
-              try {
-                  const summary_result = chatCompletion.choices[0].message.content;
-                  return {
-                      actual: summary_result,
-                      model_response: {
-                          input: input,
-                          method: "openai",
-                          context: {
-                              
-                          },
-                      }
-                  }
-              } catch (error) {
-                  console.log(error);
-                  return {
-                      "actions": ["ERROR"],
-                      "short_summary": "ERROR",
-                      "attendee_list": ["ERROR"],
-                  }
-              }
+                const summary_result = chatCompletion.choices[0].message.content;
+                return {
+                    actual: summary_result,
+                    model_response: {
+                        input: input,
+                        method: "openai",
+                        context: {
+                            
+                        },
+                    }
+                }
+            } catch (error) {
+                console.log("openai error",error);
+                return {
+                    "actions": ["ERROR"],
+                    "short_summary": "ERROR",
+                    "attendee_list": ["ERROR"],
+                }
+            }
           }
       } as CustomModel,
       update: true,
@@ -180,6 +180,7 @@ const main = async () => {
     });
 
 	} catch (error) {
+    console.log(error);
 		console.error(error);
 	}
 }
