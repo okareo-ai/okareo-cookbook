@@ -114,7 +114,8 @@ public/
 docs
 **/dist
 **/node_modules
-**/yarn.lock
-**/package-lock.json
+**/.okareo/yarn.lock
+**/.okareo/package-lock.json
+**/.okareo/tsconfig.json
 yarn.lock
 package-lock.json

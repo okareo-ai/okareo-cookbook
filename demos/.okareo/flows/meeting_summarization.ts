@@ -1,0 +1,191 @@
+import { 
+    Okareo, 
+    UploadEvaluatorProps,
+    RunTestProps,
+    TestRunType, CustomModel,
+    generation_reporter,
+} from "okareo-ts-sdk";
+import OpenAI from 'openai';
+
+const OKAREO_API_KEY = process.env.OKAREO_API_KEY || "<YOUR_OKAREO_KEY>";
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const UNIQUE_BUILD_ID = (process.env.SDK_BUILD_ID || `local.${(Math.random() + 1).toString(36).substring(7)}`);
+
+const CLASSIFICATION_CONTEXT_TEMPLATE_PREAMBLE: string = "";
+
+const NUMBER_OF_WORDS = 95 - Math.round(Math.random() * 10);
+const SYSTEM_MEETING_SUMMARIZER_TEMPLATE: string = `
+${CLASSIFICATION_CONTEXT_TEMPLATE_PREAMBLE}
+Your response MUST be in the following JSON format.  Content you add should not have special characters or line breaks.
+{
+    "actions": LIST_OF_TASKS_FROM_THE_MEETING,
+    "short_summary": SUMMARY_OF_MEETING_IN_UNDER_${NUMBER_OF_WORDS}_WORDS,
+    "attendee_list": LIST_OF_ATTENDEES
+}
+`;
+
+const SUMMARY_LENGTH_CHECK = "Return the length of the short_summary property from the JSON model response";
+const SUMMARY_UNDER_256_CHECK = "Pass if the property short_summary has less than 256 characters";
+const SUMMARY_IS_JSON = "Pass if the model result is JSON with the properties short_summary, actions, and attendee_list";
+const SUMMARY_WORD_COUNT = "Return the number of words present in the short_summary property of the model response";
+
+type CHECK_TYPE = {
+  name: string;
+  description: string;
+  output_data_type: string;
+}
+
+const addCheck = async (okareo: Okareo, project_id: string, check: CHECK_TYPE) => {
+  const check_primitive = await okareo.generate_check({  
+    project_id,
+    ...check
+  });
+  if (check_primitive.generated_code && check_primitive.generated_code.length > 0) {
+    return await okareo.upload_check({
+        project_id,
+        ...check_primitive
+    } as UploadEvaluatorProps);
+  }
+  console.error(check.name+": Failed to generate check");
+  return null;
+}
+
+const main = async () => {
+	try {
+    return;
+		const okareo = new Okareo({api_key:OKAREO_API_KEY});
+    const pData: any[] = await okareo.getProjects();
+    const project_id = pData.find(p => p.name === "Global")?.id;
+
+    const checks = await okareo.get_all_checks();
+    
+    const required_checks: CHECK_TYPE[] = [
+      {
+        name: "demo.summaryLength",
+        description: SUMMARY_LENGTH_CHECK,
+        output_data_type: "int"
+      },
+      {
+        name: "demo.summaryUnder256",
+        description: SUMMARY_UNDER_256_CHECK,
+        output_data_type: "bool"
+      },
+      {
+        name: "demo.summaryWordCount",
+        description: SUMMARY_WORD_COUNT,
+        output_data_type: "int"
+      },
+      {
+        name:"demo.isSummaryJSON",
+        description: SUMMARY_IS_JSON,
+        output_data_type: "bool"
+      }
+    ];
+
+    for (const demo_check of required_checks) {
+      const isReg: boolean = (checks.filter((c) => c.name === demo_check.name).length > 0);
+      if (!isReg) {
+        const new_check = await addCheck(okareo, project_id, demo_check);
+        console.log(`Check ${demo_check.name} has been created and is now available.`);
+      } else {
+        console.log(`Check ${demo_check.name} is available. No need to add it again`);
+      }
+    }
+
+    const root_name = `Meeting Summaries ${UNIQUE_BUILD_ID}`
+
+    const meeting_scenario: any = await okareo.upload_scenario_set({
+        name: "Meeting Bank Small Data Set",
+        file_path: "./.okareo/flows/meetings.jsonl",
+        project_id: project_id,
+    });
+
+    const openai = new OpenAI({
+        apiKey: OPENAI_API_KEY, // This is the default and can be omitted
+    });
+    const model = await okareo.register_model({
+      name: "Meeting Summarizer",
+      tags: ["Demo", "Summaries", `Build:${UNIQUE_BUILD_ID}`],
+      project_id: project_id,
+      models: {
+          type: "custom",
+          invoke: async (input: string, expected: string) => { 
+              const chatCompletion: any = await openai.chat.completions.create({
+                  messages: [
+                      { role: 'user', content:  input },
+                      { role: 'system', content: SYSTEM_MEETING_SUMMARIZER_TEMPLATE },
+                  ],
+                  model: 'gpt-3.5-turbo',
+              });
+              try {
+                  const summary_result = chatCompletion.choices[0].message.content;
+                  return {
+                      actual: summary_result,
+                      model_response: {
+                          input: input,
+                          method: "openai",
+                          context: {
+                              
+                          },
+                      }
+                  }
+              } catch (error) {
+                  console.log(error);
+                  return {
+                      "actions": ["ERROR"],
+                      "short_summary": "ERROR",
+                      "attendee_list": ["ERROR"],
+                  }
+              }
+          }
+      } as CustomModel,
+      update: true,
+    });
+    const eval_results: any = await model.run_test({
+      model_api_key: OPENAI_API_KEY,
+      name: `Demo: Meeting Eval ${UNIQUE_BUILD_ID}`,
+      tags: ["Demo", "Summaries", `Build:${UNIQUE_BUILD_ID}`],
+      project_id: project_id,
+      scenario: meeting_scenario,
+      calculate_metrics: true,
+      type: TestRunType.NL_GENERATION,
+      checks: [
+        "consistency_summary",
+        "relevance_summary",
+        ...required_checks.map(c => c.name),
+      ]
+    } as RunTestProps);
+    
+    const report = generation_reporter(
+        {
+            eval_run:eval_results as any, 
+            metrics_min: {
+                "consistency_summary": 4.5,
+                "relevance_summary": 4.5
+            }, 
+            metrics_max: {
+                "demo.summaryLength": 256,
+            }, 
+            pass_rate: {
+                "demo.summaryUnder256": 1,
+                "demo.isSummaryJSON": 1,
+            }
+        }
+    );
+    console.log(`\nEval: ${eval_results.name} - Pass ${(report.pass)?"🟢" : "🔴"}`);
+    Object.keys(report.fail_metrics).map(m => {
+      if (Object.keys(report.fail_metrics[m]).length > 0) {
+        console.log(`\nFailures for ${m}`);
+        console.table(report.fail_metrics[m]);
+      };
+    });
+
+	} catch (error) {
+		console.error(error);
+	}
+}
+main();
+
+
+
+
