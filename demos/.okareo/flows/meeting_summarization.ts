@@ -177,7 +177,7 @@ const main = async () => {
             }
         }
     );
-    console.log(`\nEval: ${eval_results.name} - Pass ${(report.pass)?"🟢" : "🔴"}`);
+    console.log(`\nEval: ${eval_results.name} - ${(report.pass)?"Pass 🟢" : "Fail 🔴"}`);
     Object.keys(report.fail_metrics).map(m => {
       if (Object.keys(report.fail_metrics[m]).length > 0) {
         console.log(`\nFailures for ${m}`);
