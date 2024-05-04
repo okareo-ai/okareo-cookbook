@@ -52,7 +52,6 @@ const addCheck = async (okareo: Okareo, project_id: string, check: CHECK_TYPE) =
 
 const main = async () => {
 	try {
-    return;
 		const okareo = new Okareo({api_key:OKAREO_API_KEY});
     const pData: any[] = await okareo.getProjects();
     const project_id = pData.find(p => p.name === "Global")?.id;

@@ -61,26 +61,28 @@ const main = async () => {
 
         const all_models = await okareo.get_all_models(project_id);
         const model = all_models.find(m => m.name === "Meeting Summarizer");
-        
-        const runs = await okareo.find_test_runs({
-            project_id,
-            mut_id: model.id,
-        });
-        runs.sort((a, b) => a.start_time > b.start_time ? -1 : 1);
-        const last_6 = runs.splice(0,6);
-        last_6.reverse();
-        const reports: any[] = [];
-        for (const run of last_6) {
-            if (run.model_metrics && run.model_metrics.mean_scores) {
-                const report = generation_reporter({
-                    eval_run: run,
-                    ...report_definition
-                });
-                reports.push({run, report});
+        if (model && model.id) {
+            const runs = await okareo.find_test_runs({
+                project_id,
+                mut_id: model.id,
+            });
+            runs.sort((a, b) => a.start_time > b.start_time ? -1 : 1);
+            const last_6 = runs.splice(0,6);
+            last_6.reverse();
+            const reports: any[] = [];
+            for (const run of last_6) {
+                if (run.model_metrics && run.model_metrics.mean_scores) {
+                    const report = generation_reporter({
+                        eval_run: run,
+                        ...report_definition
+                    });
+                    reports.push({run, report});
+                }
             }
+            print_table_report(reports);
+        } else {
+            console.log("Meeting Summarizer model not found - no history available.");
         }
-        print_table_report(reports);
-        
 	} catch (error) {
 		console.error(error);
 	}
