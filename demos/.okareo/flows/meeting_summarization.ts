@@ -185,6 +185,10 @@ const main = async () => {
       };
     });
 
+    if (!report.pass) {
+      console.error("The model did not pass the evaluation. Please review the results.");
+    }
+
 	} catch (error) {
     console.log(error);
 		console.error(error);
