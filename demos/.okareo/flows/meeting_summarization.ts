@@ -63,25 +63,25 @@ const main = async () => {
     
     const required_checks: CHECK_TYPE[] = [
       {
-        name: "demo.summaryLength",
+        name: "demo.Summary.Length",
         description: SUMMARY_LENGTH_CHECK,
         output_data_type: "int"
       },
       {
-        name: "demo.summaryUnder256",
+        name: "demo.Summary.Under256",
         description: SUMMARY_UNDER_256_CHECK,
         output_data_type: "bool"
       },
       /*
       {
-        name: "demo.summaryWordCount",
+        name: "demo.Summary.WordCount",
         description: SUMMARY_WORD_COUNT,
         output_data_type: "int",
         update: true,
       },
       */
       {
-        name:"demo.isSummaryJSON",
+        name:"demo.Summary.JSON",
         description: SUMMARY_IS_JSON,
         output_data_type: "bool"
       }
@@ -170,11 +170,11 @@ const main = async () => {
                 //"demo.summaryWordCount": 25,
             }, 
             metrics_max: {
-                "demo.summaryLength": 256,
+                "demo.Summary.Length": 256,
             }, 
             pass_rate: {
-                "demo.summaryUnder256": 1,
-                "demo.isSummaryJSON": 1,
+                "demo.Summary.Under256": 1,
+                "demo.Summary.JSON": 1,
             }
         }
     );
