@@ -32,7 +32,7 @@ jobs:
       
       - name: Run Nightly Demo Script
         run: |
-          ls -al
-          okareo run
+          okareo -v
+          okareo run -d
 
 
