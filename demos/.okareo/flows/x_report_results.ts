@@ -5,7 +5,7 @@ import {
     classification_reporter,
     ModelUnderTest, OpenAIModel, SeedData, ScenarioType, TestRunType, CustomModel,
     generation_reporter,
-} from '/Users/guiair/dev/okareo/okareo-typescript-sdk/dist/'; //from "okareo-ts-sdk";
+} from "okareo-ts-sdk";
 
 const OKAREO_API_KEY = process.env.OKAREO_API_KEY || "<YOUR_OKAREO_KEY>";
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
