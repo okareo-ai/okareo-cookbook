@@ -24,15 +24,16 @@ Your response MUST be in the following JSON format.  Content you add should not 
 }
 `;
 
-const SUMMARY_LENGTH_CHECK = "Return the length of the short_summary property from the JSON model response";
-const SUMMARY_UNDER_256_CHECK = "Pass if the property short_summary has less than 256 characters";
-const SUMMARY_IS_JSON = "Pass if the model result is JSON with the properties short_summary, actions, and attendee_list";
-const SUMMARY_WORD_COUNT = "Return the number of words present in the short_summary property of the model response";
+const SUMMARY_LENGTH_CHECK = "Return the length of the short_summary property from the JSON model response.";
+const SUMMARY_UNDER_256_CHECK = "Pass if the property short_summary has less than 256 characters.";
+const SUMMARY_IS_JSON = "Pass if the model result is JSON with the properties short_summary, actions, and attendee_list.";
+//const SUMMARY_WORD_COUNT = "Count the number of words in the short_summary property from the JSON response.";
 
 type CHECK_TYPE = {
   name: string;
   description: string;
   output_data_type: string;
+  update?: boolean;
 }
 
 const addCheck = async (okareo: Okareo, project_id: string, check: CHECK_TYPE) => {
@@ -43,7 +44,8 @@ const addCheck = async (okareo: Okareo, project_id: string, check: CHECK_TYPE) =
   if (check_primitive.generated_code && check_primitive.generated_code.length > 0) {
     return await okareo.upload_check({
         project_id,
-        ...check_primitive
+        ...check_primitive,
+        update: true,
     } as UploadEvaluatorProps);
   }
   console.error(check.name+": Failed to generate check");
@@ -69,11 +71,14 @@ const main = async () => {
         description: SUMMARY_UNDER_256_CHECK,
         output_data_type: "bool"
       },
+      /*
       {
         name: "demo.summaryWordCount",
         description: SUMMARY_WORD_COUNT,
-        output_data_type: "int"
+        output_data_type: "int",
+        update: true,
       },
+      */
       {
         name:"demo.isSummaryJSON",
         description: SUMMARY_IS_JSON,
@@ -83,7 +88,7 @@ const main = async () => {
 
     for (const demo_check of required_checks) {
       const isReg: boolean = (checks.filter((c) => c.name === demo_check.name).length > 0);
-      if (!isReg) {
+      if (!isReg || demo_check.update === true) {
         const new_check = await addCheck(okareo, project_id, demo_check);
         console.log(`Check ${demo_check.name} has been created and is now available.`);
       } else {
@@ -117,17 +122,17 @@ const main = async () => {
                   ],
                   model: 'gpt-3.5-turbo',
               });
-                const summary_result = chatCompletion.choices[0].message.content;
-                return {
-                    actual: summary_result,
-                    model_response: {
-                        input: input,
-                        method: "openai",
-                        context: {
-                            
-                        },
-                    }
-                }
+              const summary_result = chatCompletion.choices[0].message.content;
+              return {
+                  actual: summary_result,
+                  model_response: {
+                      input: input,
+                      method: "openai",
+                      context: {
+                          
+                      },
+                  }
+              }
             } catch (error) {
                 console.log("openai error",error);
                 return {
@@ -160,7 +165,8 @@ const main = async () => {
             eval_run:eval_results as any, 
             metrics_min: {
                 "consistency_summary": 4.5,
-                "relevance_summary": 4.5
+                "relevance_summary": 4.5,
+                //"demo.summaryWordCount": 25,
             }, 
             metrics_max: {
                 "demo.summaryLength": 256,
