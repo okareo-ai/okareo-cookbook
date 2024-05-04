@@ -5,6 +5,7 @@ import {
     TestRunType, CustomModel,
     generation_reporter,
 } from "okareo-ts-sdk";
+
 import OpenAI from 'openai';
 
 const OKAREO_API_KEY = process.env.OKAREO_API_KEY || "<YOUR_OKAREO_KEY>";
@@ -145,7 +146,7 @@ const main = async () => {
       } as CustomModel,
       update: true,
     });
-    const eval_results: any = await model.run_test({
+    const eval_run: any = await model.run_test({
       model_api_key: OPENAI_API_KEY,
       name: `Demo: Meeting Eval ${UNIQUE_BUILD_ID}`,
       tags: ["Demo", "Summaries", `Build:${UNIQUE_BUILD_ID}`],
@@ -162,7 +163,7 @@ const main = async () => {
     
     const report = generation_reporter(
         {
-            eval_run:eval_results as any, 
+            eval_run:eval_run, 
             metrics_min: {
                 "consistency_summary": 4.5,
                 "relevance_summary": 4.5,
@@ -177,14 +178,16 @@ const main = async () => {
             }
         }
     );
-    console.log(`\nEval: ${eval_results.name} - ${(report.pass)?"Pass 🟢" : "Fail 🔴"}`);
+    
+    console.log(`\nEval: ${eval_run.name} - ${(report.pass)?"Pass 🟢" : "Fail 🔴"}`);
     Object.keys(report.fail_metrics).map(m => {
-      if (Object.keys(report.fail_metrics[m]).length > 0) {
+      const fMetrics: any = report.fail_metrics;
+      if (Object.keys(fMetrics[m]).length > 0) {
         console.log(`\nFailures for ${m}`);
-        console.table(report.fail_metrics[m]);
+        console.table(fMetrics[m]);
       };
     });
-
+    
     if (!report.pass) {
       throw new Error("The model did not pass the evaluation. Please review the results.");
     }

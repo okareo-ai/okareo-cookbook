@@ -13,16 +13,14 @@ on:
     - cron: '0 7 * * *'
 
 jobs:
-  nightly_job:
+  evaluation:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./demos
-  
     permissions:
       contents: 'read'
       id-token: 'write'
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,6 +31,28 @@ jobs:
       - name: Run Nightly Demo Script
         run: |
           okareo -v
-          okareo run -d
+          okareo run -f meeting_summarization
+  
+  reporting:
+    runs-on: ubuntu-latest
+    if: always()
+    needs: evaluation
+    defaults:
+      run:
+        working-directory: ./demos
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Okareo Action
+        uses: okareo-ai/okareo-action@v2.3
+      
+      - name: Run Nightly Demo Script
+        run: |
+          okareo -v
+          okareo run -f x_report_results
 
 
