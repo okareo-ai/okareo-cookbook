@@ -134,7 +134,7 @@ const main = async () => {
                   }
               }
             } catch (error) {
-                console.log("openai error",error);
+                console.error("openai error",error);
                 return {
                     "actions": ["ERROR"],
                     "short_summary": "ERROR",
@@ -186,12 +186,12 @@ const main = async () => {
     });
 
     if (!report.pass) {
-      console.error("The model did not pass the evaluation. Please review the results.");
+      throw new Error("The model did not pass the evaluation. Please review the results.");
     }
 
 	} catch (error) {
-    console.log(error);
-		console.error(error);
+    console.error(error.message);
+    throw new Error(error);
 	}
 }
 main();
