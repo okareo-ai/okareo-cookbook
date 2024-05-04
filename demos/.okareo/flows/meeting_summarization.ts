@@ -14,7 +14,7 @@ const UNIQUE_BUILD_ID = (process.env.SDK_BUILD_ID || `local.${(Math.random() + 1
 
 const CLASSIFICATION_CONTEXT_TEMPLATE_PREAMBLE: string = "";
 
-const NUMBER_OF_WORDS = 95 - Math.round(Math.random() * 10);
+const NUMBER_OF_WORDS = 90 - Math.round(Math.random() * 10);
 const SYSTEM_MEETING_SUMMARIZER_TEMPLATE: string = `
 ${CLASSIFICATION_CONTEXT_TEMPLATE_PREAMBLE}
 Your response MUST be in the following JSON format.  Content you add should not have special characters or line breaks.
