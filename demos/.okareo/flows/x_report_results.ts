@@ -1,15 +1,12 @@
 import { 
     Okareo, 
-    UploadEvaluatorProps,
-    RunTestProps,
-    classification_reporter,
-    ModelUnderTest, OpenAIModel, SeedData, ScenarioType, TestRunType, CustomModel,
     generation_reporter,
 } from "okareo-ts-sdk";
 
 const OKAREO_API_KEY = process.env.OKAREO_API_KEY || "<YOUR_OKAREO_KEY>";
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-const UNIQUE_BUILD_ID = (process.env.SDK_BUILD_ID || `local.${(Math.random() + 1).toString(36).substring(7)}`);
+const UNIQUE_BUILD_ID = (process.env.DEMO_BUILD_ID || `local.${(Math.random() + 1).toString(36).substring(7)}`);
+const PROJECT_NAME = "Global";
+const MODEL_NAME = "Meeting Summarizer";
 
 const report_definition = {
     metrics_min: {
@@ -57,10 +54,10 @@ const main = async () => {
 	try {
 		const okareo = new Okareo({api_key:OKAREO_API_KEY});
         const pData: any[] = await okareo.getProjects();
-        const project_id = pData.find(p => p.name === "Global")?.id;
+        const project_id = pData.find(p => p.name === PROJECT_NAME)?.id;
 
         const all_models = await okareo.get_all_models(project_id);
-        const model = all_models.find(m => m.name === "Meeting Summarizer");
+        const model = all_models.find(m => m.name === MODEL_NAME);
         if (model && model.id) {
             const runs = await okareo.find_test_runs({
                 project_id,

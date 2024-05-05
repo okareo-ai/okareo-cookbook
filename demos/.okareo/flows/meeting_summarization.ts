@@ -10,7 +10,9 @@ import OpenAI from 'openai';
 
 const OKAREO_API_KEY = process.env.OKAREO_API_KEY || "<YOUR_OKAREO_KEY>";
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-const UNIQUE_BUILD_ID = (process.env.SDK_BUILD_ID || `local.${(Math.random() + 1).toString(36).substring(7)}`);
+const UNIQUE_BUILD_ID = (process.env.DEMO_BUILD_ID || `local.${(Math.random() + 1).toString(36).substring(7)}`);
+const PROJECT_NAME = "Global";
+const MODEL_NAME = "Meeting Summarizer";
 
 const CLASSIFICATION_CONTEXT_TEMPLATE_PREAMBLE: string = "";
 
@@ -56,7 +58,7 @@ const main = async () => {
 	try {
 		const okareo = new Okareo({api_key:OKAREO_API_KEY});
     const pData: any[] = await okareo.getProjects();
-    const project_id = pData.find(p => p.name === "Global")?.id;
+    const project_id = pData.find(p => p.name === PROJECT_NAME)?.id;
 
     const checks = await okareo.get_all_checks();
     
@@ -108,7 +110,7 @@ const main = async () => {
         apiKey: OPENAI_API_KEY, // This is the default and can be omitted
     });
     const model = await okareo.register_model({
-      name: "Meeting Summarizer",
+      name: MODEL_NAME,
       tags: ["Demo", "Summaries", `Build:${UNIQUE_BUILD_ID}`],
       project_id: project_id,
       models: {
