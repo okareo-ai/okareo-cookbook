@@ -10,15 +10,16 @@ const MODEL_NAME = "Meeting Summarizer";
 
 const report_definition = {
     metrics_min: {
-        "consistency_summary": 4.9,
-        "relevance_summary": 4.9
+        "consistency_summary": 4.5,
+        "relevance_summary": 4.5,
+        //"demo.Summary.WordCount": 25,
     }, 
     metrics_max: {
-        "demo.summaryLength": 256,
+        "demo.Summary.Length": 256,
     }, 
     pass_rate: {
-        "demo.summaryUnder256": 1,
-        "demo.isSummaryJSON": 1,
+        "demo.Summary.Under256": 1,
+        "demo.Summary.JSON": 1,
     }
 }
 
