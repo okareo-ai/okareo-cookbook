@@ -3,7 +3,6 @@ import {
     TestRunType, 
     classification_reporter, 
 } from "okareo-ts-sdk";
-//} from "/Users/guiair/dev/okareo/okareo-typescript-sdk/dist";
 
 const OKAREO_API_KEY = process.env.OKAREO_API_KEY || "<YOUR_OKAREO_KEY>";
 const PROJECT_NAME = "Global";

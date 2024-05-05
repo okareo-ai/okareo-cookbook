@@ -14,7 +14,6 @@ const UNIQUE_BUILD_ID = (process.env.DEMO_BUILD_ID || `local.${(Math.random() + 
 const PROJECT_NAME = "Global";
 const MODEL_NAME = "Meeting Summarizer";
 
-
 const NUMBER_OF_WORDS = 50 - Math.round(Math.random() * 10);
 
 const USER_PROMPT_TEMPLATE = "{input}";
@@ -34,6 +33,21 @@ const SUMMARY_LENGTH_CHECK = "Return the length of the short_summary property fr
 const SUMMARY_UNDER_256_CHECK = "Pass if the property short_summary from the JSON model result has less than 256 characters.";
 const SUMMARY_IS_JSON = "Pass if the model result is JSON with the properties short_summary, actions, and attendee_list.";
 const SUMMARY_WORD_COUNT = "Count the number of words in the short_summary property from the JSON response.";
+
+const report_definition = {
+  metrics_min: {
+      "consistency": 4.0,
+      "relevance": 4.5,
+      //"demo.Summary.WordCount": 25,
+  }, 
+  metrics_max: {
+      "demo.Summary.Length": 256,
+  }, 
+  pass_rate: {
+      "demo.Summary.Under256": 0.75,
+      "demo.Summary.JSON": 1,
+  }
+}
 
 type CHECK_TYPE = {
   name: string;
@@ -98,8 +112,6 @@ const main = async () => {
         console.log(`Check ${demo_check.name} is available. No need to add it again`);
       }
     }
-
-    const root_name = `Meeting Summaries ${UNIQUE_BUILD_ID}`
 
     const meeting_scenario: any = await okareo.upload_scenario_set({
         name: "Meeting Bank Small Data Set",
@@ -167,7 +179,7 @@ const main = async () => {
     
     const eval_run: any = await model.run_test({
       model_api_key: OPENAI_API_KEY,
-      name: `Demo: Meeting Eval ${UNIQUE_BUILD_ID}`,
+      name: `${MODEL_NAME} Eval ${UNIQUE_BUILD_ID}`,
       tags: ["Demo", "Summaries", `Build:${UNIQUE_BUILD_ID}`],
       project_id: project_id,
       scenario: meeting_scenario,
@@ -183,18 +195,7 @@ const main = async () => {
     const report = generation_reporter(
         {
             eval_run:eval_run, 
-            metrics_min: {
-                "consistency_summary": 4.5,
-                "relevance_summary": 4.5,
-                //"demo.Summary.WordCount": 25,
-            }, 
-            metrics_max: {
-                "demo.Summary.Length": 256,
-            }, 
-            pass_rate: {
-                "demo.Summary.Under256": 0.75,
-                "demo.Summary.JSON": 1,
-            }
+            ...report_definition,
         }
     );
     

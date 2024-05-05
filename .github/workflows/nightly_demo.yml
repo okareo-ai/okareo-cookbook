@@ -28,11 +28,16 @@ jobs:
       - name: Okareo Action
         uses: okareo-ai/okareo-action@v2.3
       
-      - name: Run Nightly Demo Script
+      - name: Summarization Evaluation
         run: |
           okareo -v
           okareo run -f summarization
-  
+
+      - name: Classification Evaluation
+        run: |
+          okareo -v
+          okareo run -f classification
+
   reporting:
     runs-on: ubuntu-latest
     if: always()
@@ -50,9 +55,15 @@ jobs:
       - name: Okareo Action
         uses: okareo-ai/okareo-action@v2.3
       
-      - name: Run Nightly Demo Script
+      - name: Summarization
         run: |
           okareo -v
           okareo run -f x_summarization_logger
+          okareo run -f x_classification_logger
+
+      - name: Classification
+        run: |
+          okareo -v
+          okareo run -f x_classification_logger
 
 
