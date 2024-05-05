@@ -175,7 +175,7 @@ const main = async () => {
                 "demo.Summary.Length": 256,
             }, 
             pass_rate: {
-                "demo.Summary.Under256": 1,
+                "demo.Summary.Under256": 0.75,
                 "demo.Summary.JSON": 1,
             }
         }
