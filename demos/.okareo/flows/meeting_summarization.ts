@@ -16,7 +16,7 @@ const MODEL_NAME = "Meeting Summarizer";
 
 const CLASSIFICATION_CONTEXT_TEMPLATE_PREAMBLE: string = "";
 
-const NUMBER_OF_WORDS = 80 - Math.round(Math.random() * 10);
+const NUMBER_OF_WORDS = 50 - Math.round(Math.random() * 10);
 const SYSTEM_MEETING_SUMMARIZER_TEMPLATE: string = `
 ${CLASSIFICATION_CONTEXT_TEMPLATE_PREAMBLE}
 Your response MUST be in the following JSON format.  Content you add should not have special characters or line breaks.
@@ -123,6 +123,7 @@ const main = async () => {
                       { role: 'system', content: SYSTEM_MEETING_SUMMARIZER_TEMPLATE },
                   ],
                   model: 'gpt-3.5-turbo',
+                  temperature: 0.5,
               });
               const summary_result = chatCompletion.choices[0].message.content;
               return {
