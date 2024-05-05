@@ -2,7 +2,7 @@ import {
     Okareo, 
     UploadEvaluatorProps,
     RunTestProps,
-    TestRunType, CustomModel,
+    TestRunType, CustomModel, OpenAIModel,
     generation_reporter,
 //} from "okareo-ts-sdk";
 } from "/Users/guiair/dev/okareo/okareo-typescript-sdk/dist";
@@ -15,12 +15,15 @@ const UNIQUE_BUILD_ID = (process.env.DEMO_BUILD_ID || `local.${(Math.random() + 
 const PROJECT_NAME = "Global";
 const MODEL_NAME = "Meeting Summarizer";
 
-const CLASSIFICATION_CONTEXT_TEMPLATE_PREAMBLE: string = "";
 
 const NUMBER_OF_WORDS = 50 - Math.round(Math.random() * 10);
+
+const USER_PROMPT_TEMPLATE = "{input}";
+const CLASSIFICATION_CONTEXT_TEMPLATE_PREAMBLE: string = "";
 const SYSTEM_MEETING_SUMMARIZER_TEMPLATE: string = `
 ${CLASSIFICATION_CONTEXT_TEMPLATE_PREAMBLE}
 Your response MUST be in the following JSON format.  Content you add should not have special characters or line breaks.
+The short_summary property should be a summary of the meeting in under ${NUMBER_OF_WORDS} words.
 {
     "actions": LIST_OF_TASKS_FROM_THE_MEETING,
     "short_summary": SUMMARY_OF_MEETING_IN_UNDER_${NUMBER_OF_WORDS}_WORDS,
@@ -31,7 +34,7 @@ Your response MUST be in the following JSON format.  Content you add should not 
 const SUMMARY_LENGTH_CHECK = "Return the length of the short_summary property from the JSON model response.";
 const SUMMARY_UNDER_256_CHECK = "Pass if the property short_summary from the JSON model result has less than 256 characters.";
 const SUMMARY_IS_JSON = "Pass if the model result is JSON with the properties short_summary, actions, and attendee_list.";
-//const SUMMARY_WORD_COUNT = "Count the number of words in the short_summary property from the JSON response.";
+const SUMMARY_WORD_COUNT = "Count the number of words in the short_summary property from the JSON response.";
 
 type CHECK_TYPE = {
   name: string;
@@ -73,15 +76,13 @@ const main = async () => {
         name: "demo.Summary.Under256",
         description: SUMMARY_UNDER_256_CHECK,
         output_data_type: "bool"
-      },
-      /*
+      },/*
       {
         name: "demo.Summary.WordCount",
         description: SUMMARY_WORD_COUNT,
         output_data_type: "int",
         update: true,
-      },
-      */
+      },*/
       {
         name:"demo.Summary.JSON",
         description: SUMMARY_IS_JSON,
@@ -110,6 +111,23 @@ const main = async () => {
     const openai = new OpenAI({
         apiKey: OPENAI_API_KEY, // This is the default and can be omitted
     });
+    /*
+    const model = await okareo.register_model({
+      name: MODEL_NAME,
+      tags: ["Demo", "Summaries", `Build:${UNIQUE_BUILD_ID}`],
+      project_id: project_id,
+      models: {
+          type: "openai",
+          api_key: OPENAI_API_KEY,
+          model_id:"gpt-3.5-turbo",
+          temperature:0.5,
+          system_prompt_template:SYSTEM_MEETING_SUMMARIZER_TEMPLATE,
+          user_prompt_template:USER_PROMPT_TEMPLATE
+      } as OpenAIModel,
+      update: true,
+    });
+    */
+   
     const model = await okareo.register_model({
       name: MODEL_NAME,
       tags: ["Demo", "Summaries", `Build:${UNIQUE_BUILD_ID}`],
@@ -147,6 +165,7 @@ const main = async () => {
       } as CustomModel,
       update: true,
     });
+    
     const eval_run: any = await model.run_test({
       model_api_key: OPENAI_API_KEY,
       name: `Demo: Meeting Eval ${UNIQUE_BUILD_ID}`,
