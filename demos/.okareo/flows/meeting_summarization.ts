@@ -26,7 +26,7 @@ Your response MUST be in the following JSON format.  Content you add should not 
 `;
 
 const SUMMARY_LENGTH_CHECK = "Return the length of the short_summary property from the JSON model response.";
-const SUMMARY_UNDER_256_CHECK = "Pass if the property short_summary has less than 256 characters.";
+const SUMMARY_UNDER_256_CHECK = "Pass if the property short_summary from the JSON model result has less than 256 characters.";
 const SUMMARY_IS_JSON = "Pass if the model result is JSON with the properties short_summary, actions, and attendee_list.";
 //const SUMMARY_WORD_COUNT = "Count the number of words in the short_summary property from the JSON response.";
 
@@ -193,7 +193,6 @@ const main = async () => {
     }
 
 	} catch (error) {
-    console.error(error.message);
     throw new Error(error);
 	}
 }
