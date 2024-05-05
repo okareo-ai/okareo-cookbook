@@ -49,8 +49,7 @@ const addCheck = async (okareo: Okareo, project_id: string, check: CHECK_TYPE) =
         update: true,
     } as UploadEvaluatorProps);
   }
-  console.error(check.name+": Failed to generate check");
-  return null;
+  throw new Error(`${check.name}: Failed to generate a check.`);
 }
 
 const main = async () => {
