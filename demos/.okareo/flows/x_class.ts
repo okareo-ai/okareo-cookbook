@@ -1,34 +1,30 @@
 import { 
     Okareo, 
-    TestRunType, generation_reporter,
+    TestRunType, 
+    classification_reporter, 
 } from "okareo-ts-sdk";
+//} from "/Users/guiair/dev/okareo/okareo-typescript-sdk/dist";
 
 const OKAREO_API_KEY = process.env.OKAREO_API_KEY || "<YOUR_OKAREO_KEY>";
 const PROJECT_NAME = "Global";
 const MODEL_NAME = "Meeting Summarizer";
 
 type Assertions = {
-    metrics_min?: {[key: string]: number};
-    metrics_max?: {[key: string]: number};
-    pass_rate?: {[key: string]: number};
+    error_max:  number;
+    metrics_min: {[key: string]: number};
 }
 
 const report_definition = {
+    error_max: 8, 
     metrics_min: {
-        "consistency": 4.5,
-        "relevance": 4.5,
-        //"demo.Summary.WordCount": 25,
-    }, 
-    metrics_max: {
-        "demo.Summary.Length": 256,
-    }, 
-    pass_rate: {
-        "demo.Summary.Under256": 0.75,
-        "demo.Summary.JSON": 1,
+        precision: 0.7,
+        recall: 0.8,
+        f1: 0.7,
+        accuracy: 0.8
     }
 }
 
-const print_generation_report = (results: {report: any, run: any}[], assertions: Assertions) => {
+const print_classification_report = (results: {report: any, run: any}[], assertions: Assertions) => {
     const assertion_keys: string[] = [];
     for (const assertType in assertions) {
         const keys = Object.keys(assertions[assertType]);
@@ -36,9 +32,8 @@ const print_generation_report = (results: {report: any, run: any}[], assertions:
     }
 
     const assertion_table: any[] = [
-        { assertion: "min", ...assertions.metrics_min},
-        { assertion: "max", ...assertions.metrics_max},
-        { assertion: "pass_rate", ...assertions.pass_rate}
+        { assertion: "error_max", value: assertions.error_max },
+        { assertion: "min", ...assertions.metrics_min}
     ];
 
     console.log("Assertions:");
@@ -49,16 +44,17 @@ const print_generation_report = (results: {report: any, run: any}[], assertions:
         results.map(r => {
             const run = r.run;
             const report = r.report;
-            if (run.model_metrics && run.model_metrics.mean_scores) {
+            if (run.model_metrics && run.error_matrix) {
                 const metrics = {};
-                for (const check in run.model_metrics.mean_scores) {
+                for (const check in run.model_metrics.weighted_average) {
                     if (assertion_keys.includes(check)) {
-                        const m = run.model_metrics.mean_scores[check];
+                        const m = run.model_metrics.weighted_average[check];
                         let passed = true;
                         let minKeys = Object.keys(report.fail_metrics.min);
-                        let maxKeys = Object.keys(report.fail_metrics.max);
-                        let passKeys = Object.keys(report.fail_metrics.pass_rate);
-                        if (minKeys.includes(check) || maxKeys.includes(check) || passKeys.includes(check)) {
+                        //let maxKeys = Object.keys(report.fail_metrics.max);
+                        //let passKeys = Object.keys(report.fail_metrics.pass_rate);
+                        //if (minKeys.includes(check) || maxKeys.includes(check) || passKeys.includes(check)) {
+                        if (minKeys.includes(check)) {
                             passed = false;
                         }
                         metrics[check] = (passed ? "✅ " : "❌ ") + m.toFixed(2);
@@ -67,6 +63,7 @@ const print_generation_report = (results: {report: any, run: any}[], assertions:
                 return {
                     date: new Date(run.start_time).toDateString(),
                     passed: report.pass ? "🟢" : "🔴",
+                    errors: ((report.errors < assertions.error_max) ? "✅ " : "❌ ") + report.errors,
                     ...metrics,
                 }
             }
@@ -90,7 +87,9 @@ const log_report_runs = async (props: ReportProps) => {
         //tags: tags,
         project_id: project_id
     });
-    let runs = all_runs.filter(r => r.type === TestRunType.NL_GENERATION);
+    
+    let runs = all_runs.filter(r => r.type === TestRunType.MULTI_CLASS_CLASSIFICATION);
+
     runs = runs.sort((a, b) => a.start_time > b.start_time ? -1 : 1);
 
     if (runs.length > 0) {
@@ -116,16 +115,15 @@ const log_report_runs = async (props: ReportProps) => {
         runs.splice(0,Math.max(0,runs.length-last_n));
         const reports: any[] = [];
         for (const run of runs) {
-            if (run.model_metrics && run.model_metrics.mean_scores) {
-                const report = generation_reporter({
+            if (run.model_metrics && run.error_matrix) {
+                const report = classification_reporter({
                     eval_run: run,
                     ...assertions
                 });
-                
                 reports.push({run, report});
             }
         }
-        print_generation_report(reports, assertions);
+        print_classification_report(reports, assertions);
     } else {
         console.log("No runs found matching specification.");
     }
@@ -141,8 +139,8 @@ const main = async () => {
 
         log_report_runs({
             project_id,
-            tags: ["Demo"],
-            models: [MODEL_NAME],
+            tags: ["TS SDK"],
+            //models: [MODEL_NAME],
             assertions: report_definition
         });
         

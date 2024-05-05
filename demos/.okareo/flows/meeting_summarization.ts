@@ -4,7 +4,8 @@ import {
     RunTestProps,
     TestRunType, CustomModel,
     generation_reporter,
-} from "okareo-ts-sdk";
+//} from "okareo-ts-sdk";
+} from "/Users/guiair/dev/okareo/okareo-typescript-sdk/dist";
 
 import OpenAI from 'openai';
 
@@ -115,7 +116,7 @@ const main = async () => {
       project_id: project_id,
       models: {
           type: "custom",
-          invoke: async (input: string, expected: string) => { 
+          invoke: async (input: string, result: string) => { 
             try {
               const chatCompletion: any = await openai.chat.completions.create({
                   messages: [
@@ -126,16 +127,14 @@ const main = async () => {
                   temperature: 0.5,
               });
               const summary_result = chatCompletion.choices[0].message.content;
-              return {
-                  actual: summary_result,
-                  model_response: {
-                      input: input,
-                      method: "openai",
-                      context: {
-                          
-                      },
+              return [
+                  summary_result,
+                  {
+                    input: input,
+                    method: "openai",
+                    context: chatCompletion,
                   }
-              }
+                ]
             } catch (error) {
                 console.error("openai error",error);
                 return {
