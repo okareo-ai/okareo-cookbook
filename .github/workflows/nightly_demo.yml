@@ -31,7 +31,7 @@ jobs:
       - name: Run Nightly Demo Script
         run: |
           okareo -v
-          okareo run -f meeting_summarization
+          okareo run -f summarization
   
   reporting:
     runs-on: ubuntu-latest
@@ -53,6 +53,6 @@ jobs:
       - name: Run Nightly Demo Script
         run: |
           okareo -v
-          okareo run -f x_report_results
+          okareo run -f x_summarization_logger
 
 

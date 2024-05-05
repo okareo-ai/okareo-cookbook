@@ -4,8 +4,7 @@ import {
     RunTestProps,
     TestRunType, CustomModel, OpenAIModel,
     generation_reporter,
-//} from "okareo-ts-sdk";
-} from "/Users/guiair/dev/okareo/okareo-typescript-sdk/dist";
+} from "okareo-ts-sdk";
 
 import OpenAI from 'openai';
 
