@@ -13,28 +13,48 @@ const UNIQUE_BUILD_ID = (process.env.DEMO_BUILD_ID || `local.${(Math.random() + 
 const PROJECT_NAME = "Global";
 const MODEL_NAME = "Question Classifier";
 
-
-const NUMBER_OF_WORDS = 50 - Math.round(Math.random() * 10);
-
 const USER_PROMPT_TEMPLATE = `{input}`
-const CLASSIFICATION_SYSTEM_TEMPLATE: string = `
-You will be provided a question from a customer about a product that tests AI models called Okareo.
+const CLASSIFICATION_SYSTEM_TEMPLATE_ORIG: string = `
+You will be provided a question from a customer about a developer product called Okareo that evaluates AI models.
 Classify the question into a category from the list below.
 Respond with only the category name from the list.
 Use the examples next to the items to match the question to the category
 
 Category:
-    Getting Started - How do I get started with Okareo?
-    Guides - How do I test a model classifier using Okareo?
-    CLI & SDK - What is the API?
-    Concepts - What is scenario?
-    API Reference - Do you have a REST API?
-    Using Okareo - How do I use Okareo?
-    Integration Examples - Which model providers do you integrate with?
-    Evaluation Metrics - What types of metrics are there?
-    Model Management - How do I keep track of my models?
-    Synthetic Data Generation - Can I generate more data for testing?
+    Getting Started - How to use Okareo. How to setup Okareo.
+    Synthetic Data Generation - How to setup synthetic data. How to use synthetic data.
+    Guides - Three very basic documents that walk a user through the most cursory examples for classification, retrieval, and generation.
+    CLI & SDK - Details about the Okareo API. How to use Python. How to use Trypescript. Specific details about the Okareo API.
+    Integration Examples - Model providers that Okareo integrates with.
+    Evaluation Metrics - How to interpret the results of a test. The specific metrics available.
+    Model Management - Keeping track of models.  Registering models. Updating models.
 `;
+
+const CLASSIFICATION_SYSTEM_TEMPLATE: string = `
+You will be provided a question from a customer about a developer product called Okareo.
+Okareo provides developers tool to evaluate software that uses AI. The Okareo system has a number of capabilities including:
+- Synthetic Data to create test scenearios
+- Model Registry for managing models that are being tested or traced in production
+- A metric evaluation mechanism called Checks that provide measures of quality
+- An Evaluation harness to test models in
+- A rich API, Python SDK, TypeScript SDK, and CLI
+- Okareo supports AI architectures such as Agent, RAG, Summarization, Classification, Retrieval, and more.
+
+As a Technical Writer, classify the questions into a category from the list below.
+Respond with only the category name from the list. ALWAYS select the most specific category. Try to avoid general categories.
+
+Category:
+    Getting Started
+    Guides
+    Synthetic Data Generation
+    Evaluation Metrics
+    CLI & SDK
+    API Reference
+    Integration Examples
+    Model Management
+    Concepts
+`;
+//
 
 const report_definition = {
     error_max: 8, 
@@ -57,14 +77,28 @@ const main = async () => {
         });
 
         const questions_scenario: any = await okareo.upload_scenario_set({
-            name: "Okareo SDK Questions",
+            name: "Okareo Questions",
             file_path: "./.okareo/flows/questions.jsonl",
             project_id: project_id,
         });
-
+        /*
         const model = await okareo.register_model({
             name: MODEL_NAME,
-            tags: ["Demo", "Summaries", `Build:${UNIQUE_BUILD_ID}`],
+            tags: ["Demo", "Classification", `Build:${UNIQUE_BUILD_ID}`],
+            project_id: project_id,
+            models: {
+                type: "openai",
+                model_id:"gpt-3.5-turbo",
+                temperature:0.2,
+                system_prompt_template:CLASSIFICATION_SYSTEM_TEMPLATE,
+                user_prompt_template:USER_PROMPT_TEMPLATE
+            } as OpenAIModel,
+            update: true,
+        });
+        */
+        const model = await okareo.register_model({
+            name: MODEL_NAME,
+            tags: ["Demo", "Classification", `Build:${UNIQUE_BUILD_ID}`],
             project_id: project_id,
             models: {
                 type: "custom",
@@ -76,7 +110,7 @@ const main = async () => {
                                 { role: 'system', content: CLASSIFICATION_SYSTEM_TEMPLATE },
                             ],
                             model: 'gpt-3.5-turbo',
-                            temperature: 0.5,
+                            temperature: 0.2,
                         });
                         const class_result = chatCompletion.choices[0].message.content;
                         return [
@@ -86,7 +120,8 @@ const main = async () => {
                                 method: "openai",
                                 context: {
                                     input: input,
-                                    result: result,
+                                    actual: class_result,
+                                    expected: result,
                                 },
                             } 
                         ]
@@ -108,7 +143,7 @@ const main = async () => {
             } as CustomModel,
             update: true,
         });
-
+        
         const classification_run: any = await model.run_test({
             model_api_key: OPENAI_API_KEY,
             name: `${MODEL_NAME} Eval ${UNIQUE_BUILD_ID}`,
@@ -137,7 +172,7 @@ const main = async () => {
           console.log(classification_run.app_link);
           
           if (!report.pass) {
-            console.log(JSON.stringify(report, null, 2));
+            console.log("The model did not pass the evaluation. Please review the results.");
             //throw new Error("The model did not pass the evaluation. Please review the results.");
           }
 

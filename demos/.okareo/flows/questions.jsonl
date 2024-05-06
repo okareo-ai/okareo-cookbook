@@ -4,10 +4,10 @@
 {"input":"What kind of feedback metrics can Okareo collect from production models?","result":"Model Management" }
 {"input":"How do I compare embedding models using Okareo?","result":"Guides" }
 {"input":"Can you provide a Python example for testing classification models with Okareo?","result":"Integration Examples" }
-{"input":"How do I use Jest for unit testing models in CI with Okareo?","result":"Using Okareo" }
+{"input":"How do I use Jest for unit testing models in CI with Okareo?","result":"Guides" }
 {"input":"What are common generators in Okareo?","result":"Synthetic Data Generation" }
 {"input":"What is the Okareo CLI and how do I install it?","result":"CLI & SDK" }
-{"input":"How do I initialize a Jupyter notebook for Okareo?","result":"Using Okareo" }
+{"input":"How do I initialize a Jupyter notebook for Okareo?","result":"Guides" }
 {"input":"What is the Retrieval Reporter in Okareo Typescript SDK?","result":"CLI & SDK" }
 {"input":"How do I batch upload JSONL data to create a scenario in Okareo?","result":"CLI & SDK" }
 {"input":"Can I generate and upload custom checks using Okareo SDK?","result":"CLI & SDK" }
@@ -20,31 +20,31 @@
 {"input":"Does Okareo have a Python SDK for custom model registration?","result":"CLI & SDK" }
 {"input":"How do I retrieve past analysis results via Okareo's API?","result":"API Reference" }
 {"input":"Do I need to specify a language preference for code examples every time?","result":"CLI & SDK" }
-{"input":"How can Okareo's support for RAG architectures help improve my AI-driven product?","result":"Using Okareo" }
+{"input":"How can Okareo's support for RAG architectures help improve my AI-driven product?","result":"Guides" }
 {"input":"Does Okareo support syntactic perturbations for robustness testing of models?","result":"Evaluation Metrics" }
 {"input":"Can I test multi-class classification using Okareo, and how?","result":"Guides" }
 {"input":"Can Okareo connect to my hosted Qdrant instance for retrieval evaluations?","result":"Guides" }
 {"input":"How do I assess model quality based on user-generated content?","result":"Model Management" }
 {"input":"Is there a guide to evaluate generative models with Okareo Typescript SDK?","result":"Guides" }
 {"input":"Can I chain scenario generators in Okareo to create diverse tests?","result":"Synthetic Data Generation" }
-{"input":"How do I integrate Okareo tests with my existing Python CI toolchain?","result":"Using Okareo" }
+{"input":"How do I integrate Okareo tests with my existing Python CI toolchain?","result":"Guides" }
 {"input":"How can Okareo help in identifying the most appropriate embeddings for a retrieval task?","result":"Guides" }
 {"input":"What are the best practices when using Okareo CLI within a non-interactive script?","result":"CLI & SDK" }
 {"input":"Does Okareo provide content generation related to the sentiment analysis of customer feedback?","result":"Synthetic Data Generation" }
-{"input":"What is Okareo's approach to evaluating Machine Learning models with Jupyter?","result":"Using Okareo" }
+{"input":"What is Okareo's approach to evaluating Machine Learning models with Jupyter?","result":"Guides" }
 {"input":"How to use Okareo for A/B testing different language models' effectiveness?","result":"CLI & SDK" }
-{"input":"What debugging tools does Okareo offer for troubleshooting model performance?","result":"Using Okareo" }
+{"input":"What debugging tools does Okareo offer for troubleshooting model performance?","result":"Guides" }
 {"input":"Can Okareo test whether generated text adheres to a specified word count limit?","result":"Synthetic Data Generation" }
 {"input":"Is there a way to validate the reliability of a news summarization model using Okareo?","result":"Synthetic Data Generation" }
-{"input":"In Okareo, how is feedback from model evaluations acted upon?","result":"Using Okareo" }
+{"input":"In Okareo, how is feedback from model evaluations acted upon?","result":"Guides" }
 {"input":"How can I restrict the type of data used for generating test scenarios in Okareo?","result":"CLI & SDK" }
 {"input":"Can Okareo simulate realistic user interactions for chatbot training?","result":"Synthetic Data Generation" }
 {"input":"Does Okareo have native integrations with frameworks for quantitative model analysis?","result":"Evaluation Metrics" }
 {"input":"How do I test the validity of custom Word Embeddings in Okareo?","result":"Guides" }
 {"input":"Can Okareo handle the evaluation of multilingual generative models?","result":"Guides" }
-{"input":"What common pitfalls should I avoid when setting up model checkpoints in Okareo?","result":"Using Okareo" }
+{"input":"What common pitfalls should I avoid when setting up model checkpoints in Okareo?","result":"Guides" }
 {"input":"Can Okareo evaluate sentiment analysis accuracy across various industry sectors?","result":"Guides" }
-{"input":"How do I integrate Okareo tests with Mocha for my Typescript application?","result":"Using Okareo" }
+{"input":"How do I integrate Okareo tests with Mocha for my Typescript application?","result":"Guides" }
 {"input":"Does Okareo support Deep Learning model evaluation with custom metrics?","result":"Evaluation Metrics" }
 {"input":"How can I ensure my generative model follows ethical guidelines during Okareo evaluations?","result":"Synthetic Data Generation" }
 {"input":"What support does Okareo offer for projects using generative art models?","result":"Synthetic Data Generation" }

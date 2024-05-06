@@ -129,7 +129,6 @@ const main = async () => {
       project_id: project_id,
       models: {
           type: "openai",
-          api_key: OPENAI_API_KEY,
           model_id:"gpt-3.5-turbo",
           temperature:0.5,
           system_prompt_template:SYSTEM_MEETING_SUMMARIZER_TEMPLATE,
