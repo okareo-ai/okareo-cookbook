@@ -81,21 +81,7 @@ const main = async () => {
             file_path: "./.okareo/flows/questions.jsonl",
             project_id: project_id,
         });
-        /*
-        const model = await okareo.register_model({
-            name: MODEL_NAME,
-            tags: ["Demo", "Classification", `Build:${UNIQUE_BUILD_ID}`],
-            project_id: project_id,
-            models: {
-                type: "openai",
-                model_id:"gpt-3.5-turbo",
-                temperature:0.2,
-                system_prompt_template:CLASSIFICATION_SYSTEM_TEMPLATE,
-                user_prompt_template:USER_PROMPT_TEMPLATE
-            } as OpenAIModel,
-            update: true,
-        });
-        */
+        
         const model = await okareo.register_model({
             name: MODEL_NAME,
             tags: ["Demo", "Classification", `Build:${UNIQUE_BUILD_ID}`],
@@ -143,6 +129,7 @@ const main = async () => {
             } as CustomModel,
             update: true,
         });
+        
         
         const classification_run: any = await model.run_test({
             model_api_key: OPENAI_API_KEY,
