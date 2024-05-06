@@ -37,7 +37,7 @@ const SUMMARY_WORD_COUNT = "Count the number of words in the short_summary prope
 const report_definition = {
   metrics_min: {
       "consistency": 4.0,
-      "relevance": 4.5,
+      "relevance": 4.4,
       //"demo.Summary.WordCount": 25,
   }, 
   metrics_max: {

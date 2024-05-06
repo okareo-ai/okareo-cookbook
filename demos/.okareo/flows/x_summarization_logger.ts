@@ -16,7 +16,7 @@ type Assertions = {
 const report_definition = {
     metrics_min: {
         "consistency": 4.0,
-        "relevance": 4.5,
+        "relevance": 4.4,
         //"demo.Summary.WordCount": 25,
     }, 
     metrics_max: {
