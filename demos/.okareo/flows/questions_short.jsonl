@@ -1,0 +1,10 @@
+{"input":"How can I get an Okareo API Token?","result":"API Reference" }
+{"input":"What is a scenario in Okareo?","result":"Concepts" }
+{"input":"How do I run an evaluation for a retrieval model in Okareo?","result":"Guides" }
+{"input":"What kind of feedback metrics can Okareo collect from production models?","result":"Model Management" }
+{"input":"How do I compare embedding models using Okareo?","result":"Guides" }
+{"input":"Can you provide a Python example for testing classification models with Okareo?","result":"Integration Examples" }
+{"input":"What are common generators in Okareo?","result":"Synthetic Data Generation" }
+{"input":"What is the Okareo CLI and how do I install it?","result":"CLI & SDK" }
+{"input":"What is the Retrieval Reporter in Okareo Typescript SDK?","result":"CLI & SDK" }
+{"input":"What retrieval metrics are available in Okareo for evaluating embedding models?","result":"Evaluation Metrics" }

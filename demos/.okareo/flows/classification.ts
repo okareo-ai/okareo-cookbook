@@ -30,7 +30,7 @@ Category:
     Model Management - Keeping track of models.  Registering models. Updating models.
 `;
 
-const CLASSIFICATION_SYSTEM_TEMPLATE: string = `
+const CLASSIFICATION_SYSTEM_TEMPLATE_mid: string = `
 You will be provided a question from a customer about a developer product called Okareo.
 Okareo provides developers tool to evaluate software that uses AI. The Okareo system has a number of capabilities including:
 - Synthetic Data to create test scenearios
@@ -54,6 +54,50 @@ Category:
     Model Management
     Concepts
 `;
+
+const CLASSIFICATION_SYSTEM_TEMPLATE: string = `
+You will be provided a question from a customer about a developer product called Okareo.
+Okareo provides developers tool to evaluate software that uses AI. The Okareo system has a number of capabilities including:
+- Synthetic Data to create test scenearios
+- Model Registry for managing models that are being tested or traced in production
+- A metric evaluation mechanism called Checks that provide measures of quality
+- An Evaluation harness to test models in
+- A rich API, Python SDK, TypeScript SDK, and CLI
+- Okareo supports AI architectures such as Agent, RAG, Summarization, Classification, Retrieval, and more.
+
+As a Technical Writer, classify the questions into a category from the json structure below.
+Respond with only the category name from the question_categories structure. ALWAYS select the most specific category. Try to avoid general categories.
+{
+    question_categories: {
+        "category": "Getting Started"
+        "description": "A short documents that provides a high level overview of the Okareo product."
+    },{
+        "category": "Guides"
+        "description": "A series of short documents that walk through first-time use of Okareo for Classification, Retrieval, and Generation."
+    },{
+        "category": "Synthetic Data Generation"
+        "description": "A broad and rich set of mechanisms to create synthetic data for testing models.  The synthetic data generators can perumate data in a variety of ways. This includes rewriting, substitution, tone changes, negation, and more.  The purpose of scenarios is to find and define the edges of model success."
+    },{
+        "category": "Evaluation Metrics"
+        "description": "There are a number of metrics that are used to evaluate the quality of a model.  These metrics include precision, recall, f1, accuracy, MRR, NDCG, MAP, Levenshtein Distance and more. You can also create your own metrics that quanitify any aspect of the model output or performance."
+    },{
+        "Cateotgry": "CLI & SDK"
+        "description": "The Okareo product incldues a CLI for running scripts locally or in CI.  It also incldues SDKs for Python and Typescript. These SDKs allow developers to use their preferred test framework or even include Okareo in their core application."
+    },{
+        "category": "API Reference"
+        "description": "Everything Okareo has built is accessible through standard RESTful API.  The API is documented in Swagger and OpenAPI.  The API is used to create scenarios, run tests, and manage models."
+    },{
+        "category": "Integration Examples"
+        "description": "To make it easier for Developer's to adopt Okareo, we have integrated with a number of popular model providers.  These providers include OpenAI, Cohere, Pinecone, QDrant, ChromaDB, and more."
+    },{    
+        "category": "Model Management"
+        "description": "To use a broad range of models, it is important to keep track of the models that are being used.  Okareo provides a model registry that allows you to register models, update models, and track the performance of models over time."
+    },{
+        "category": "Concepts"
+        "description": "This is a general area that has a variety of documents explaining basic concepts.  This is a catch-all category for questions that do not fit into the other categories."
+    }
+}
+`;
 //
 
 const report_definition = {
@@ -76,12 +120,18 @@ const main = async () => {
             apiKey: OPENAI_API_KEY, // This is the default and can be omitted
         });
 
+        
         const questions_scenario: any = await okareo.upload_scenario_set({
             name: "Okareo Questions",
             file_path: "./.okareo/flows/questions.jsonl",
             project_id: project_id,
         });
         
+        const questions_scenario_short: any = await okareo.upload_scenario_set({
+            name: "Okareo Questions - Short",
+            file_path: "./.okareo/flows/questions_short.jsonl",
+            project_id: project_id,
+        });
         const model = await okareo.register_model({
             name: MODEL_NAME,
             tags: ["Demo", "Classification", `Build:${UNIQUE_BUILD_ID}`],
@@ -92,7 +142,7 @@ const main = async () => {
                     try {
                         const chatCompletion: any = await openai.chat.completions.create({
                             messages: [
-                                { role: 'user', content:  USER_PROMPT_TEMPLATE },
+                                { role: 'user', content:  input },
                                 { role: 'system', content: CLASSIFICATION_SYSTEM_TEMPLATE },
                             ],
                             model: 'gpt-3.5-turbo',
@@ -108,6 +158,7 @@ const main = async () => {
                                     input: input,
                                     actual: class_result,
                                     expected: result,
+                                    pass: (class_result === result)?"pass":"fail",
                                 },
                             } 
                         ]
