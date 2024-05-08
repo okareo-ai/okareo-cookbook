@@ -19,7 +19,7 @@ Please provide a meeting review with the summary of the meeting under ${NUMBER_O
 Your response MUST be in the following JSON format.  Content you add should not have special characters or line breaks.
 {
     "actions": LIST_OF_TASKS_FROM_THE_MEETING,
-    "short_summary": SUMMARY_OF_MEETING,
+    "short_summary": SUMMARY_OF_MEETING_UNDER_${NUMBER_OF_WORDS}_WORDS,
     "attendee_list": LIST_OF_ATTENDEES
 }
 `;
