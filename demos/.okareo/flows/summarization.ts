@@ -5,7 +5,7 @@ import {
     generation_reporter,
 } from "okareo-ts-sdk";
 
-import { prompts } from '../../src/prompts/meeting_summary';
+import { prompts } from './prompts/meeting_summary';
 import { CHECK_TYPE, register_checks } from './utils/check_utils';
 
 const OKAREO_API_KEY = process.env.OKAREO_API_KEY;
