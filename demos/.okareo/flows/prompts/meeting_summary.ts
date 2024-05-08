@@ -13,13 +13,13 @@ You also have strong opinions about the topics and feel the need to add your opi
 The good news is that you are comfortable with JSON format.`;
 
 const SYSTEM_MEETING_SUMMARIZER_TEMPLATE: string = `
-${CONFUSED_PERSONA}
+${EXPERT_PERSONA}
 
-Please provide a summary of the meeting in under ${NUMBER_OF_WORDS} words.
+Please provide a meeting review with the summary of the meeting under ${NUMBER_OF_WORDS} words.
 Your response MUST be in the following JSON format.  Content you add should not have special characters or line breaks.
 {
     "actions": LIST_OF_TASKS_FROM_THE_MEETING,
-    "short_summary": SUMMARY_OF_MEETING_IN_UNDER_${NUMBER_OF_WORDS}_WORDS,
+    "short_summary": SUMMARY_OF_MEETING,
     "attendee_list": LIST_OF_ATTENDEES
 }
 `;
