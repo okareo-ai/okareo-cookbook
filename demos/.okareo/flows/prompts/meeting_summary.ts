@@ -14,8 +14,7 @@ The good news is that you are comfortable with JSON format.`;
 
 const SYSTEM_MEETING_SUMMARIZER_TEMPLATE: string = `
 ${EXPERT_PERSONA}
-
-Please provide a summary of the meeting in under ${NUMBER_OF_WORDS} words.
+Provide a summary of the meeting in under ${NUMBER_OF_WORDS} words.
 Your response MUST be in the following JSON format.  Content you add should not have special characters or line breaks.
 {
     "actions": LIST_OF_TASKS_FROM_THE_MEETING,
