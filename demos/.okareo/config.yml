@@ -4,3 +4,9 @@ language: "typescript"
 run:
   flows:
     file-pattern: '.*\.ts'
+#    configs:
+#      - name: "Meeting Summarizer" # Example Flow
+#        type: "NL_GENERATION"
+#        model-id: "32b1bf6f-4177-4edc-94ce-c70586e6eaa4" # Meeting Sub-Summarizer
+#        scenario-id: "339886f2-95a3-4176-91dc-d9556b3309a7" # Okareo Questions - Rephrased
+#

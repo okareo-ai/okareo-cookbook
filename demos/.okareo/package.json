@@ -1,19 +1,18 @@
-
-	{
-		"name": "ts-minimal-ci",
-		"version": "0.0.1",
-		"description": "Okareo TS Recipe",
-		"main": "index.ts",
-		"author": "Okareo @ 2024",
-		"private": "true",
-		"devDependencies": {
-			"@types/node": "^20.11.28",
-			"okareo-ts-sdk": "latest",
-			"typescript": "^5.4.2",
-			"openai": "^4.38.2"
-		},
-		"scripts": {
-			"build": "tsc"
-		}
-	}	  
+{
+	"name": "ts-minimal-ci",
+	"version": "0.0.1",
+	"description": "Okareo TS Recipe",
+	"main": "index.ts",
+	"author": "Okareo @ 2024",
+	"devDependencies": {
+		"@types/node": "^20.11.28",
+		"cohere-ai": "^7.9.5",
+		"okareo-ts-sdk": "latest",
+		"openai": "^4.38.2",
+		"typescript": "^5.4.2"
+	},
+	"scripts": {
+		"build": "tsc"
+	}
 	
+}
