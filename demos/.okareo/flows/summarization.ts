@@ -31,12 +31,25 @@ const required_checks: CHECK_TYPE[] = [
 		description: "Pass if the model result is JSON with the properties short_summary, actions, and attendee_list.",
 		output_data_type: "bool"
 	},
+	{
+		name:"demo.Attendees.Length",
+		description: "Return the length of the number of particpants in the attendee_list in the JSON model response.",
+		output_data_type: "int"
+	},
+	{
+		name:"demo.Actions.Length",
+		description: "Return the length of the number of actions in the JSON model response.",
+		output_data_type: "int",
+		update: true
+	},
 ];
 
 const report_definition = {
 	metrics_min: {
 		"consistency": 4.0,
 		"relevance": 4.4,
+		"demo.Attendees.Length": 2,
+		"demo.Actions.Length": 2,
 	},
 	metrics_max: {
 		"demo.Summary.Length": 256,

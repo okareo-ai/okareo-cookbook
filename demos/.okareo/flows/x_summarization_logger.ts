@@ -14,19 +14,20 @@ type Assertions = {
 }
 
 const report_definition = {
-    metrics_min: {
-        "consistency": 4.0,
-        "relevance": 4.4,
-        //"demo.Summary.WordCount": 25,
-    }, 
-    metrics_max: {
-        "demo.Summary.Length": 256,
-    }, 
-    pass_rate: {
-        "demo.Summary.Under256": 0.75,
-        "demo.Summary.JSON": 1,
-    }
-}
+	metrics_min: {
+		"consistency": 4.0,
+		"relevance": 4.4,
+		"demo.Attendees.Length": 2,
+		"demo.Actions.Length": 2,
+	},
+	metrics_max: {
+		"demo.Summary.Length": 256,
+	},
+	pass_rate: {
+		"demo.Summary.Under256": 0.75,
+		"demo.Summary.JSON": 1,
+	},
+};
 
 const print_generation_report = (results: {report: any, run: any}[], assertions: Assertions) => {
     const assertion_keys: string[] = [];

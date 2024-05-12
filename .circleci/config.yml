@@ -1,0 +1,28 @@
+version: 2.0
+
+jobs:
+  "summarization":
+    docker:
+      - image: circleci/node@5.0.2
+    working_directory: ~/circleci-demo-workflows
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: yarn
+      - run: 
+        curl -O -L https://github.com/okareo-ai/okareo-cli/releases/download/v0.0.13/okareo_0.0.13_linux_386.tar.gz
+        tar -xvf okareo_0.0.13_linux_386.tar.gz
+        chmod +x bin/okareo
+        mv bin/okareo /usr/local/bin/okareo
+      - run:
+          name: Check Okareo Version
+          command: okareo --version
+      - run:
+          name: Summarization
+          command: okareo -f summarization
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - "summarization"
