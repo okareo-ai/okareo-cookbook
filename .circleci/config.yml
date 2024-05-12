@@ -62,10 +62,10 @@ jobs:
           command: okareo --version
       - run:
           name: Summarization Report
-          command: okareo run -f x_classification_logger
+          command: okareo run -f x_summarization_logger
       - run:
           name: Classification Report
-          command: okareo run -f x_summarization_logger
+          command: okareo run -f x_classification_logger
 
 workflows:
   version: 2

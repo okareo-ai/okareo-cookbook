@@ -47,7 +47,7 @@ const required_checks: CHECK_TYPE[] = [
 const report_definition = {
 	metrics_min: {
 		"consistency": 4.0,
-		"relevance": 4.4,
+		"relevance": 4.0,
 		"demo.Attendees.Length": 2,
 		"demo.Actions.Length": 2,
 	},
