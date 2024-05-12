@@ -20,7 +20,7 @@ jobs:
           command: okareo --version
       - run:
           name: Summarization
-          command: okareo -f summarization
+          command: okareo run -f summarization
 
 workflows:
   version: 2
