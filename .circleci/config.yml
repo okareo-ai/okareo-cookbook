@@ -14,7 +14,7 @@ jobs:
               curl -O -L https://github.com/okareo-ai/okareo-cli/releases/download/v0.0.13/okareo_0.0.13_linux_386.tar.gz
               tar -xvf okareo_0.0.13_linux_386.tar.gz
               chmod +x bin/okareo
-              mv bin/okareo /usr/local/bin/okareo
+              mv bin/okareo ./okareo
       - run:
           name: Check Okareo Version
           command: okareo --version
