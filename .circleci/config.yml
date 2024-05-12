@@ -19,8 +19,8 @@ jobs:
           name: Check Okareo Version
           command: okareo --version
       - run:
-          name: Summarization
-          command: okareo run -f summarization
+          name: Show Directory
+          command: ls -al
 
 workflows:
   version: 2
