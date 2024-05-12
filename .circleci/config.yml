@@ -6,7 +6,7 @@ orbs:
 jobs:
   summarization:
     executor: node/default
-    working_directory: ~/cookbook/demo
+    working_directory: ~/cookbook/demos
     steps:
       - checkout:
           path: ~/cookbook
@@ -23,9 +23,14 @@ jobs:
       - run:
           name: Show Directory
           command: ls -al
+      - run:
+          name: Run Summarization
+          command: okareo run -f summarization
 
 workflows:
   version: 2
   build:
     jobs:
-      - "summarization"
+      - summarization:
+          context:
+            - Demo-Env
