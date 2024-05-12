@@ -8,7 +8,7 @@ env:
 on:
   push:
     branches:
-      - main_pause
+      - main
   schedule:
     - cron: '0 7 * * *'
 

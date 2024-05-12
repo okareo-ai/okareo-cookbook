@@ -21,11 +21,51 @@ jobs:
           name: Check Okareo Version
           command: okareo --version
       - run:
-          name: Show Directory
-          command: ls -al
-      - run:
           name: Run Summarization
           command: okareo run -f summarization
+
+  classification:
+    executor: node/default
+    working_directory: ~/cookbook/demos
+    steps:
+      - checkout:
+          path: ~/cookbook
+      - run:
+          name: Install Okareo CLI
+          command: |
+              curl -O -L https://github.com/okareo-ai/okareo-cli/releases/download/v0.0.13/okareo_0.0.13_linux_386.tar.gz
+              tar -xvf okareo_0.0.13_linux_386.tar.gz
+              chmod +x bin/okareo
+              echo 'export PATH=$PATH:$PWD/bin' >> $BASH_ENV
+      - run:
+          name: Check Okareo Version
+          command: okareo --version
+      - run:
+          name: Run Classification
+          command: okareo run -f classification
+
+  reporting:
+    executor: node/default
+    working_directory: ~/cookbook/demos
+    steps:
+      - checkout:
+          path: ~/cookbook
+      - run:
+          name: Install Okareo CLI
+          command: |
+              curl -O -L https://github.com/okareo-ai/okareo-cli/releases/download/v0.0.13/okareo_0.0.13_linux_386.tar.gz
+              tar -xvf okareo_0.0.13_linux_386.tar.gz
+              chmod +x bin/okareo
+              echo 'export PATH=$PATH:$PWD/bin' >> $BASH_ENV
+      - run:
+          name: Check Okareo Version
+          command: okareo --version
+      - run:
+          name: Summarization Report
+          command: okareo run -f x_classification_logger
+      - run:
+          name: Classification Report
+          command: okareo run -f x_summarization_logger
 
 workflows:
   version: 2
