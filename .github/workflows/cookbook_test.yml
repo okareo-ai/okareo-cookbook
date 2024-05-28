@@ -30,7 +30,10 @@ jobs:
         run: |
           ls -al
           okareo -v
-          okareo run -d
+          pip install -r ./.okareo/requirements.txt
+          python3 ./.okareo/flows/example.py
+          python3 ./.okareo/flows/recap_evaluation.py
+          okareo run -d -f example
 
 #  cookbook-ts-jest:
 #    runs-on: ubuntu-latest
