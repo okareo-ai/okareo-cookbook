@@ -98,15 +98,15 @@ workflows:
       - cookbook-test:
           context:
             - Demo-Env
-#      - summarization:
-#          context:
-#            - Demo-Env
-#      - classification:
-#          context:
-#            - Demo-Env
-#      - reporting:
-#          requires:
-#            - "summarization"
-#            - "classification"
-#          context:
-#            - Demo-Env
+      - summarization:
+          context:
+            - Demo-Env
+      - classification:
+          context:
+            - Demo-Env
+      - reporting:
+          requires:
+            - "summarization"
+            - "classification"
+          context:
+            - Demo-Env

@@ -36,8 +36,7 @@ jobs:
         run: |
           ls -al
           okareo -v
-          python3 --version
-          okareo run -d -f example
+          okareo run
 
 #  cookbook-ts-jest:
 #    runs-on: ubuntu-latest
