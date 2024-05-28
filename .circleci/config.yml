@@ -89,8 +89,7 @@ jobs:
           name: Run Cookbook Test
           command: |
               ls -al
-              python3 -m pip --upgrade install -r ./.okareo/requirements.txt
-              python3 ./.okareo/flows/example.py
+              okareo run -d -f example
 
 workflows:
   version: 2
