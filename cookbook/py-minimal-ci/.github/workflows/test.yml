@@ -1,35 +1,30 @@
-name: LLM App Development Workflow
+name: Text summarization Okareo flow
 env:
+  DEMO_BUILD_ID: ${{ github.run_number }}
   OKAREO_API_KEY: ${{ secrets.OKAREO_API_KEY }}
   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-  OKAREO_RUN_ID: ${{ secrets.OKAREO_RUN_ID }}
-
+  
 on:
   push:
-  pull_request:
-  workflow_call:
+    branches: [ "main" ]
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest] #todo simplify
-        version: ['0.0.4']
-  
+  cookbook:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Okareo Action
-        uses: okareo-ai/okareo-action@v1
+        uses: okareo-ai/okareo-action@v2.5
       
-      - name: Install Okareo and Run Validation
+      - name: Example Evaluation
         run: |
-          echo $( okareo-cli version )
-          okareo-cli validate
-          echo $( pip3 show okareo | grep Version )
-          
+          okareo -v
+          okareo run

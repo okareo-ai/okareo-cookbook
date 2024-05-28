@@ -1,0 +1,50 @@
+name: Cookbook Test
+env:
+  SKIP_YARN_COREPACK_CHECK: true
+  DEMO_BUILD_ID: ${{ github.run_number }}
+  OKAREO_API_KEY: ${{ secrets.OKAREO_API_KEY }}
+  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+  
+on:
+  push:
+    branches:
+      - cookbook/test
+
+jobs:
+  cookbook-python:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./cookbook/py-minimal-ci
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Okareo Action
+        uses: okareo-ai/okareo-action@v2.5
+      
+      - name: Python Example
+        run: |
+          okareo -v
+          okareo run -d
+
+  cookbook-ts-jest:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./cookbook/ts-jest-ci
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Jest Example
+        run: |
+          yarn install
+          yarn test
+
