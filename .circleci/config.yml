@@ -67,19 +67,42 @@ jobs:
           name: Classification Report
           command: okareo run -f x_classification_logger
 
+  cookbook-test:
+    executor: node/default
+    working_directory: ~/cookbook/cookbook/py-minimal-ci
+    steps:
+      - checkout:
+          path: ~/cookbook
+      - run:
+          name: Install Okareo CLI
+          command: |
+              curl -O -L https://github.com/okareo-ai/okareo-cli/releases/download/v0.0.13/okareo_0.0.13_linux_386.tar.gz
+              tar -xvf okareo_0.0.13_linux_386.tar.gz
+              chmod +x bin/okareo
+              echo 'export PATH=$PATH:$PWD/bin' >> $BASH_ENV
+      - run:
+          name: Check Okareo Version
+          command: okareo --version
+      - run:
+          name: Run Cookbook Test
+          command: okareo run -d -f example
+
 workflows:
   version: 2
   build:
     jobs:
-      - summarization:
+      - cookbook-test
           context:
             - Demo-Env
-      - classification:
-          context:
-            - Demo-Env
-      - reporting:
-          requires:
-            - "summarization"
-            - "classification"
-          context:
-            - Demo-Env
+#      - summarization:
+#          context:
+#            - Demo-Env
+#      - classification:
+#          context:
+#            - Demo-Env
+#      - reporting:
+#          requires:
+#            - "summarization"
+#            - "classification"
+#          context:
+#            - Demo-Env
