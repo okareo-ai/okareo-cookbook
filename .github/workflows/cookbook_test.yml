@@ -8,7 +8,7 @@ env:
 on:
   push:
     branches:
-      - cookbook/test_out
+      - cookbook/test
 
 jobs:
   cookbook-python:
@@ -22,6 +22,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        
+      - name: Set up Python
+        # This is the version of the action for setting up Python, not the Python version.
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
 
       - name: Okareo Action
         uses: okareo-ai/okareo-action@v2.5
@@ -30,9 +36,7 @@ jobs:
         run: |
           ls -al
           okareo -v
-          pip install -r ./.okareo/requirements.txt
-          python3 ./.okareo/flows/example.py
-          python3 ./.okareo/flows/recap_evaluation.py
+          python3 --version
           okareo run -d -f example
 
 #  cookbook-ts-jest:
