@@ -1,4 +1,5 @@
 
-	# Python requirements to evaluate models with Okareo
-	okareo
-	
+# Python requirements to evaluate models with Okareo
+okareo
+numpy
+openai
