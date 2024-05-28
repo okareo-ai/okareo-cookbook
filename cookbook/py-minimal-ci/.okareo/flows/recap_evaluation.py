@@ -5,7 +5,10 @@ from okareo.model_under_test import OpenAIModel
 from okareo_api_client.models.test_run_type import TestRunType
 OKAREO_API_KEY = os.environ['OKAREO_API_KEY']
 OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
-OKAREO_RUN_ID = os.environ["TEST_BUILD_ID"]
+try:
+    OKAREO_RUN_ID = os.environ["BUILD_ID"]
+except:
+    OKAREO_RUN_ID = "local"
 
 okareo = Okareo(OKAREO_API_KEY)
 
