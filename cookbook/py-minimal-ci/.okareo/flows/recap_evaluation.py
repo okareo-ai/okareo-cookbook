@@ -1,6 +1,4 @@
 import os
-import random
-import string
 import tempfile
 from okareo import Okareo
 from okareo.model_under_test import OpenAIModel

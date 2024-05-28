@@ -30,7 +30,6 @@ jobs:
         run: |
           ls -al
           okareo -v
-          pip install -r ./.okareo/requirements.txt
           okareo run -d
 
 #  cookbook-ts-jest:
