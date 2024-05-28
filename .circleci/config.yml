@@ -68,11 +68,13 @@ jobs:
           command: okareo run -f x_classification_logger
 
   cookbook-test:
-    executor: node/default
+    docker:
+      - image: cimg/python:3.12.3
     working_directory: ~/cookbook/cookbook/py-minimal-ci
     steps:
       - checkout:
           path: ~/cookbook
+      - run: python --version
       - run:
           name: Install Okareo CLI
           command: |
@@ -87,7 +89,7 @@ jobs:
           name: Run Cookbook Test
           command: |
               ls -al
-              python3 -m pip install -r ./.okareo/requirements.txt
+              python3 -m pip --upgrade install -r ./.okareo/requirements.txt
               python3 ./.okareo/flows/example.py
 
 workflows:
