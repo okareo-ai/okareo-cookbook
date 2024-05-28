@@ -69,7 +69,7 @@ jobs:
 
   cookbook-test:
     executor: node/default
-    working_directory: ~/cookbook
+    working_directory: ~/cookbook/cookbook/py-minimal-ci
     steps:
       - checkout:
           path: ~/cookbook
@@ -85,7 +85,9 @@ jobs:
           command: okareo --version
       - run:
           name: Run Cookbook Test
-          command: okareo run -d -f example
+          command: |
+              ls -al
+              okareo run -d -f example
 
 workflows:
   version: 2
