@@ -80,6 +80,7 @@ jobs:
               tar -xvf okareo_0.0.14-alpha_linux_386.tar.gz
               chmod +x bin/okareo
               echo 'export PATH=$PATH:$PWD/bin' >> $BASH_ENV
+              ls -al
       - run:
           name: Check Okareo Version
           command: okareo --version
