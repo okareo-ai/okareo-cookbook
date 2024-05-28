@@ -28,6 +28,7 @@ jobs:
       
       - name: Python Example
         run: |
+          ls -al
           okareo -v
           okareo run -d
 
