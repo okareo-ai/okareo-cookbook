@@ -2,13 +2,13 @@
 
 import os
 import uuid
+import random
+import string
+
 from okareo import Okareo
 from okareo_api_client.models import ScenarioSetCreate, ScenarioSetResponse, SeedData, ScenarioType
 from okareo.model_under_test import OpenAIModel
 from okareo_api_client.models.test_run_type import TestRunType
-
-import random
-import string
 
 def generate_random_string(length):
     alphabet = string.ascii_letters + string.digits
