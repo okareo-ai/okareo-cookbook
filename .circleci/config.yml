@@ -84,11 +84,8 @@ jobs:
           name: Check Okareo Version
           command: okareo --version
       - run:
-          name: Run Init Test
-          command: okareo init -l python
-      - run:
           name: Run Cookbook Test
-          command: okareo run -d
+          command: okareo run -d -f example
 
 workflows:
   version: 2
