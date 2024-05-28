@@ -18,7 +18,7 @@ random_string = generate_random_string(6)
 
 OKAREO_API_KEY = os.environ["OKAREO_API_KEY"]
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
-OKAREO_RUN_ID = os.environ["OKAREO_RUN_ID"]
+OKAREO_RUN_ID = os.environ["TEST_BUILD_ID"]
 
 okareo = Okareo(OKAREO_API_KEY)
 
