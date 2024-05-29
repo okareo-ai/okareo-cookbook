@@ -148,7 +148,9 @@ const main = async () => {
         });
         
 	} catch (error) {
-		console.error(error);
+        // intentionally not blocking the build.
+        console.log("Error", error);
+		//throw new Error(error);
 	}
 }
 main();

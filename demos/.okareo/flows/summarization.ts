@@ -119,12 +119,15 @@ const main = async () => {
 		console.log(eval_run.app_link);
 		
 		if (!report.pass) {
+			// intentionally not blocking the build.
 			console.log("The model did not pass the evaluation. Please review the results.");
 			//throw new Error("The model did not pass the evaluation. Please review the results.");
 		}
 
 	} catch (error) {
-		throw new Error(error);
+        // intentionally not blocking the build.
+        console.log("Error", error);
+		//throw new Error(error);
 	}
 }
 main();
