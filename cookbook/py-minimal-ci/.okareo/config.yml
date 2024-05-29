@@ -1,6 +1,6 @@
-name: Okareo Evaluation 
+name: CLI Evaluation 
 api-key: ${OKAREO_API_KEY}
-project-id: ${OKAREO_PROJECT_ID}
+language: python
 run:
-  scripts:
+  flows:
     file-pattern: '.*\.py'

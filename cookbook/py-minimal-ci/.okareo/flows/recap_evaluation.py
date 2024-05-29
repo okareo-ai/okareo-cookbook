@@ -1,148 +1,31 @@
 #!/usr/bin/env python3
-
 import os
-import uuid
+import tempfile
 from okareo import Okareo
-from okareo_api_client.models import ScenarioSetCreate, ScenarioSetResponse, SeedData, ScenarioType
 from okareo.model_under_test import OpenAIModel
 from okareo_api_client.models.test_run_type import TestRunType
-
-import random
-import string
-
-def generate_random_string(length):
-    alphabet = string.ascii_letters + string.digits
-    return ''.join(random.choice(alphabet) for _ in range(length))
-
-random_string = generate_random_string(6)
-
-OKAREO_API_KEY = os.environ["OKAREO_API_KEY"]
-OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
-OKAREO_RUN_ID = os.environ["OKAREO_RUN_ID"]
+OKAREO_API_KEY = os.environ['OKAREO_API_KEY']
+OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
+try:
+    OKAREO_RUN_ID = os.environ["BUILD_ID"]
+except:
+    OKAREO_RUN_ID = "local"
 
 okareo = Okareo(OKAREO_API_KEY)
 
+# Define the user prompt template for the model
 USER_PROMPT_TEMPLATE = "{input}"
-
 SUMMARIZATION_CONTEXT_TEMPLATE = """
 You will be provided with text.
-Summarize the text in 1-3 simple sentences.
-If the text's title and the author's name are available, refer to both in the summary.
-Your goal is to make the summary clear to a middle school student.
+Summarize the text in 1 simple sentence.
 """
 
-# Text for the summarization model to process
-text_1 = """
-I Wandered Lonely as a Cloud
-
-I wandered lonely as a cloud
-That floats on high o'er vales and hills,
-When all at once I saw a crowd,
-A host, of golden daffodils;
-Beside the lake, beneath the trees,
-Fluttering and dancing in the breeze.
-
-Continuous as the stars that shine
-And twinkle on the milky way,
-They stretched in never-ending line
-Along the margin of a bay:
-Ten thousand saw I at a glance,
-Tossing their heads in sprightly dance.
-
-The waves beside them danced; but they
-Out-did the sparkling waves in glee:
-A poet could not but be gay,
-In such a jocund company:
-I gazed-and gazed-but little thought
-What wealth the show to me had brought:
-
-For oft, when on my couch I lie
-In vacant or in pensive mood,
-They flash upon that inward eye
-Which is the bliss of solitude;
-And then my heart with pleasure fills,
-And dances with the daffodils.
-
--- by William Wordsworth
-"""
-
-text_2 = """
-All Things Are Current Found
-
-ALL things are current found
-On earthly ground,
-Spirits and elements
-Have their descents.
-
-Night and day, year on year,
-High and low, far and near,
-These are our own aspects,
-These are our own regrets.
-
-Ye gods of the shore,
-Who abide evermore,
-I see you far headland,
-Stretching on either hand;
-
-I hear the sweet evening sounds
-From your undecaying grounds;
-Cheat me no more with time,
-Take me to your clime.
-
--- by Henry D. Thoreau
-"""
-
-text_3 = """
-Hope Is the Thing with Feathers
-
-"Hope" is the thing with feathers-
-That perches in the soul-
-And sings the tune without the words-
-And never stops-at all-
-
-And sweetest-in the Gale-is heard-
-And sore must be the storm-
-That could abash the little Bird
-That kept so many warm-
-
-I've heard it in the chillest land-
-And on the strangest Sea-
-Yet, never, in Extremity,
-It asked a crumb-of Me.
-
--- by Emily Dickinson
-"""
-
-print('Create Scenario')
-scenario_set_create = ScenarioSetCreate(
-    name=f"Github Action Test ID {OKAREO_RUN_ID} - {random_string} - Scenario",
-    number_examples=1,
-    generation_type=ScenarioType.SEED,
-    seed_data=[
-        SeedData(
-            input_=text_1,  
-            result=str(uuid.uuid4())
-        ),
-        SeedData(
-            input_=text_2,  
-            result=str(uuid.uuid4())
-        ),
-        SeedData(
-            input_=text_3, 
-            result=str(uuid.uuid4())
-        )
-    ],
-)
-scenario = okareo.create_scenario_set(scenario_set_create)
-
-print('Scenario Link: ', scenario["app_link"])
-
-mut_name = f"Github Action Test ID {OKAREO_RUN_ID} - {random_string} - MUT"
-eval_name = f"Github Action Test ID {OKAREO_RUN_ID} - {random_string} - EVAL"
-
+# Evaluate the scenario and model combination and then get a link to the results on Okareo
+mut_name = f"OpenAI Summarization Model - {OKAREO_RUN_ID}"
+eval_name = f"Summarization Run - {OKAREO_RUN_ID}"
+# Register the model to use in the test run
 model_under_test = okareo.register_model(
     name=mut_name,
-    tags=[OKAREO_RUN_ID],
     model=OpenAIModel(
         model_id="gpt-3.5-turbo",
         temperature=0,
@@ -150,13 +33,26 @@ model_under_test = okareo.register_model(
         user_prompt_template=USER_PROMPT_TEMPLATE,
     ),
 )
-
+# Create a scenario to evaluate the model with
+# Get jsonl file from Okareo's SDK repo
+webbizz_articles = os.popen('curl https://raw.githubusercontent.com/okareo-ai/okareo-python-sdk/main/examples/webbizz_10_articles.jsonl').read()
+temp_dir = tempfile.gettempdir()
+file_path = os.path.join(temp_dir, "webbizz_10_articles.jsonl")
+with open(file_path, "w+") as file:
+    lines = webbizz_articles.split('\n')
+    # Use the first 3 json objects to make a scenario set with 3 scenarios
+    for i in range(3):
+        file.write(f"{lines[i]}\n")
+scenario = okareo.upload_scenario_set(file_path=file_path, scenario_name="Webbizz Articles Scenario15")
+# make sure to clean up tmp file
+os.remove(file_path)
+# Run the evaluation
 evaluation = model_under_test.run_test(
     name=eval_name,
     scenario=scenario,
     api_key=OPENAI_API_KEY,
     test_run_type=TestRunType.NL_GENERATION,
     calculate_metrics=True,
+    checks=['coherence_summary', 'consistency_summary', 'fluency_summary', 'relevance_summary']
 )
-
-print('Evaluation Link: ', evaluation["app_link"])
+print(f"See results in Okareo: {evaluation.app_link}")

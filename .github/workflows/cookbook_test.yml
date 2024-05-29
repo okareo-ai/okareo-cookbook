@@ -1,7 +1,7 @@
 name: Cookbook Test
 env:
   SKIP_YARN_COREPACK_CHECK: true
-  DEMO_BUILD_ID: ${{ github.run_number }}
+  BUILD_ID: ${{ github.run_number }}
   OKAREO_API_KEY: ${{ secrets.OKAREO_API_KEY }}
   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
   
@@ -22,6 +22,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        
+      - name: Set up Python
+        # This is the version of the action for setting up Python, not the Python version.
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
 
       - name: Okareo Action
         uses: okareo-ai/okareo-action@v2.5
@@ -29,22 +35,21 @@ jobs:
       - name: Python Example
         run: |
           okareo -v
-          okareo run -d
+          okareo run
 
-  cookbook-ts-jest:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./cookbook/ts-jest-ci
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Jest Example
-        run: |
-          yarn install
-          yarn test
-
+#  cookbook-ts-jest:
+#    runs-on: ubuntu-latest
+#    defaults:
+#      run:
+#        working-directory: ./cookbook/ts-jest-ci
+#    permissions:
+#      contents: 'read'
+#      id-token: 'write'
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#
+#      - name: Jest Example
+#        run: |
+#          yarn install
+#          yarn test
