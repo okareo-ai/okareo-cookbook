@@ -30,11 +30,10 @@ jobs:
           python-version: '3.x'
 
       - name: Okareo Action
-        uses: okareo-ai/okareo-action@v2.5
+        uses: okareo-ai/okareo-action@vlatest
       
       - name: Python Example
         run: |
-          ls -al
           okareo -v
           okareo run
 
