@@ -1,8 +1,8 @@
 import { 
     Okareo, 
-    RunTestProps,
+    RunTestProps, components,
     TestRunType, OpenAIModel,
-    generation_reporter,
+    GenerationReporter,
 } from "okareo-ts-sdk";
 
 import { prompts } from './prompts/meeting_summary';
@@ -88,7 +88,7 @@ const main = async () => {
 		update: true,
 		});
 		
-		const eval_run: any = await model.run_test({
+		const eval_run: components["schemas"]["TestRunItem"] = await model.run_test({
 			model_api_key: OPENAI_API_KEY,
 			name: `${MODEL_NAME} Eval ${UNIQUE_BUILD_ID}`,
 			tags: ["Demo", "Summaries", `Build:${UNIQUE_BUILD_ID}`],
@@ -102,23 +102,14 @@ const main = async () => {
 				...required_checks.map(c => c.name),
 			]
 		} as RunTestProps);
-		
-		const report = generation_reporter({
-			eval_run:eval_run, 
-			...report_definition,
+
+		const reporter = new GenerationReporter({
+				eval_run :eval_run, 
+				...report_definition,
 		});
+		reporter.log();
 		
-		console.log(`\nEval: ${eval_run.name} - ${(report.pass)?"Pass 🟢" : "Fail 🔴"}`);
-		Object.keys(report.fail_metrics).map(m => {
-			const fMetrics: any = report.fail_metrics;
-			if (Object.keys(fMetrics[m]).length > 0) {
-				console.log(`\nFailures for ${m}`);
-				console.table(fMetrics[m]);
-			};
-		});
-		console.log(eval_run.app_link);
-		
-		if (!report.pass) {
+		if (!reporter.pass) {
 			// intentionally not blocking the build.
 			console.log("The model did not pass the evaluation. Please review the results.");
 			//throw new Error("The model did not pass the evaluation. Please review the results.");

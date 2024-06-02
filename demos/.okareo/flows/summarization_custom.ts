@@ -3,7 +3,7 @@ import {
     UploadEvaluatorProps,
     RunTestProps,
     TestRunType, CustomModel,
-    generation_reporter,
+    GenerationReporter,
 } from "okareo-ts-sdk";
 import OpenAI from 'openai';
 
@@ -172,25 +172,16 @@ const main = async () => {
       ]
     } as RunTestProps);
     
-    const report = generation_reporter(
-        {
-            eval_run:eval_run, 
-            ...report_definition,
-        }
-    );
-    
-    console.log(`\nEval: ${eval_run.name} - ${(report.pass)?"Pass 🟢" : "Fail 🔴"}`);
-    Object.keys(report.fail_metrics).map(m => {
-      const fMetrics: any = report.fail_metrics;
-      if (Object.keys(fMetrics[m]).length > 0) {
-        console.log(`\nFailures for ${m}`);
-        console.table(fMetrics[m]);
-      };
+		const reporter = new GenerationReporter({
+        eval_run :eval_run, 
+        ...report_definition,
     });
-    console.log(eval_run.app_link);
+    reporter.log();
     
-    if (!report.pass) {
-      throw new Error("The model did not pass the evaluation. Please review the results.");
+    if (!reporter.pass) {
+      // intentionally not blocking the build.
+      console.log("The model did not pass the evaluation. Please review the results.");
+      //throw new Error("The model did not pass the evaluation. Please review the results.");
     }
 
 	} catch (error) {

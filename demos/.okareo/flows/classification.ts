@@ -1,8 +1,8 @@
 import { 
     Okareo, 
-    RunTestProps,
-    TestRunType, CustomModel, OpenAIModel,
-    classification_reporter,
+    RunTestProps, components,
+    TestRunType, CustomModel,
+    ClassificationReporter,
 } from "okareo-ts-sdk";
 
 import OpenAI from 'openai';
@@ -184,7 +184,7 @@ const main = async () => {
         });
         
         
-        const classification_run: any = await model.run_test({
+        const classification_run: components["schemas"]["TestRunItem"] = await model.run_test({
             model_api_key: OPENAI_API_KEY,
             name: `${MODEL_NAME} Eval ${UNIQUE_BUILD_ID}`,
             tags: ["Demo", "Classification", `Build:${UNIQUE_BUILD_ID}`],
@@ -192,30 +192,17 @@ const main = async () => {
             scenario: questions_scenario,
             calculate_metrics: true,
             type: TestRunType.MULTI_CLASS_CLASSIFICATION,
-          } as RunTestProps);
-          
-          const report = classification_reporter(
-              {
-                  eval_run:classification_run, 
-                  ...report_definition
-              }
-          );
-          
-          console.log(`\nEval: ${classification_run.name} - ${(report.pass)?"Pass 🟢" : "Fail 🔴"}`);
-          Object.keys(report.fail_metrics).map(m => {
-            const fMetrics: any = report.fail_metrics;
-            if (Object.keys(fMetrics[m]).length > 0) {
-              console.log(`\nFailures for ${m}`);
-              console.table(fMetrics[m]);
-            };
-          });
-          console.log(classification_run.app_link);
-          
-          if (!report.pass) {
-            // intentionally not blocking the build.
-            console.log("The model did not pass the evaluation. Please review the results.");
-            //throw new Error("The model did not pass the evaluation. Please review the results.");
-          }
+        } as RunTestProps);
+        
+        const reporter = new ClassificationReporter({
+            eval_run:classification_run, 
+            ...report_definition,
+        });
+        if (!reporter.pass) {
+        // intentionally not blocking the build.
+        console.log("The model did not pass the evaluation. Please review the results.");
+        //throw new Error("The model did not pass the evaluation. Please review the results.");
+        }
 
 	} catch (error) {
         // intentionally not blocking the build.
