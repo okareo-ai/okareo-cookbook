@@ -159,7 +159,7 @@ const main = async () => {
             calculate_metrics: true,
             type: TestRunType.MULTI_CLASS_CLASSIFICATION,
         } as RunTestProps);
-        console.log(JSON.stringify(classification_run, null, 2));
+        
         const reporter = new ClassificationReporter({
             eval_run:classification_run, 
             ...report_definition,

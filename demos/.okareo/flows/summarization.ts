@@ -113,7 +113,7 @@ const main = async () => {
 		if (!reporter.pass) {
 			// intentionally not blocking the build.
 			//console.log("The model did not pass the evaluation. Please review the results.");
-			throw new Error("The model did not pass the evaluation. Please review the results.");
+			core.setFailed("The model did not pass the evaluation. Please review the results.");
 		}
 
 	} catch (error) {
