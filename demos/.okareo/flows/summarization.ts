@@ -4,6 +4,7 @@ import {
     TestRunType, OpenAIModel,
     GenerationReporter,
 } from "okareo-ts-sdk";
+import * as core from '@actions/core';
 
 import { prompts } from './prompts/meeting_summary';
 import { CHECK_TYPE, register_checks } from './utils/check_utils';
@@ -111,14 +112,13 @@ const main = async () => {
 		
 		if (!reporter.pass) {
 			// intentionally not blocking the build.
-			console.log("The model did not pass the evaluation. Please review the results.");
-			//throw new Error("The model did not pass the evaluation. Please review the results.");
+			//console.log("The model did not pass the evaluation. Please review the results.");
+			throw new Error("The model did not pass the evaluation. Please review the results.");
 		}
 
 	} catch (error) {
         // intentionally not blocking the build.
-        console.log("Error", error);
-		//throw new Error(error);
+		core.setFailed("Failed: "+error);
 	}
 }
 main();

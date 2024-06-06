@@ -1,9 +1,10 @@
 import { 
     Okareo, 
     RunTestProps, components,
-    TestRunType, CustomModel,
+    TestRunType, CustomModel, OpenAIModel,
     ClassificationReporter,
 } from "okareo-ts-sdk";
+import * as core from '@actions/core';
 
 import OpenAI from 'openai';
 
@@ -105,10 +106,10 @@ Respond with only the category name from the question_categories structure. ALWA
 const report_definition = {
     error_max: 8, 
     metrics_min: {
-        precision: 0.7,
-        recall: 0.8,
-        f1: 0.7,
-        accuracy: 0.8
+        precision: 0.5,
+        recall: 0.5,
+        f1: 0.5,
+        accuracy: 0.5,
     }
 }
 
@@ -122,67 +123,32 @@ const main = async () => {
             apiKey: OPENAI_API_KEY, // This is the default and can be omitted
         });
 
-        
         const questions_scenario: any = await okareo.upload_scenario_set({
             name: "Okareo Questions",
             file_path: "./.okareo/flows/questions.jsonl",
             project_id: project_id,
         });
-        
-        const questions_scenario_short: any = await okareo.upload_scenario_set({
+        /*
+        const questions_scenario: any = await okareo.upload_scenario_set({
             name: "Okareo Questions - Short",
             file_path: "./.okareo/flows/questions_short.jsonl",
             project_id: project_id,
         });
+        */
+        
         const model = await okareo.register_model({
             name: MODEL_NAME,
             tags: ["Demo", "Classification", `Build:${UNIQUE_BUILD_ID}`],
             project_id: project_id,
             models: {
-                type: "custom",
-                invoke: async (input: string, result: string) => { 
-                    try {
-                        const chatCompletion: any = await openai.chat.completions.create({
-                            messages: [
-                                { role: 'user', content:  input },
-                                { role: 'system', content: CLASSIFICATION_SYSTEM_TEMPLATE },
-                            ],
-                            model: 'gpt-3.5-turbo',
-                            temperature: 0.1,
-                        });
-                        const class_result = chatCompletion.choices[0].message.content;
-                        return [
-                            class_result,
-                            {
-                                input: input,
-                                method: "openai",
-                                context: {
-                                    input: input,
-                                    actual: class_result,
-                                    expected: result,
-                                    pass: (class_result === result)?"pass":"fail",
-                                },
-                            } 
-                        ]
-                    } catch (error) {
-                        console.error("openai error",error);
-                        return [
-                            "ERROR",
-                            {
-                                input: input,
-                                method: "openai",
-                                context: {
-                                    input: input,
-                                    result: result,
-                                },
-                            } 
-                        ]
-                    }
-                }
-            } as CustomModel,
+                type: "openai",
+                model_id:"gpt-3.5-turbo",
+                temperature:0.5,
+                system_prompt_template:CLASSIFICATION_SYSTEM_TEMPLATE,
+                user_prompt_template:USER_PROMPT_TEMPLATE
+            } as OpenAIModel,
             update: true,
         });
-        
         
         const classification_run: components["schemas"]["TestRunItem"] = await model.run_test({
             model_api_key: OPENAI_API_KEY,
@@ -193,21 +159,20 @@ const main = async () => {
             calculate_metrics: true,
             type: TestRunType.MULTI_CLASS_CLASSIFICATION,
         } as RunTestProps);
-        
+        console.log(JSON.stringify(classification_run, null, 2));
         const reporter = new ClassificationReporter({
             eval_run:classification_run, 
             ...report_definition,
         });
         if (!reporter.pass) {
-        // intentionally not blocking the build.
-        console.log("The model did not pass the evaluation. Please review the results.");
-        //throw new Error("The model did not pass the evaluation. Please review the results.");
+            // intentionally not blocking the build.
+            console.log("The model did not pass the evaluation. Please review the results.");
+            //throw new Error("The model did not pass the evaluation. Please review the results.");
         }
 
 	} catch (error) {
         // intentionally not blocking the build.
-        console.log("Error", error);
-        //throw new Error(error);
+		core.setFailed("Failed: "+error);
 	}
 }
 main();

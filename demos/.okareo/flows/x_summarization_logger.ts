@@ -3,6 +3,7 @@ import {
     TestRunType,
     EvaluationHistoryReporter
 } from "okareo-ts-sdk";
+import * as core from '@actions/core';
 
 const OKAREO_API_KEY = process.env.OKAREO_API_KEY || "<YOUR_OKAREO_KEY>";
 const PROJECT_NAME = "Global";
@@ -41,8 +42,7 @@ const main = async () => {
         
 	} catch (error) {
         // intentionally not blocking the build.
-        console.log("Error", error);
-		//throw new Error(error);
+		core.setFailed("Failed: "+error);
 	}
 }
 main();
