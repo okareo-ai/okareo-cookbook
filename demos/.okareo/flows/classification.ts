@@ -3,6 +3,7 @@ import {
     RunTestProps, components,
     TestRunType, CustomModel, OpenAIModel,
     ClassificationReporter,
+    ModelInvocation
 } from "okareo-ts-sdk";
 import * as core from '@actions/core';
 
@@ -128,6 +129,7 @@ const main = async () => {
             file_path: "./.okareo/flows/questions.jsonl",
             project_id: project_id,
         });
+
         /*
         const questions_scenario: any = await okareo.upload_scenario_set({
             name: "Okareo Questions - Short",
@@ -135,7 +137,9 @@ const main = async () => {
             project_id: project_id,
         });
         */
-        
+
+        // This model approach can be used but does not provide the same level of control as the custom model
+        /*
         const model = await okareo.register_model({
             name: MODEL_NAME,
             tags: ["Demo", "Classification", `Build:${UNIQUE_BUILD_ID}`],
@@ -149,6 +153,59 @@ const main = async () => {
             } as OpenAIModel,
             update: true,
         });
+        */
+
+        
+        const model = await okareo.register_model({
+            name: MODEL_NAME,
+            tags: ["Demo", "Classification", `Build:${UNIQUE_BUILD_ID}`],
+            project_id: project_id,
+            models: {
+                type: "custom",
+                invoke: async (input: string, result: string) =>  { 
+                    try {
+                        const chatCompletion: any = await openai.chat.completions.create({
+                            messages: [
+                                { role: 'user', content:  input },
+                                { role: 'system', content: CLASSIFICATION_SYSTEM_TEMPLATE },
+                            ],
+                            model: 'gpt-3.5-turbo',
+                            temperature: 0.1,
+                        });
+                        const class_result = chatCompletion.choices[0].message.content;
+                        return  {
+                            actual: class_result,
+                            model_input: input,
+                            model_result: {
+                                input: input,
+                                method: "openai",
+                                context: {
+                                    input: input,
+                                    actual: class_result,
+                                    expected: result,
+                                    pass: (class_result === result)?"pass":"fail",
+                                },
+                            },
+                        }
+                    } catch (error) {
+                        console.error("openai error",error);
+                        return [
+                            "ERROR",
+                            {
+                                input: input,
+                                method: "openai",
+                                context: {
+                                    input: input,
+                                    result: result,
+                                },
+                            } 
+                        ]
+                    }
+                }
+            } as CustomModel,
+            update: true,
+        });
+        
         
         const classification_run: components["schemas"]["TestRunItem"] = await model.run_test({
             model_api_key: OPENAI_API_KEY,
@@ -164,6 +221,7 @@ const main = async () => {
             eval_run:classification_run, 
             ...report_definition,
         });
+        reporter.log();
         if (!reporter.pass) {
             // intentionally not blocking the build.
             console.log("The model did not pass the evaluation. Please review the results.");
