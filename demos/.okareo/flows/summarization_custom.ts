@@ -21,7 +21,7 @@ const OKAREO_API_KEY = process.env.OKAREO_API_KEY;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const UNIQUE_BUILD_ID = (process.env.DEMO_BUILD_ID || `local.${(Math.random() + 1).toString(36).substring(7)}`);
 const PROJECT_NAME = "Global";
-const MODEL_NAME = "Meeting Summarizer";
+const MODEL_NAME = "Custom Meeting Summarizer";
 
 const NUMBER_OF_WORDS = 50 - Math.round(Math.random() * 10);
 
