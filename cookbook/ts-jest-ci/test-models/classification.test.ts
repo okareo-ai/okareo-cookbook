@@ -155,8 +155,8 @@ describe('Evaluations', () => {
                 type: "custom",
                 invoke: (input: string) => { 
                     return {
-                        actual: "Technical Support",
-                        model_response: {
+                        model_prediction: "Technical Support",
+                        model_output_metadata: {
                             input: input,
                             method: "hard coded",
                             context: "TS SDK Test Response",

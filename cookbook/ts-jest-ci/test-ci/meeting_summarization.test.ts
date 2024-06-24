@@ -62,8 +62,8 @@ describe('Evaluations', () => {
                     try {
                         const summary_result = chatCompletion.choices[0].message.content;
                         return {
-                            actual: summary_result,
-                            model_response: {
+                            model_prediction: summary_result,
+                            model_output_metadata: {
                                 input: input,
                                 method: "openai",
                                 context: {

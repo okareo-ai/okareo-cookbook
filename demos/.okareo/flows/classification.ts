@@ -174,14 +174,14 @@ const main = async () => {
                         });
                         const class_result = chatCompletion.choices[0].message.content;
                         return  {
-                            actual: class_result,
+                            model_prediction: class_result,
                             model_input: input,
-                            model_result: {
+                            model_output_metadata: {
                                 input: input,
                                 method: "openai",
                                 context: {
                                     input: input,
-                                    actual: class_result,
+                                    model_prediction: class_result,
                                     expected: result,
                                     pass: (class_result === result)?"pass":"fail",
                                 },
