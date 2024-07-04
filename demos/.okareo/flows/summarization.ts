@@ -2,7 +2,7 @@ import {
     Okareo, 
     RunTestProps, components,
     TestRunType, OpenAIModel,
-    GenerationReporter,
+    GenerationReporter, CheckOutputType
 } from "okareo-ts-sdk";
 import * as core from '@actions/core';
 
@@ -20,28 +20,33 @@ const required_checks: CHECK_TYPE[] = [
 	{
 		name: "demo.Summary.Length",
 		description: "Return the length of the short_summary property from the JSON model response.",
-		output_data_type: "int"
+		output_data_type: CheckOutputType.SCORE,
 	},
 	{
 		name: "demo.Summary.Under256",
 		description: "Pass if the property short_summary from the JSON model result has less than 256 characters.",
-		output_data_type: "bool"
+		output_data_type: CheckOutputType.PASS_FAIL,
 	},
 	{
 		name:"demo.Summary.JSON",
 		description: "Pass if the model result is JSON with the properties short_summary, actions, and attendee_list.",
-		output_data_type: "bool"
+		output_data_type: CheckOutputType.PASS_FAIL,
 	},
 	{
 		name:"demo.Attendees.Length",
 		description: "Return the length of the number of particpants in the attendee_list in the JSON model response.",
-		output_data_type: "int"
+		output_data_type: CheckOutputType.SCORE,
 	},
 	{
 		name:"demo.Actions.Length",
 		description: "Return the length of the number of actions in the JSON model response.",
-		output_data_type: "int",
-		update: true
+		output_data_type: CheckOutputType.SCORE,
+	},
+	{
+		name:"demo.Tone.Friendly",
+		description: "Use a model judgement to determine if the tone in the meeting is friendly (true).",
+		prompt: "Only output True if the speakers in the meeting are friendly, otherwise return False.",
+		output_data_type: CheckOutputType.PASS_FAIL,
 	},
 ];
 
@@ -58,6 +63,7 @@ const report_definition = {
 	pass_rate: {
 		"demo.Summary.Under256": 0.75,
 		"demo.Summary.JSON": 1,
+		"demo.Tone.Friendly": 1,
 	},
 };
 
