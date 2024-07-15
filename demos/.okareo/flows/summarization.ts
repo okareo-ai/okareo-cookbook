@@ -2,7 +2,7 @@ import {
     Okareo, 
     RunTestProps, components,
     TestRunType, OpenAIModel,
-    GenerationReporter, CheckOutputType
+    GenerationReporter, CheckOutputType, JSONReporter
 } from "okareo-ts-sdk";
 import * as core from '@actions/core';
 
@@ -115,6 +115,11 @@ const main = async () => {
 				...report_definition,
 		});
 		reporter.log();
+
+        const reporter_output = new JSONReporter({
+            eval_runs:[ eval_run ]
+        });
+        reporter_output.log();
 		
 		if (!reporter.pass) {
 			// intentionally not blocking the build.

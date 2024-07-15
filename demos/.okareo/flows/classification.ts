@@ -3,7 +3,8 @@ import {
     RunTestProps, components,
     TestRunType, CustomModel, OpenAIModel,
     ClassificationReporter,
-    ModelInvocation
+    ModelInvocation,
+    JSONReporter
 } from "okareo-ts-sdk";
 import * as core from '@actions/core';
 
@@ -222,6 +223,12 @@ const main = async () => {
             ...report_definition,
         });
         reporter.log();
+
+        const reporter_output = new JSONReporter({
+            eval_runs:[ classification_run ]
+        });
+        reporter_output.log();
+
         if (!reporter.pass) {
             // intentionally not blocking the build.
             console.log("The model did not pass the evaluation. Please review the results.");

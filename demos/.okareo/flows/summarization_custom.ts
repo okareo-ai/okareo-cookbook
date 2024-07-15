@@ -3,7 +3,7 @@ import {
     UploadEvaluatorProps,
     RunTestProps,
     TestRunType, CustomModel,
-    GenerationReporter,
+    GenerationReporter, JSONReporter
 } from "okareo-ts-sdk";
 import OpenAI from 'openai';
 import { CHECK_TYPE, register_checks } from './utils/check_utils';
@@ -102,14 +102,15 @@ const main = async () => {
                   temperature: 0.5,
               });
               const summary_result = chatCompletion.choices[0].message.content;
-              return [
-                  summary_result,
-                  {
+              
+              return {
+                  actual: summary_result,
+                  model_response:{
                     input: input,
                     method: "openai",
                     context: chatCompletion,
                   }
-                ]
+              }
             } catch (error) {
                 console.error("openai error",error);
                 return {
@@ -135,6 +136,12 @@ const main = async () => {
         ...required_checks.map(c => c.name),
       ]
     } as RunTestProps);
+
+    const reporter_output = new JSONReporter({
+        eval_runs:[ eval_run ]
+    });
+    reporter_output.log();
+
     /*
 		const reporter = new GenerationReporter({
         eval_run :eval_run, 
