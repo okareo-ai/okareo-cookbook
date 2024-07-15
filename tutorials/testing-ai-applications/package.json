@@ -1,0 +1,49 @@
+{
+  "name": "openai-okareo-coffee-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "build-dist": "./node_modules/typescript/bin/tsc",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.28",
+    "@types/react": "^18.3.2",
+    "jest": "^29.7.0",
+    "okareo-ts-sdk": "latest",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@jest/globals": "^29.7.0",
+    "@types/react-dom": "^18.3.0",
+    "dotenv": "^16.4.5",
+    "next": "^13.1.1",
+    "openai": "^4.26.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "ts-jest": "^29.1.4",
+    "tsc": "^2.0.4"
+  },
+  "engines": {
+    "node": ">=16",
+    "npm": ">=7"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/"
+    ],
+    "setupFiles": [
+      "<rootDir>/.jest/env.js"
+    ]
+  }
+}
