@@ -112,6 +112,7 @@ public/
 # End of https://www.gitignore.io/api/node,macos,visualstudiocode
 
 docs
+**/__pycache__/
 **/dist
 **/node_modules
 **/*pnp*
