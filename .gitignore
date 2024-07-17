@@ -118,5 +118,6 @@ docs
 **/.okareo/yarn.lock
 **/.okareo/package-lock.json
 **/.okareo/tsconfig.json
+**/.okareo/reports
 yarn.lock
 package-lock.json

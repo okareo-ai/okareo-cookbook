@@ -30,7 +30,7 @@ jobs:
           python-version: '3.x'
 
       - name: Okareo Action
-        uses: okareo-ai/okareo-action@v2.5
+        uses: okareo-ai/okareo-action@v2.6
       
       - name: Python Example
         run: |
