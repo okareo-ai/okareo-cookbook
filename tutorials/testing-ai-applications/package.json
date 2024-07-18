@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "build-dist": "./node_modules/typescript/bin/tsc",
-    "test": "jest"
+    "test": "jest --config ./jest.okareo-config.js"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

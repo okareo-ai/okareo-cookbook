@@ -26,22 +26,22 @@ describe('Prompt concatenation function works', () => {
 
 describe('Answer generation', () => {
     it('should return a reasonable answer', async () => {
-        const project: any[] = await okareo.getProjects();
-        const project_id = project.find((p) => p.name === PROJECT_NAME)?.id;
+        const projects: any[] = await okareo.getProjects();
+        const project_id = projects.find((p) => p.name === PROJECT_NAME)?.id;
 
         // create scenario set
         const TEST_SEED_DATA = [
             SeedData({
-            input: "lemon zest",
-            result: "Washed",
+                input: "lemon zest",
+                result: "Washed",
             }),
             SeedData({
-            input: "Spicy, black pepper",
-            result: "Natural",
+                input: "Spicy, black pepper",
+                result: "Natural",
             }),
             SeedData({
-            input: "caramel",
-            result: "Honey",
+                input: "caramel",
+                result: "Honey",
             }),
         ];
 
@@ -56,36 +56,36 @@ describe('Answer generation', () => {
             tags: [`Build:${UNIQUE_BUILD_ID}`],
             project_id: project_id,
             models: {
-            type: "openai",
-            model_id: "gpt-4o",
-            temperature: 0.1,
-            system_prompt_template: SYSTEM_PROMPT,
-            user_prompt_template: USER_PROMPT_TEMPLATE,
+                type: "openai",
+                model_id: "gpt-4o",
+                temperature: 0.1,
+                system_prompt_template: SYSTEM_PROMPT,
+                user_prompt_template: USER_PROMPT_TEMPLATE,
             } as OpenAIModel,
             update: true,
         });
-    
+        
          // run LLM evlauation
-        const eval_run: components["schemas"]["TestRunItem"] = await model.run_test(
-            {
-            model_api_key: OPENAI_API_KEY,
-            name: `${MODEL_NAME} Eval ${UNIQUE_BUILD_ID}`,
-            tags: [`Build:${UNIQUE_BUILD_ID}`],
-            project_id: project_id,
-            scenario: scenario,
-            calculate_metrics: true,
-            type: TestRunType.MULTI_CLASS_CLASSIFICATION,
+        const eval_run: components["schemas"]["TestRunItem"] = await model.run_test({
+                model_api_key: OPENAI_API_KEY,
+                name: `${MODEL_NAME} Eval ${UNIQUE_BUILD_ID}`,
+                tags: [`Build:${UNIQUE_BUILD_ID}`],
+                project_id: project_id,
+                scenario: scenario,
+                calculate_metrics: true,
+                type: TestRunType.MULTI_CLASS_CLASSIFICATION,
             } as RunTestProps
         );
+        
 
         // reporting
         const report_definition = {
             error_max: 8,
             metrics_min: {
-            precision: 0.5,
-            recall: 0.5,
-            f1: 0.5,
-            accuracy: 0.5,
+                precision: 0.5,
+                recall: 0.5,
+                f1: 0.5,
+                accuracy: 0.5,
             },
         };
 
@@ -94,8 +94,7 @@ describe('Answer generation', () => {
         const reporter = new ClassificationReporter({
             eval_run:eval_run,
             ...report_definition,
-        })
-
+        });
 
         await expect(reporter.pass).toBeTruthy;
     })
