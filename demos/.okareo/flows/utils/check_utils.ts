@@ -18,7 +18,7 @@ export const addCheck = async (okareo: Okareo, project_id: string, check: CHECK_
             ...check
         });
         if (check_primitive.generated_code && check_primitive.generated_code.length > 0) {
-            return await okareo.upload_check({
+            return await okareo.create_or_update_check({
                 project_id,
                 ...check_primitive,
                 update: true,
