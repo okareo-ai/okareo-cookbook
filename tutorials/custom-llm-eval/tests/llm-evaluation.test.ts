@@ -62,11 +62,6 @@ describe('Evaluations', () => {
 					output_data_type: CheckOutputType.SCORE,
 				},
 				{
-					name: "demo.Summary.Under256",
-					description: "Pass if the property short_summary from the JSON model result has less than 256 characters.",
-					output_data_type: CheckOutputType.PASS_FAIL,
-				},
-				{
 					name:"demo.Summary.JSON",
 					description: "Pass if the model result is JSON with the properties short_summary, actions, and attendee_list.",
 					output_data_type: CheckOutputType.PASS_FAIL,
@@ -129,7 +124,6 @@ describe('Evaluations', () => {
 					"demo.summary.Length": 256,
 				},
 				pass_rate: {
-					"demo.summary.Under256": 0.75,
 					"deom.Tone.Friendly": 1,
 				},
 				error_max: 3,
