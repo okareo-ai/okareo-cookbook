@@ -35,7 +35,6 @@ async function callOpenAIAssistantThread(
 }
 
 export async function invoke(input: string) {
-    // TODO: finish implementing this
     const time_started = new Date().getTime();
     const messages = await callOpenAIAssistantThread(input);
     const time_ended = new Date().getTime();
