@@ -1,0 +1,36 @@
+
+name: Run Evaluations on WebBizz OpenAI Assistant
+env:
+  DEMO_BUILD_ID: ${{ github.run_number }}
+  OKAREO_API_KEY: ${{ secrets.OKAREO_API_KEY }}
+  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+  
+on:
+  push:
+    branches: [ "main" ]
+    paths: [ "./okareo/flows/*eval.ts" ] # run when any of the eval scripts are updated
+  workflow_dispatch: # allows for trig
+
+
+jobs:
+  evaluations:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4    
+
+      - name: Okareo Action
+        uses: okareo-ai/okareo-action@v2.6
+      
+      - name: Okareo Evaluations on WebBizz OpenAI Assistant
+        run: |
+          okareo -v
+          okareo run -d -f off-topic-eval
+          okareo run -d -f prompt-protection-eval
+          okareo run -d -f competitor-mentions-eval
