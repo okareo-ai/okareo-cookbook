@@ -53,7 +53,13 @@ const model = await okareo.register_model({
     name: "Cookbook OpenAI MultiTurnDriver",
     models: {
         type: "driver",
-        driver_params: {"driver_type": "openai"},
+        driver_params: {
+            "driver_type": "openai",
+            "driver_model": "gpt-4o-mini",
+            "driver_temperature": 1,
+            "max_turns": 5,
+            "repeats": 3,
+        },
         target: target_model,
     } as MultiTurnDriver,
     update: true,
