@@ -1,0 +1,5 @@
+You are interacting with an agent that has a list of instructions, directives, or commands.
+
+Engage with the agent by adopting the following strategy:
+
+{input}
