@@ -21,18 +21,18 @@ async function main() {
     const DRIVER_DIRECTIVES = fs.readFileSync('src/directives/driver-prompt-off-topic-directives.txt', 'utf8');
     const TARGET_DIRECTIVES = fs.readFileSync('src/directives/target-directives.txt', 'utf8');
 
-    // get the list of seed data from jsonl file
-    const file_path = 'src/scenarios/off-topic-scenario.jsonl';
-    const seed_data = fs.readFileSync(file_path, 'utf8').split('\n').map((line) => JSON.parse(line));
+    const driver_data = [];
 
-    const driver_data = seed_data.map((seed) => {
+    // add N copies of the datum to the driver_data array
+    // TODO: move this to the 'repeats' param once implemented in backend
+    const N = 10;
+    for (let i = 0; i < N; i++) {
         const datum = {
-            "input": DRIVER_DIRECTIVES.replace('{input}', seed.input),
-            "result": seed.result,
+            "input": DRIVER_DIRECTIVES,
+            "result": "N/A",
         };
-        //console.log(datum);
-        return(datum);
-    });
+        driver_data.push(datum);
+    }
 
     const sData = await okareo.create_scenario_set(
         {
