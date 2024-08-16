@@ -20,19 +20,13 @@ async function main() {
     // get directives for the driver
     const DRIVER_DIRECTIVES = fs.readFileSync('src/directives/driver-prompt-off-topic-directives.txt', 'utf8');
     const TARGET_DIRECTIVES = fs.readFileSync('src/directives/target-directives.txt', 'utf8');
+    const TARGET_CONTEXT = fs.readFileSync('src/directives/target-context.txt', 'utf8');
 
-    const driver_data = [];
-
-    // add N copies of the datum to the driver_data array
-    // TODO: move this to the 'repeats' param once implemented in backend
-    const N = 10;
-    for (let i = 0; i < N; i++) {
-        const datum = {
-            "input": DRIVER_DIRECTIVES,
-            "result": "N/A",
-        };
-        driver_data.push(datum);
-    }
+    const datum = {
+        "input": DRIVER_DIRECTIVES,
+        "result": "N/A",
+    };
+    const driver_data = [datum];
 
     const sData = await okareo.create_scenario_set(
         {
@@ -46,8 +40,8 @@ async function main() {
     const target_model = {
         type: "openai",
         model_id: "gpt-4o-mini",
-        temperature: 0,
-        system_prompt_template: TARGET_DIRECTIVES,
+        temperature: 1,
+        system_prompt_template: TARGET_DIRECTIVES + "\n\n" + TARGET_CONTEXT,
     } as OpenAIModel
 
     const model = await okareo.register_model({
@@ -59,6 +53,7 @@ async function main() {
                 "driver_model": "gpt-4o-mini",
                 "driver_temperature": 1,
                 "max_turns": 5,
+                "repeats": 10,
             },
             target: target_model,
         } as MultiTurnDriver,
