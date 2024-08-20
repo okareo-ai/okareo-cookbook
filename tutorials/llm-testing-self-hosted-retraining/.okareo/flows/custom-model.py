@@ -1,6 +1,13 @@
 import os
+import tempfile # added
+from okareo import Okareo # added
+from okareo.model_under_test import OpenAIModel # added
+from okareo_api_client.models.test_run_type import TestRunType # added
+
 OKAREO_API_KEY = os.environ['OKAREO_API_KEY']
 OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
+
+okareo = Okareo(OKAREO_API_KEY) # added
 
 # CREATE CUSTOM MODEL
 # TODO - 
@@ -35,7 +42,7 @@ with open(file_path, "w+") as file:
     # Use the first 3 json objects to make a scenario set with 3 scenarios
     for i in range(3):
         file.write(f"{lines[i]}\n")
-scenario = okareo.upload_scenario_set(file_path=file_path, scenario_name="TEST_SCENARIO_NAME_1", model=OpenAIModel()
+scenario = okareo.upload_scenario_set(file_path=file_path, scenario_name="TEST_SCENARIO_NAME_1") # modified
 # make sure to clean up tmp file
 os.remove(file_path)
 
