@@ -1,0 +1,29 @@
+[
+    {
+        "name": "searchanalytics_query",
+        "description": "Query your data with filters and parameters that you define. Returns zero or more rows grouped by the row keys that you define. You must define a date range of one or more days. When date is one of the group by values, any days without data are omitted from the result list. If you need to know which days have data, issue a broad date range query grouped by date for any metric, and see which day rows are returned. Documentation_link: https://developers.google.com/webmaster-tools/v1/api_reference_index",
+        "parameter_definitions": {
+            "siteUrl": {
+                "description": "The site's URL, including protocol. For example: `http://www.example.com/`.",
+                "type": "str",
+                "required": 1
+            }
+        }
+    },
+    {
+        "name": "sitemaps_delete",
+        "description": "Deletes a sitemap from the Sitemaps report. Does not stop Google from crawling this sitemap or the URLs that were previously crawled in the deleted sitemap.Documentation_link: https://developers.google.com/webmaster-tools/v1/api_reference_index",
+        "parameter_definitions": {
+            "feedpath": {
+                "description": "The URL of the actual sitemap. For example: `http://www.example.com/sitemap.xml`.",
+                "type": "str",
+                "required": 1
+            },
+            "siteUrl": {
+                "description": "The site's URL, including protocol. For example: `http://www.example.com/`.",
+                "type": "str",
+                "required": 1
+            }
+        }
+    }
+]
