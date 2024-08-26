@@ -10,14 +10,8 @@ const main = async () => {
         const okareo = new Okareo({api_key:process.env.OKAREO_API_KEY});
         const project_id = (await okareo.getProjects()).find(p => p.name === 'Global')?.id;
 
-        /*
-        const scenario: any = await okareo.get_scenario_sets({
-            project_id: project_id,
-            scenario_id: '483c92d6-3bb0-4a23-8e4d-87643bea3549'
-        });
-        */
         const scenario: any = await okareo.create_scenario_set({
-            name: 'Minimal Example Scenario:',
+            name: 'Minimal Example Scenario',
             project_id: project_id,
             seed_data: [
                 { input: 'What is the capital of France?', result: 'Paris' },
@@ -55,7 +49,7 @@ const main = async () => {
         const eval_run: any = await model.run_test({
             name: 'First Evaluation',
             project_id: project_id,
-            scenario_id: "483c92d6-3bb0-4a23-8e4d-87643bea3549",
+            scenario_id: scenario.scenario_id,
             calculate_metrics: true,
             type: TestRunType.MULTI_CLASS_CLASSIFICATION,
         } as RunTestProps);
