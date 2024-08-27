@@ -1,7 +1,7 @@
 import { 
     Okareo, 
     RunTestProps,
-    classification_reporter,
+    ClassificationReporter,
     OpenAIModel, SeedData, TestRunType, CustomModel
 } from 'okareo-ts-sdk';
 
@@ -110,7 +110,7 @@ describe('Evaluations', () => {
             update: true,
         });
         
-        const data: any = await model.run_test({
+        const classification_run: any = await model.run_test({
             model_api_key: OPENAI_API_KEY,
             project_id: project_id,
             scenario_id: sData.scenario_id,
@@ -118,23 +118,19 @@ describe('Evaluations', () => {
             calculate_metrics: true,
             type: TestRunType.MULTI_CLASS_CLASSIFICATION,
         } as RunTestProps);
-        
-        const report = classification_reporter(
-            {
-                eval_run:data, 
-                error_max: 6, 
-                metrics_min: {
-                    precision: 0.1,
-                    recall: 0.1,
-                    f1: 0.1,
-                    accuracy: 0.1
-                }
-            }
-        );
-        if (!report.pass) {
-            console.log(report);
-        }
-        expect(report.pass).toBeTruthy();
+
+        const reporter = new ClassificationReporter({
+            eval_run:classification_run, 
+            error_max: 6, 
+            metrics_min: {
+                precision: 0.1,
+                recall: 0.1,
+                f1: 0.1,
+                accuracy: 0.1
+            },
+        });
+        reporter.log();
+        expect(reporter.report.pass).toBeTruthy();
     });
 
     test('E2E Custom Model', async () =>  {
@@ -166,7 +162,7 @@ describe('Evaluations', () => {
             } as CustomModel,
         });
 
-        const data: any = await model.run_test({
+        const classification_run: any = await model.run_test({
             model_api_key: OPENAI_API_KEY,
             project_id: project_id,
             scenario_id: sData.scenario_id,
@@ -174,23 +170,19 @@ describe('Evaluations', () => {
             calculate_metrics: true,
             type: TestRunType.MULTI_CLASS_CLASSIFICATION,
         } as RunTestProps);
-        
-        const report = classification_reporter(
-            {
-                eval_run:data, 
-                error_max: 6, 
-                metrics_min: {
-                    precision: 0.5,
-                    recall: 0.5,
-                    f1: 0.5,
-                    accuracy: 0.5
-                }
-            }
-        );
-        if (!report.pass) {
-            console.log(report);
-        }
-        expect(report.errors).toBeGreaterThanOrEqual(1);
+
+        const reporter = new ClassificationReporter({
+            eval_run:classification_run, 
+            error_max: 6, 
+            metrics_min: {
+                precision: 0.5,
+                recall: 0.5,
+                f1: 0.5,
+                accuracy: 0.5
+            },
+        });
+        reporter.log();
+        expect(reporter.report.errors).toBeGreaterThanOrEqual(1);
 
     });
 

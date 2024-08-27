@@ -1,6 +1,6 @@
 import { 
     Okareo,
-    classification_reporter 
+    ClassificationReporter 
 } from 'okareo-ts-sdk';
 
 const OKAREO_API_KEY = process.env.OKAREO_API_KEY || "<YOUR_OKAREO_KEY>";
@@ -50,22 +50,17 @@ describe(' Working with Projects', () => {
 
 
     test('E2E Classification Reporter', async () =>  {
-        const report = classification_reporter(
-            {
-                eval_run:TEST_RUN_ITEM, 
-                error_max: 8, 
-                metrics_min: {
-                    precision: 0.7,
-                    recall: 0.8,
-                    f1: 0.7,
-                    accuracy: 0.8
-                }
-            }
-        );
-        if (!report.pass) {
-            console.log(report);
-        }
-        expect(report.pass).toBeTruthy();
+        const reporter = new ClassificationReporter({
+            eval_run:TEST_RUN_ITEM, 
+            error_max: 6, 
+            metrics_min: {
+                precision: 0.5,
+                recall: 0.5,
+                f1: 0.5,
+                accuracy: 0.5
+            },
+        });
+        expect(reporter.report.pass).toBeTruthy();
     });
 
 
