@@ -1,9 +1,4 @@
-import { 
-    Okareo, 
-    RunTestProps,
-    TestRunType, CustomModel,
-    ClassificationReporter,
-} from "okareo-ts-sdk";
+import { Okareo, RunTestProps, TestRunType, CustomModel } from "okareo-ts-sdk";
 
 const main = async () => {
     try {
@@ -19,7 +14,6 @@ const main = async () => {
                 { input: 'What is the capital of Mars?', result: 'Desher' },
             ]
         });
-        console.log(JSON.stringify(scenario, null, 2))
         
         const model = await okareo.register_model({
             name: 'Static Response Model',
@@ -53,31 +47,8 @@ const main = async () => {
             calculate_metrics: true,
             type: TestRunType.MULTI_CLASS_CLASSIFICATION,
         } as RunTestProps);
-        
-        const report_definition = {
-            error_max: 1, 
-            metrics_min: {
-                precision: 0.5,
-                recall: 0.5,
-                f1: 0.5,
-                accuracy: 0.5,
-            }
-        }
-
-        const reporter = new ClassificationReporter({
-            eval_run:eval_run, 
-            ...report_definition,
-        });
-        reporter.log();
-
     } catch (e) {
-
         console.error(JSON.stringify(e, null, 2));  
     }
-
 }
 main();
-
-
-
-
