@@ -51,8 +51,6 @@ const main = async () => {
             update: true,
         });
 
-        console.log("Model registered successfully");
-        
         const eval_run: any = await model.run_test({
             name: 'Function Call Demo Evaluation',
             project_id: project_id,
@@ -61,6 +59,8 @@ const main = async () => {
             type: TestRunType.NL_GENERATION,
             checks: ["is_function_correct", "are_required_params_present", "are_all_params_expected", "do_param_values_match"],
         } as RunTestProps);
+
+        console.log(`View the evaluation in the Okareo app: ${eval_run.app_link}`);
 
     } catch (e) {
         console.error(JSON.stringify(e, null, 2));  
