@@ -91,7 +91,7 @@ const main = async () => {
       project_id: project_id,
       models: {
           type: "custom",
-          invoke: async (input: string, result: string) => { 
+          invoke: async (input: string) => { 
             try {
               const chatCompletion: any = await openai.chat.completions.create({
                   messages: [

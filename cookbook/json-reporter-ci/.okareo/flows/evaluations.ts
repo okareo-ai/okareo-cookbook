@@ -166,7 +166,7 @@ const main = async () => {
             project_id: project_id,
             models: {
                 type: "custom",
-                invoke: (input: string, result: string) => {
+                invoke: (input: string) => {
                     const articleIds = ["Spring Saver", "Free Shipping", "Birthday Gift", "Super Sunday", "Top 10", "New Arrivals", "January", "July"];
                     const scores = Array.from({length: 5}, () => ({
                         id: articleIds[Math.floor(Math.random() * articleIds.length)], // Select a random ID for each score
@@ -180,7 +180,6 @@ const main = async () => {
                         model_input: input,
                         model_output_metadata: {
                             input: input,
-                            result: result,
                         }
                     } as ModelInvocation
                 }
