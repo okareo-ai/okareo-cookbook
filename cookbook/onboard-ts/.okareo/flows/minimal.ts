@@ -20,7 +20,7 @@ const main = async () => {
             project_id: project_id,
             models: {
                 type: 'custom',
-                invoke: async (input: string, result: string) =>  {
+                invoke: async (input: string) =>  {
                     let model_result: string = 'Unknown'
                     if (input.includes('France')) {
                         model_result = 'Paris';
@@ -31,7 +31,6 @@ const main = async () => {
                         model_prediction: model_result,
                         model_input: input,
                         model_output_metadata: {
-                            ground_truth: result,
                             prediction: model_result,
                         }
                     }
