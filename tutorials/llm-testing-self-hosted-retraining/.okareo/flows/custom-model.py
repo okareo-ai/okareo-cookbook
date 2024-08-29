@@ -15,7 +15,8 @@ okareo = Okareo(OKAREO_API_KEY)
 class CustomGenerationModel(CustomModel):
 
     # Constructor
-    def __init__(self):
+    def __init__(self, name):
+        self.name=name
         self.summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
 
     # Define the invoke method to be called on each input of a scenario

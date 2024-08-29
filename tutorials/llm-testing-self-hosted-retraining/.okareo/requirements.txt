@@ -2,3 +2,4 @@
 okareo
 transformers
 torch
+aiohttp
