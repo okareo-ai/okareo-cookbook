@@ -122,3 +122,4 @@ docs
 **/.okareo/reports
 yarn.lock
 package-lock.json
+**/install-state.gz

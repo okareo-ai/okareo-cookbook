@@ -91,7 +91,7 @@ const main = async () => {
       project_id: project_id,
       models: {
           type: "custom",
-          invoke: async (input: string, result: string) => { 
+          invoke: async (input: string) => { 
             try {
               const chatCompletion: any = await openai.chat.completions.create({
                   messages: [
@@ -104,8 +104,9 @@ const main = async () => {
               const summary_result = chatCompletion.choices[0].message.content;
               
               return {
-                  actual: summary_result,
-                  model_response:{
+                  model_prediction: summary_result,
+                  model_input: input,
+                  model_output_metadata: {
                     input: input,
                     method: "openai",
                     context: chatCompletion,
@@ -136,7 +137,6 @@ const main = async () => {
         ...required_checks.map(c => c.name),
       ]
     } as RunTestProps);
-
     const reporter_output = new JSONReporter({
         eval_runs:[ eval_run ]
     });
