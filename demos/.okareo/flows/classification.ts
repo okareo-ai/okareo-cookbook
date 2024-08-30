@@ -163,7 +163,7 @@ const main = async () => {
             project_id: project_id,
             models: {
                 type: "custom",
-                invoke: async (input: string, result: string) =>  { 
+                invoke: async (input: string) =>  { 
                     try {
                         const chatCompletion: any = await openai.chat.completions.create({
                             messages: [
@@ -183,8 +183,6 @@ const main = async () => {
                                 context: {
                                     input: input,
                                     model_prediction: class_result,
-                                    expected: result,
-                                    pass: (class_result === result)?"pass":"fail",
                                 },
                             },
                         }
@@ -197,7 +195,6 @@ const main = async () => {
                                 method: "openai",
                                 context: {
                                     input: input,
-                                    result: result,
                                 },
                             } 
                         ]

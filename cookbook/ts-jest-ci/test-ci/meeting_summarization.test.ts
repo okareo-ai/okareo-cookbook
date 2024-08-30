@@ -51,7 +51,7 @@ describe('Evaluations', () => {
             project_id: project_id,
             models: {
                 type: "custom",
-                invoke: async (input: string, expected: string) => { 
+                invoke: async (input: string) => { 
                     const chatCompletion: any = await openai.chat.completions.create({
                         messages: [
                             { role: 'user', content:  input },
