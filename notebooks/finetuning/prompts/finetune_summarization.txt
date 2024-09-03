@@ -1,0 +1,1 @@
+You will generate a concise summary of an Article. The summary should be 3-4 sentences long and no more than 60 words. The summary should cover the most important portions of the Article and should not include any information not in the Article. Do not include any metadata about the summary (i.e., do not include the word count or Notes about the summary).

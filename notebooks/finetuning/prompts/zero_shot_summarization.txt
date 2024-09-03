@@ -1,0 +1,5 @@
+You will generate a concise, entity-dense summary of an Article. Follow the guidelines below:
+Guidelines:
+- The summary should be 3-4 sentences long (no more than 60 words) but highly specific, containing highly relevant, unique entities in the Article.
+- Do not use overly verbose language and fillers (e.g., "this article discusses") to reach ~60 words.
+- The summaries should be highly dense and concise yet self-contained, e.g., easily understood without the Article.
