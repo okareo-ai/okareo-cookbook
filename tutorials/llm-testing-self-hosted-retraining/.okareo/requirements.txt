@@ -1,0 +1,5 @@
+# Python requirements to evaluate models with Okareo
+okareo
+transformers
+torch
+aiohttp
