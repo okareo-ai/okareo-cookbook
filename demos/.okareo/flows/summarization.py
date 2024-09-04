@@ -54,7 +54,7 @@ scenario = okareo.upload_scenario_set(
     file_path='./.okareo/flows/Meeting_Bank_Summaries_test.jsonl'
 )
 print(scenario.scenario_id)
-
+print(OKAREO_API_KEY)
 # Register the model under test
 mut = okareo.register_model(
 	name=f"{model_name} (Summarization)",
