@@ -32,4 +32,4 @@ jobs:
       - name: Summarization Evaluation
         run: |
           okareo -v
-          okareo run -f summarization -c .okareo/config_python.yml --debug
+          okareo run -f summarization -c .okareo/config_python.yml
