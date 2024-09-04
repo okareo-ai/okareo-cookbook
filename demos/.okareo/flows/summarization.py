@@ -74,7 +74,7 @@ all_check_names = [check.name for check in all_checks]
 for check_info in custom_checks:
 	# Skip generating checks that already exist
 	if check_info['name'] in all_check_names:
-		print(f'Skipped creating {check_info['name']}')
+		print(f"Skipped creating {check_info['name']}")
 		continue
 	
 	# Generate checks
