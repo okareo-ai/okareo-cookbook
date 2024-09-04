@@ -50,11 +50,10 @@ okareo = Okareo(OKAREO_API_KEY)
 
 # Upload scenario set for testing
 scenario = okareo.upload_scenario_set(
-    scenario_name="Meeting Bank Summaries (test)",
+    scenario_name="Meeting Bank Summaries (Test)",
     file_path='./.okareo/flows/Meeting_Bank_Summaries_test.jsonl'
 )
-print(scenario.scenario_id)
-print(OKAREO_API_KEY)
+
 # Register the model under test
 mut = okareo.register_model(
 	name=f"{model_name} (Summarization)",
@@ -100,12 +99,12 @@ for check_info in custom_checks:
 custom_check_names = [check_info['name'] for check_info in custom_checks]
 
 # Run the evaluation
-# eval_run = mut.run_test(
-#     scenario=scenario,
-#     name=f"Summarization Run (test split) for {model_name}",
-#     test_run_type=TestRunType.NL_GENERATION,
-#     checks=['latency', 'consistency_summary'] + custom_check_names,
-#     api_key=ANTHROPIC_API_KEY
-# )
+eval_run = mut.run_test(
+    scenario=scenario,
+    name=f"Summarization Run (test split) for {model_name}",
+    test_run_type=TestRunType.NL_GENERATION,
+    checks=['latency', 'consistency_summary'] + custom_check_names,
+    api_key=ANTHROPIC_API_KEY
+)
 
-# print(f'{eval_run.name} can be viewed at {eval_run.app_link}')
+print(f'{eval_run.name} can be viewed at {eval_run.app_link}')
