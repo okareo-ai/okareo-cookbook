@@ -23,8 +23,8 @@ haiku_model_id = "claude-3-haiku-20240307"
 haiku_model_name = "Claude 3 Haiku"
 
 # Select the model to use (currently set to Haiku)
-model_id = haiku_model_id
-model_name = haiku_model_name
+model_id = opus_model_id
+model_name = opus_model_name
 
 # Define custom checks for evaluation
 custom_checks = [
@@ -74,7 +74,6 @@ all_check_names = [check.name for check in all_checks]
 for check_info in custom_checks:
 	# Skip generating checks that already exist
 	if check_info['name'] in all_check_names:
-		print(f"Skipped creating {check_info['name']}")
 		continue
 	
 	# Generate checks
