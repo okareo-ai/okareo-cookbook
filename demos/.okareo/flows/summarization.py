@@ -111,9 +111,9 @@ custom_check_names = [check_info['name'] for check_info in custom_checks]
 # Run the evaluation
 eval_run = mut.run_test(
     scenario=scenario,
-    name=f"Summarization Run (test split) w/ G-Eval for {model_name}",
+    name=f"Summarization Run (test split) for {model_name}",
     test_run_type=TestRunType.NL_GENERATION,
-    checks=['latency', 'fluency_summary', 'consistency_summary', 'coherence_summary', 'relevance_summary'] + custom_check_names,
+    checks=['latency', 'consistency_summary'] + custom_check_names,
     api_key=ANTHROPIC_API_KEY
 )
 
