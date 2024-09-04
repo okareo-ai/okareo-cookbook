@@ -1,4 +1,3 @@
-# Import necessary modules and classes
 import os
 from importlib import import_module
 from prompts.meeting_summary import Prompts
@@ -23,7 +22,7 @@ sonnet_model_name = "Claude 3 Sonnet"
 haiku_model_id = "claude-3-haiku-20240307"
 haiku_model_name = "Claude 3 Haiku"
 
-# Select the model to use (currently set to Opus)
+# Select the model to use (currently set to Haiku)
 model_id = haiku_model_id
 model_name = haiku_model_name
 
@@ -51,8 +50,8 @@ okareo = Okareo(OKAREO_API_KEY)
 
 # Upload scenario set for testing
 scenario = okareo.upload_scenario_set(
-    scenario_name="Meeting Summaries (test)",
-    file_path='./.okareo/flows/meetings_short_test.jsonl'
+    scenario_name="Meeting Bank Summaries (test)",
+    file_path='./.okareo/flows/Meeting_Bank_Summaries_test.jsonl'
 )
 
 # Register the model under test
@@ -75,34 +74,26 @@ all_check_names = [check.name for check in all_checks]
 for check_info in custom_checks:
 	# Skip generating checks that already exist
 	if check_info['name'] in all_check_names:
+		print(f'Skipped creating {check_info['name']}')
 		continue
 	
-	# Generate check code
-	generate_request = EvaluatorSpecRequest(
+	# Generate checks
+	generated_test = okareo.generate_check(EvaluatorSpecRequest(
 		description=check_info.get('description'),
 		requires_scenario_input=True,
 		requires_scenario_result=False,
 		output_data_type=check_info.get('output_data_type').value
-	)
-	generated_test = okareo.generate_check(generate_request).generated_code
-	
-	# Write generated code to a temporary file
+	)).generated_code
 	file_path = f"./.okareo/flows/{check_info.get('name')}.py"
 	with open(file_path, "w+") as file:
 		file.write(generated_test)
-	
-	# Import the generated check module
 	check_module = import_module(check_info.get('name'))
 	Check = getattr(check_module, 'Check')
-	
-	# Create or update the check in Okareo
-	token_cr_check = okareo.create_or_update_check(
+	okareo.create_or_update_check(
 		name=check_info.get('name'),
 		check=Check(),
 		description=check_info.get('description'),
 	)
-	
-	# Remove the temporary file
 	os.remove(file_path)
 
 # Get the names of all custom checks
@@ -117,5 +108,4 @@ eval_run = mut.run_test(
     api_key=ANTHROPIC_API_KEY
 )
 
-# Print the evaluation run link
 print(f'{eval_run.name} can be viewed at {eval_run.app_link}')
