@@ -23,8 +23,8 @@ haiku_model_id = "claude-3-haiku-20240307"
 haiku_model_name = "Claude 3 Haiku"
 
 # Select the model to use (currently set to Haiku)
-model_id = sonnet_model_id
-model_name = sonnet_model_name
+model_id = haiku_model_id
+model_name = haiku_model_name
 
 # Define custom checks for evaluation
 custom_checks = [
