@@ -1,0 +1,35 @@
+name: Summarization Demo
+env:
+  BUILD_ID: ${{ github.run_number }}
+  OKAREO_API_KEY: ${{ secrets.OKAREO_API_KEY }}
+  ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+  
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - demos/.okareo/flows/summarization.py
+    - demos/.okareo/flows/prompts/meeting_summary.py
+  workflow_dispatch: 
+
+jobs:
+  summarization:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./demos
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Okareo Action
+        uses: okareo-ai/okareo-action@v2.6
+      
+      - name: Summarization Evaluation
+        run: |
+          okareo -v
+          okareo run -c .okareo/config_python.yml
