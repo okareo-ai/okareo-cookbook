@@ -46,7 +46,7 @@ async function main() {
 
     const target_model = {
         type: "openai",
-        model_id: "gpt-4o-mini",
+        model_id: "gpt-3.5-turbo",
         temperature: 1,
         system_prompt_template: TARGET_DIRECTIVES + "\n\n" + TARGET_CONTEXT,
     } as OpenAIModel
