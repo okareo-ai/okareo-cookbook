@@ -1,5 +1,5 @@
-import { 
-    Okareo,  
+import {
+    Okareo,
     OpenAIModel,
     TestRunType,
     MultiTurnDriver,
@@ -13,7 +13,7 @@ const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const PROJECT_NAME = "Global";
 
 async function main() {
-    const okareo = new Okareo({api_key:OKAREO_API_KEY});
+    const okareo = new Okareo({ api_key: OKAREO_API_KEY });
     const pData: any[] = await okareo.getProjects();
     const project_id = pData.find(p => p.name === PROJECT_NAME)?.id;
 
@@ -48,13 +48,9 @@ async function main() {
         name: "Cookbook OpenAI MultiTurnDriver",
         models: {
             type: "driver",
-            driver_params: {
-                "driver_type": "openai",
-                "driver_model": "gpt-4o-mini",
-                "driver_temperature": 1,
-                "max_turns": 5,
-                "repeats": 10,
-            },
+            driver_temperature: 1,
+            max_turns: 5,
+            repeats: 10,
             target: target_model,
         } as MultiTurnDriver,
         update: true,
@@ -62,7 +58,7 @@ async function main() {
     });
 
     const test_run = await model.run_test({
-        model_api_key: {"openai": OPENAI_API_KEY},
+        model_api_key: { "openai": OPENAI_API_KEY },
         name: "Red-Teaming: Off-Topic Queries",
         scenario_id: sData.scenario_id,
         calculate_metrics: true,
