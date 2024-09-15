@@ -4,7 +4,7 @@ import { OpenAIModel, TestRunType, MultiTurnDriver } from "okareo-ts-sdk";
 const OKAREO_API_KEY = process.env.OKAREO_API_KEY || "<YOUR_OKAREO_KEY>";
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY || "<YOUR_OPENAI_KEY>";
 
-const okareo = new Okareo({api_key:OKAREO_API_KEY});
+const okareo = new Okareo({ api_key: OKAREO_API_KEY });
 
 const math_prompt = `You are interacting with an agent who is good at answering questions. 
 
@@ -53,20 +53,16 @@ const model = await okareo.register_model({
     name: "Cookbook OpenAI MultiTurnDriver",
     models: {
         type: "driver",
-        driver_params: {
-            "driver_type": "openai",
-            "driver_model": "gpt-4o-mini",
-            "driver_temperature": 1,
-            "max_turns": 5,
-            "repeats": 3,
-        },
+        driver_temperature: 1,
+        max_turns: 5,
+        repeats: 3,
         target: target_model,
     } as MultiTurnDriver,
     update: true,
 });
 
 const test_run = await model.run_test({
-    model_api_key: {"openai": OPENAI_API_KEY},
+    model_api_key: { "openai": OPENAI_API_KEY },
     name: "Cookbook OpenAI MultiTurnDriver",
     scenario_id: sData.scenario_id,
     calculate_metrics: true,
