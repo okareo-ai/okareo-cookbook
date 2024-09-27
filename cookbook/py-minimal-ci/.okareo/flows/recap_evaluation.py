@@ -14,7 +14,7 @@ except:
 okareo = Okareo(OKAREO_API_KEY)
 
 # Define the user prompt template for the model
-USER_PROMPT_TEMPLATE = "{input}"
+USER_PROMPT_TEMPLATE = "{scenario_input}"
 SUMMARIZATION_CONTEXT_TEMPLATE = """
 You will be provided with text.
 Summarize the text in 1 simple sentence.

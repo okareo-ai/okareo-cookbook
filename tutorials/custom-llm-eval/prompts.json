@@ -1,4 +1,4 @@
 {
         "CUSTOM_SYSTEM_PROMPT": "You will be provided with text. Summarize the text in 1 simple sentence.",
-    "USER_PROMPT_TEMPLATE": "{input}" 
+    "USER_PROMPT_TEMPLATE": "{scenario_input}" 
 }

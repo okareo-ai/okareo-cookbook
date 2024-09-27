@@ -16,7 +16,7 @@ const MODEL_NAME = "Custom Meeting Summarizer";
 
 const NUMBER_OF_WORDS = 50 - Math.round(Math.random() * 10);
 
-const USER_PROMPT_TEMPLATE = "{input}";
+const USER_PROMPT_TEMPLATE = "{scenario_input}";
 const CLASSIFICATION_CONTEXT_TEMPLATE_PREAMBLE: string = "";
 const SYSTEM_MEETING_SUMMARIZER_TEMPLATE: string = `
 ${CLASSIFICATION_CONTEXT_TEMPLATE_PREAMBLE}

@@ -16,7 +16,7 @@ const UNIQUE_BUILD_ID = (process.env.DEMO_BUILD_ID || `local.${(Math.random() + 
 const PROJECT_NAME = "Global";
 const MODEL_NAME = "Question Classifier";
 
-const USER_PROMPT_TEMPLATE = `{input}`
+const USER_PROMPT_TEMPLATE = `{scenario_input}`
 const CLASSIFICATION_SYSTEM_TEMPLATE_ORIG: string = `
 You will be provided a question from a customer about a developer product called Okareo that evaluates AI models.
 Classify the question into a category from the list below.

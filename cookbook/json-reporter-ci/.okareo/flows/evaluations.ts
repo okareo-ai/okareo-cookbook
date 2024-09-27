@@ -56,7 +56,7 @@ const TEST_IR_DATA = [
 
 
 
-const USER_PROMPT_TEMPLATE = `{input}`
+const USER_PROMPT_TEMPLATE = `{scenario_input}`
 
 const CLASSIFICATION_CONTEXT_TEMPLATE = `
 You will be provided a question from a customer.
@@ -212,7 +212,7 @@ const main = async () => {
 				type: "openai",
 				model_id:"gpt-3.5-turbo",
 				temperature:0.5,
-				dialog_template: "{input}"
+				dialog_template: "{scenario_input}"
 				} as OpenAIModel],
 			update: true,
 		});

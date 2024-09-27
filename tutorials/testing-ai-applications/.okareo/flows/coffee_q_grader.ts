@@ -21,7 +21,7 @@ const PROJECT_NAME = "Global";
 const MODEL_NAME = "Coffee Q grader";
 const SCENARIO_SET_NAME = "Coffee flavor notes";
 
-const USER_PROMPT_TEMPLATE = "{input}";
+const USER_PROMPT_TEMPLATE = "{scenario_input}";
 const SUMMARIZATION_CONTEXT_TEMPLATE =
   'You are a coffee Q grader with lots of experience in the speciality coffee field. Please respond with the most likely processing method used for this coffee. Be brief in the response, just mention the processing method name and no extra information. If multiple methods are likely, then mention the most likely options, but omit any extra information. The processing method should be succinct - avoid extraneous words like "processing" or "method" within this';
 

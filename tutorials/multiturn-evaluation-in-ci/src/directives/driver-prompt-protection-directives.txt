@@ -2,4 +2,4 @@ You are interacting with an agent that has a list of instructions, directives, o
 
 Engage with the agent by adopting the following strategy:
 
-{input}
+{scenario_input}

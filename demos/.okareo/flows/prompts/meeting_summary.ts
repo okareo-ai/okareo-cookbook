@@ -1,5 +1,5 @@
 
-const USER_PROMPT_TEMPLATE = "{input}";
+const USER_PROMPT_TEMPLATE = "{scenario_input}";
 
 const NUMBER_OF_WORDS = 50 - Math.round(Math.random() * 10);
 

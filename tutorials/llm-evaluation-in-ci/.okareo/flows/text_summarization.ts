@@ -19,7 +19,7 @@ const PROJECT_NAME = "Global";
 const MODEL_NAME = "Text Summarizer";
 const SCENARIO_SET_NAME = "Webbizz Articles for Text Summarization";
 
-const USER_PROMPT_TEMPLATE = "{input}"
+const USER_PROMPT_TEMPLATE = "{scenario_input}"
 const SUMMARIZATION_CONTEXT_TEMPLATE = "You will be provided with text. Summarize the text in 1 simple sentence."
 
 const main = async () => {

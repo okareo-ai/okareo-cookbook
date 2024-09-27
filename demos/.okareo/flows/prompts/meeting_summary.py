@@ -1,6 +1,6 @@
 import random
 
-USER_PROMPT_TEMPLATE = "Article: {input}"
+USER_PROMPT_TEMPLATE = "Article: {scenario_input}"
 
 NUMBER_OF_WORDS = 50 - round(random.random() * 10)
 

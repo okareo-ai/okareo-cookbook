@@ -28,7 +28,7 @@ async function main() {
 
     const driver_data = seed_data.map((seed) => {
         const datum = {
-            "input": DRIVER_DIRECTIVES.replace('{input}', seed.input),
+            "input": DRIVER_DIRECTIVES.replace('{scenario_input}', seed.input),
             "result": seed.result,
         };
         //console.log(datum);
