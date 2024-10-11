@@ -37,7 +37,7 @@ chroma_client = chromadb.Client()
 # We want to measure the similarity between questions and documents using cosine similarity
 collection = chroma_client.create_collection(name="retrieval_test", metadata={"hnsw:space": "cosine"})
 
-# Add the documents to the collection with the corresponding metadata
+# Add the documents to the collection with the corresponding metadata (the in-built embedding model converts the documents to vector embeddings)
 collection.add(
     documents=list(jsonObj.input),
     ids=list(jsonObj.result),
