@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+
 ### Load documents and create corresponding metadata ###
 # Import the necessary libraries
 import os
@@ -112,17 +115,27 @@ class CustomEmbeddingModel(CustomModel):
 
 # Register the model with Okareo
 # This will return a model if it already exists or create a new one if it doesn't
-model_under_test = okareo.register_model(name="vectordb_retrieval_test", model=CustomEmbeddingModel(name="custom retrieval"))
+model_under_test = okareo.register_model(name="vectordb_retrieval_test", model=CustomEmbeddingModel(name="custom retrieval"), update=True)
 
 
 
 
 ### Evaluating the custom embedding model ###
-# Import the datetime module for timestamping
-from datetime import datetime
 
 # Define thresholds for the evaluation metrics
 at_k_intervals = [1, 2, 3, 4, 5] 
+
+# Choose your retrieval evaluation metrics
+metrics_kwargs = {
+    "accuracy_at_k": at_k_intervals ,
+    "precision_recall_at_k": at_k_intervals ,
+    "ndcg_at_k": at_k_intervals,
+    "mrr_at_k": at_k_intervals,
+    "map_at_k": at_k_intervals,
+}
+
+# Import the datetime module for timestamping
+from datetime import datetime
 
 # Perform a test run using the uploaded scenario set
 test_run_item = model_under_test.run_test(
@@ -131,17 +144,10 @@ test_run_item = model_under_test.run_test(
     test_run_type=TestRunType.INFORMATION_RETRIEVAL, # specify that we are running an information retrieval test
     calculate_metrics=True,
     # Define the evaluation metrics to calculate
-    metrics_kwargs={
-        "accuracy_at_k": at_k_intervals ,
-        "precision_recall_at_k": at_k_intervals ,
-        "ndcg_at_k": at_k_intervals,
-        "mrr_at_k": at_k_intervals,
-        "map_at_k": at_k_intervals,
-    }
+    metrics_kwargs=metrics_kwargs
 )
 
 # Generate a link back to Okareo for evaluation visualization
-model_results = test_run_item.model_metrics.to_dict()
 app_link = test_run_item.app_link
 print(f"See results in Okareo: {app_link}")
 
