@@ -15,7 +15,8 @@ export PATH="$PATH:$OKAREO_PATH/bin"
 ```
 
 - Create python virtual environment
-```python -m venv venv
+```
+python -m venv venv
 source venv/bin/activate
 ```
 
