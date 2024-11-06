@@ -11,10 +11,12 @@
 export OPENAI_API_KEY=<YOUR_OPENAI_API_KEY>
 export OKAREO_PROJECT_ID=<YOUR_OKAREO_PROJECT_ID>
 export OKAREO_PATH="<YOUR_OKAREO_PATH>"
-export PATH="$PATH:$OKAREO_PATH/bin"```
+export PATH="$PATH:$OKAREO_PATH/bin"
+```
 
 - Create python virtual environment
 ```python -m venv venv
-source venv/bin/activate```
+source venv/bin/activate
+```
 
 - From this directory, run the Okareo flow script in .okareo/flows with this command ```okareo run --debug```
