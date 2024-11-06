@@ -6,7 +6,8 @@
 - Install Okareo locally: https://docs.okareo.com/docs/sdk/cli
 - Export environment variables: 
 
-```export OKAREO_API_KEY=<YOUR_OKAREO_API_KEY>
+```
+export OKAREO_API_KEY=<YOUR_OKAREO_API_KEY>
 export OPENAI_API_KEY=<YOUR_OPENAI_API_KEY>
 export OKAREO_PROJECT_ID=<YOUR_OKAREO_PROJECT_ID>
 export OKAREO_PATH="<YOUR_OKAREO_PATH>"
