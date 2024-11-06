@@ -148,7 +148,6 @@ test_run_item = model_under_test.run_test(
 )
 
 # Generate a link back to Okareo for evaluation visualization
-model_results = test_run_item.model_metrics.to_dict()
 app_link = test_run_item.app_link
 print(f"See results in Okareo: {app_link}")
 
