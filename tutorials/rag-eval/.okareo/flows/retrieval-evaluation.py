@@ -18,11 +18,11 @@ jsonObj = pd.read_json(path_or_buf=StringIO(webbizz_articles), lines=True)
 metadata_list = []
 input_list = list(jsonObj.input)
 for i in range(len(input_list)):
-    if "sustainability" in input_list[i] or "security" in list(input_list[i]):
+    if "sustainability" in input_list[i] or "security" in input_list[i]:
         metadata_list.append({"article_type": "Safety and sustainability"})
-    elif "support" in input_list[i] or "help" in list(input_list[i]):
+    elif "support" in input_list[i] or "help" in input_list[i]:
         metadata_list.append({"article_type": "Support"})
-    elif "return" in input_list[i]:
+    elif "return" in input_list[i] or "exchange" in input_list[i]:
         metadata_list.append({"article_type": "Return and exchange"})
     else:
         metadata_list.append({"article_type": "Miscellaneous"})
