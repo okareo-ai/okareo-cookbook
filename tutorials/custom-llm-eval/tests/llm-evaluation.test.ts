@@ -124,7 +124,7 @@ describe('Evaluations', () => {
 					"demo.summary.Length": 256,
 				},
 				pass_rate: {
-					"deom.Tone.Friendly": 1,
+					"demo.Tone.Friendly": 1,
 				},
 				error_max: 3,
 			};
