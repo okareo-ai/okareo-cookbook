@@ -45,7 +45,7 @@ describe('Evaluations', () => {
 				update: true,
 			});
 
-            // upload scenario set (from file)
+             //upload scenario set (from file)
 	        const scenario: any = await okareo.upload_scenario_set(
 	            {
 	            	name: `${SCENARIO_SET_NAME} Scenario Set - ${UNIQUE_BUILD_ID}`,
@@ -77,9 +77,9 @@ describe('Evaluations', () => {
 					output_data_type: CheckOutputType.SCORE,
 				},
 				{
-					name:"demo.Tone.Friendly", // Peer evaluation check (another LLM checks the behaviour of your LLM)
+					name:"demo.Tone.IsFriendly", // Peer evaluation check (another LLM checks the behaviour of your LLM)
 					description: "Use a model judgement to determine if the tone in the meeting is friendly (true).",
-					prompt: "Only output True if the speakers in the meeting are friendly, otherwise return False.",
+                         prompt: "Only output True if the speakers in the following meeting are friendly, otherwise return False: {generation}",
 					output_data_type: CheckOutputType.PASS_FAIL,
 				},
 			];
@@ -124,7 +124,7 @@ describe('Evaluations', () => {
 					"demo.summary.Length": 256,
 				},
 				pass_rate: {
-					"demo.Tone.Friendly": 1,
+					"demo.Tone.IsFriendly": 1,
 				},
 				error_max: 3,
 			};
