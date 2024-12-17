@@ -1,6 +1,0 @@
-name: CLI Evaluation 
-api-key: ${OKAREO_API_KEY}
-language: "python"
-run:
-  flows:
-    file-pattern: '.*\.py'

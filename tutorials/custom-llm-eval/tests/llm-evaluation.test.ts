@@ -45,7 +45,7 @@ describe('Evaluations', () => {
 				update: true,
 			});
 
-             //upload scenario set (from file)
+            // upload scenario set (from file)
 	        const scenario: any = await okareo.upload_scenario_set(
 	            {
 	            	name: `${SCENARIO_SET_NAME} Scenario Set - ${UNIQUE_BUILD_ID}`,

@@ -1,2 +1,0 @@
-# Python requirements to evaluate models with Okareo
-okareo
