@@ -56,7 +56,6 @@ print(f"See your scenario in Okareo: {tool_scenario.app_link}")
 class FunctionCallModel(CustomModel):
     def __init__(self, name):
         super().__init__(name)
-        self.usernames = ["Bob", "Alice", "John"]
         self.pattern = r'my name is (\S+)'
 
     def invoke(self, input_value):
