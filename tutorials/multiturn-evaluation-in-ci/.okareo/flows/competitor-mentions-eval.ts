@@ -21,7 +21,7 @@ async function main() {
     const DRIVER_DIRECTIVES = fs.readFileSync('src/directives/driver-prompt-competitor-mentions-directives.txt', 'utf8');
     const TARGET_DIRECTIVES = fs.readFileSync('src/directives/target-directives.txt', 'utf8');
     const TARGET_CONTEXT = fs.readFileSync('src/directives/target-context.txt', 'utf8');
-    const BEHAVIOR_DIRECTIVE = "Do not under any circumstances mention direct competitors, especially not Amazine, Demu, or Olli Bobo.";
+    const BEHAVIOR_DIRECTIVE = "Do not under any circumstances mention direct competitors, especially not Amazon, Temu, or Alibaba.";
 
     const datum = {
         "input": DRIVER_DIRECTIVES,

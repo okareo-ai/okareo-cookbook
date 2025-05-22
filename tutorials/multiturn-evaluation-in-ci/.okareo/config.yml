@@ -1,7 +1,7 @@
 name: WebBizz Assistant Evaluation
 api-key: ${OKAREO_API_KEY}
 project-id: ${OKAREO_PROJECT_ID}
-language: "typescript"
+language: "python"
 run:
   flows:
-    file-pattern: '.*\.ts'
+    file-pattern: '.*\.py'
