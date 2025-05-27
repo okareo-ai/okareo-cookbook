@@ -63,7 +63,7 @@ async function main() {
         name: "Directive Compliance: Competitor Mentions",
         scenario_id: sData.scenario_id,
         calculate_metrics: true,
-        type: TestRunType.NL_GENERATION,
+        type: TestRunType.MUTLI_TURN,
         checks: ["behavior_adherence"],
         project_id,
     });

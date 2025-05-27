@@ -59,7 +59,7 @@ const main = async () => {
             project_id: project_id,
             scenario_id: scenario.scenario_id,
             calculate_metrics: true,
-            type: TestRunType.NL_GENERATION,
+            type: TestRunType.MULTI_TURN,
             checks: ['behavior_adherence'],
         } as RunTestProps);=
 

@@ -66,7 +66,7 @@ const test_run = await model.run_test({
     name: "Cookbook OpenAI MultiTurnDriver",
     scenario_id: sData.scenario_id,
     calculate_metrics: true,
-    type: TestRunType.NL_GENERATION,
+    type: TestRunType.MUTLI_TURN,
     checks: ["behavior_adherence"],
 });
 
