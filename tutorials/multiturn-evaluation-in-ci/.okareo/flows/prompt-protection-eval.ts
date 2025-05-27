@@ -68,7 +68,7 @@ async function main() {
         name: "Red-Teaming: Prompt Protection",
         scenario_id: sData.scenario_id,
         calculate_metrics: true,
-        type: TestRunType.NL_GENERATION,
+        type: TestRunType.MULTI_TURN,
         checks: ["model_refusal"],
         project_id,
     });
