@@ -1,5 +1,5 @@
 import { Okareo } from 'okareo-ts-sdk';
-import { OpenAIModel, TestRunType, MultiTurnDriver } from "okareo-ts-sdk";
+import { GenerationModel, TestRunType, MultiTurnDriver } from "okareo-ts-sdk";
 
 const OKAREO_API_KEY = process.env.OKAREO_API_KEY || "<YOUR_OKAREO_KEY>";
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY || "<YOUR_OPENAI_KEY>";
@@ -31,7 +31,7 @@ const seeds = [
 
 const sData = await okareo.create_scenario_set(
     {
-        name: "Cookbook OpenAI MultiTurn Conversation",
+        name: "Cookbook MultiTurn Conversation - OpenAI Example",
         seed_data: seeds
     }
 );
@@ -47,10 +47,10 @@ const target_model = {
     model_id: "gpt-4o-mini",
     temperature: 0,
     system_prompt_template: target_prompt,
-} as OpenAIModel
+} as GenerationModel
 
 const model = await okareo.register_model({
-    name: "Cookbook OpenAI MultiTurnDriver",
+    name: "Cookbook MultiTurnDriver - OpenAI Example",
     models: {
         type: "driver",
         driver_temperature: 1,
@@ -63,7 +63,7 @@ const model = await okareo.register_model({
 
 const test_run = await model.run_test({
     model_api_key: { "openai": OPENAI_API_KEY },
-    name: "Cookbook OpenAI MultiTurnDriver",
+    name: "Cookbook MultiTurnDriver - OpenAI Example",
     scenario_id: sData.scenario_id,
     calculate_metrics: true,
     type: TestRunType.MUTLI_TURN,
