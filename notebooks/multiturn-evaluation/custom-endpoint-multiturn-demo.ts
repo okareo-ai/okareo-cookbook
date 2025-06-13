@@ -94,7 +94,6 @@ async function runDemo() {
   const testRun = await model.run_test({
     name: "Custom Endpoint MultiTurn Demo Run",
     project_id: PROJECT_ID,
-    model_api_key: OKAREO_API_KEY,
     scenario_id: scenarioSet.scenario_id,
     type: TestRunType.MULTI_TURN,
     calculate_metrics: true,
