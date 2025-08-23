@@ -43,9 +43,9 @@ const required_checks: CHECK_TYPE[] = [
 		output_data_type: CheckOutputType.SCORE,
 	},
 	{
-		name:"demo.Tone.Friendly",
+		name:"demo.Tone.IsFriendly",
 		description: "Use a model judgement to determine if the tone in the meeting is friendly (true).",
-		prompt: "Only output True if the speakers in the meeting are friendly, otherwise return False.",
+		prompt: "Only output True if the speakers in the following meeting are friendly, otherwise return False: {generation}",
 		output_data_type: CheckOutputType.PASS_FAIL,
 	},
 ];
