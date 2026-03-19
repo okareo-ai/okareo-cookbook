@@ -1,0 +1,4 @@
+{"input": "can you delete my account? my name is Bob", "result": {"name": "delete_account", "parameter_definitions": {"username": {"value": "Bob", "type": "str", "required": true}}}}
+{"input": "how do I make an account? I'm Alice", "result": {"name": "create_account", "parameter_definitions": {"username": {"value": "Alice", "type": "str", "required": true}}}}
+{"input": "how do I create an account?", "result": {"name": "create_account", "parameter_definitions": {"username": {"value": "Alice", "type": "str", "required": true}}}}
+{"input": "my name is John. how do I create a project?", "result": {"name": "create_account", "parameter_definitions": {"username": {"value": "Alice", "type": "str", "required": true}}}}
