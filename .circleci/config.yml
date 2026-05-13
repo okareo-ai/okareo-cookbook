@@ -13,36 +13,16 @@ jobs:
       - run:
           name: Install Okareo CLI
           command: |
-              curl -O -L https://github.com/okareo-ai/okareo-cli/releases/download/v0.0.16/okareo_0.0.16_linux_386.tar.gz
-              tar -xvf okareo_0.0.16_linux_386.tar.gz
-              chmod +x bin/okareo
-              echo 'export PATH=$PATH:$PWD/bin' >> $BASH_ENV
+            curl -O -L https://github.com/okareo-ai/okareo-cli/releases/download/v0.0.16/okareo_0.0.16_linux_386.tar.gz
+            tar -xvf okareo_0.0.16_linux_386.tar.gz
+            chmod +x bin/okareo
+            echo 'export PATH=$PATH:$PWD/bin' >> $BASH_ENV
       - run:
           name: Check Okareo Version
           command: okareo --version
       - run:
           name: Run Summarization
           command: okareo run -f summarization
-
-  classification:
-    executor: node/default
-    working_directory: ~/cookbook/demos
-    steps:
-      - checkout:
-          path: ~/cookbook
-      - run:
-          name: Install Okareo CLI
-          command: |
-              curl -O -L https://github.com/okareo-ai/okareo-cli/releases/download/v0.0.16/okareo_0.0.16_linux_386.tar.gz
-              tar -xvf okareo_0.0.16_linux_386.tar.gz
-              chmod +x bin/okareo
-              echo 'export PATH=$PATH:$PWD/bin' >> $BASH_ENV
-      - run:
-          name: Check Okareo Version
-          command: okareo --version
-      - run:
-          name: Run Classification
-          command: okareo run -f classification
 
   reporting:
     executor: node/default
@@ -53,19 +33,16 @@ jobs:
       - run:
           name: Install Okareo CLI
           command: |
-              curl -O -L https://github.com/okareo-ai/okareo-cli/releases/download/v0.0.16/okareo_0.0.16_linux_386.tar.gz
-              tar -xvf okareo_0.0.16_linux_386.tar.gz
-              chmod +x bin/okareo
-              echo 'export PATH=$PATH:$PWD/bin' >> $BASH_ENV
+            curl -O -L https://github.com/okareo-ai/okareo-cli/releases/download/v0.0.16/okareo_0.0.16_linux_386.tar.gz
+            tar -xvf okareo_0.0.16_linux_386.tar.gz
+            chmod +x bin/okareo
+            echo 'export PATH=$PATH:$PWD/bin' >> $BASH_ENV
       - run:
           name: Check Okareo Version
           command: okareo --version
       - run:
           name: Summarization Report
           command: okareo run -f x_summarization_logger
-      - run:
-          name: Classification Report
-          command: okareo run -f x_classification_logger
 
   cookbook-python:
     docker:
@@ -78,35 +55,52 @@ jobs:
       - run:
           name: Install Okareo CLI
           command: |
-              curl -O -L https://github.com/okareo-ai/okareo-cli/releases/download/v0.0.16/okareo_0.0.16_linux_386.tar.gz
-              tar -xvf okareo_0.0.16_linux_386.tar.gz
-              chmod +x bin/okareo
-              echo 'export PATH=$PATH:$PWD/bin' >> $BASH_ENV
+            curl -O -L https://github.com/okareo-ai/okareo-cli/releases/download/v0.0.16/okareo_0.0.16_linux_386.tar.gz
+            tar -xvf okareo_0.0.16_linux_386.tar.gz
+            chmod +x bin/okareo
+            echo 'export PATH=$PATH:$PWD/bin' >> $BASH_ENV
       - run:
           name: Check Okareo Version
           command: okareo --version
       - run:
           name: Run Cookbook Test
           command: |
-              python3 --version
-              okareo run -d -f example
+            python3 --version
+            okareo run -d -f example
+
+  text-simulation:
+    docker:
+      - image: cimg/python:3.12.3
+    working_directory: ~/cookbook/tutorials/text-simulation
+    steps:
+      - checkout:
+          path: ~/cookbook
+      - run: python --version
+      - run:
+          name: Install Okareo
+          command: |
+            pip install okareo
+      - run:
+          name: Run Verify Token
+          command: |
+            python3 --version
+            python3 01_verify_token.py
 
 workflows:
   version: 2
   build:
     jobs:
+      - text-simulation:
+          context:
+            - Demo-Env
       - cookbook-python:
           context:
             - Demo-Env
       - summarization:
           context:
             - Demo-Env
-      - classification:
-          context:
-            - Demo-Env
       - reporting:
           requires:
             - "summarization"
-            - "classification"
           context:
             - Demo-Env
