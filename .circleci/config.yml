@@ -2,71 +2,72 @@ version: 2.1
 
 orbs:
   node: circleci/node@5.0.2
+  okareo-orb: okareo/okareo-orb@0.0.1
 
 jobs:
-  summarization:
-    executor: node/default
-    working_directory: ~/cookbook/demos
-    steps:
-      - checkout:
-          path: ~/cookbook
-      - run:
-          name: Install Okareo CLI
-          command: |
-            curl -O -L https://github.com/okareo-ai/okareo-cli/releases/download/v0.0.16/okareo_0.0.16_linux_386.tar.gz
-            tar -xvf okareo_0.0.16_linux_386.tar.gz
-            chmod +x bin/okareo
-            echo 'export PATH=$PATH:$PWD/bin' >> $BASH_ENV
-      - run:
-          name: Check Okareo Version
-          command: okareo --version
-      - run:
-          name: Run Summarization
-          command: okareo run -f summarization
+  #   summarization:
+  #     executor: node/default
+  #     working_directory: ~/cookbook/demos
+  #     steps:
+  #       - checkout:
+  #           path: ~/cookbook
+  #       - run:
+  #           name: Install Okareo CLI
+  #           command: |
+  #             curl -O -L https://github.com/okareo-ai/okareo-cli/releases/download/v0.0.16/okareo_0.0.16_linux_386.tar.gz
+  #             tar -xvf okareo_0.0.16_linux_386.tar.gz
+  #             chmod +x bin/okareo
+  #             echo 'export PATH=$PATH:$PWD/bin' >> $BASH_ENV
+  #       - run:
+  #           name: Check Okareo Version
+  #           command: okareo --version
+  #       - run:
+  #           name: Run Summarization
+  #           command: okareo run -f summarization
 
-  reporting:
-    executor: node/default
-    working_directory: ~/cookbook/demos
-    steps:
-      - checkout:
-          path: ~/cookbook
-      - run:
-          name: Install Okareo CLI
-          command: |
-            curl -O -L https://github.com/okareo-ai/okareo-cli/releases/download/v0.0.16/okareo_0.0.16_linux_386.tar.gz
-            tar -xvf okareo_0.0.16_linux_386.tar.gz
-            chmod +x bin/okareo
-            echo 'export PATH=$PATH:$PWD/bin' >> $BASH_ENV
-      - run:
-          name: Check Okareo Version
-          command: okareo --version
-      - run:
-          name: Summarization Report
-          command: okareo run -f x_summarization_logger
+  #   reporting:
+  #     executor: node/default
+  #     working_directory: ~/cookbook/demos
+  #     steps:
+  #       - checkout:
+  #           path: ~/cookbook
+  #       - run:
+  #           name: Install Okareo CLI
+  #           command: |
+  #             curl -O -L https://github.com/okareo-ai/okareo-cli/releases/download/v0.0.16/okareo_0.0.16_linux_386.tar.gz
+  #             tar -xvf okareo_0.0.16_linux_386.tar.gz
+  #             chmod +x bin/okareo
+  #             echo 'export PATH=$PATH:$PWD/bin' >> $BASH_ENV
+  #       - run:
+  #           name: Check Okareo Version
+  #           command: okareo --version
+  #       - run:
+  #           name: Summarization Report
+  #           command: okareo run -f x_summarization_logger
 
-  cookbook-python:
-    docker:
-      - image: cimg/python:3.12.3
-    working_directory: ~/cookbook/cookbook/py-minimal-ci
-    steps:
-      - checkout:
-          path: ~/cookbook
-      - run: python --version
-      - run:
-          name: Install Okareo CLI
-          command: |
-            curl -O -L https://github.com/okareo-ai/okareo-cli/releases/download/v0.0.16/okareo_0.0.16_linux_386.tar.gz
-            tar -xvf okareo_0.0.16_linux_386.tar.gz
-            chmod +x bin/okareo
-            echo 'export PATH=$PATH:$PWD/bin' >> $BASH_ENV
-      - run:
-          name: Check Okareo Version
-          command: okareo --version
-      - run:
-          name: Run Cookbook Test
-          command: |
-            python3 --version
-            okareo run -d -f example
+  #   cookbook-python:
+  #     docker:
+  #       - image: cimg/python:3.12.3
+  #     working_directory: ~/cookbook/cookbook/py-minimal-ci
+  #     steps:
+  #       - checkout:
+  #           path: ~/cookbook
+  #       - run: python --version
+  #       - run:
+  #           name: Install Okareo CLI
+  #           command: |
+  #             curl -O -L https://github.com/okareo-ai/okareo-cli/releases/download/v0.0.16/okareo_0.0.16_linux_386.tar.gz
+  #             tar -xvf okareo_0.0.16_linux_386.tar.gz
+  #             chmod +x bin/okareo
+  #             echo 'export PATH=$PATH:$PWD/bin' >> $BASH_ENV
+  #       - run:
+  #           name: Check Okareo Version
+  #           command: okareo --version
+  #       - run:
+  #           name: Run Cookbook Test
+  #           command: |
+  #             python3 --version
+  #             okareo run -d -f example
 
   text-simulation:
     docker:
@@ -75,16 +76,8 @@ jobs:
     steps:
       - checkout:
           path: ~/cookbook
-      - run: python --version
-      - run:
-          name: Install Okareo
-          command: |
-            pip install okareo
-      - run:
-          name: Run Verify Token
-          command: |
-            python3 --version
-            python3 01_verify_token.py
+      - okareo-orb/run_test:
+          config: .okareo/config.yml
 
 workflows:
   version: 2
@@ -93,14 +86,14 @@ workflows:
       - text-simulation:
           context:
             - Demo-Env
-      - cookbook-python:
-          context:
-            - Demo-Env
-      - summarization:
-          context:
-            - Demo-Env
-      - reporting:
-          requires:
-            - "summarization"
-          context:
-            - Demo-Env
+    #   - cookbook-python:
+    #       context:
+    #         - Demo-Env
+    #   - summarization:
+    #       context:
+    #         - Demo-Env
+    #   - reporting:
+    #       requires:
+    #         - "summarization"
+    #       context:
+    #         - Demo-Env
