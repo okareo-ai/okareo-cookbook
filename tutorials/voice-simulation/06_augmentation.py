@@ -46,8 +46,10 @@ class AugmentedSimParams:
             "augmentation": {
                 "noise": {"profile": "cafeteria", "snr_db": 10},
                 "barge_in": {
-                    "probability": 0.4,
-                    "prompt": "Actually hold on — I also want to ask about freezing the membership instead.",
+                    "probability": 0.5,
+                    "min_offset_ms": 200,
+                    "max_offset_ms": 600,
+                    "prompt": "Ask for a very short polite interruption.",
                 },
             },
         }
