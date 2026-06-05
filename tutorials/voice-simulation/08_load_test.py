@@ -1,11 +1,14 @@
 """08 — Load/Scale Test
-Stress-test with 20 concurrent conversations and measure latency degradation.
+Stress-test with 10 concurrent conversations and measure latency degradation.
 
 Demonstrates:
 - High-volume testing with repeats * scenarios
 - max_parallel_requests on the target to control concurrency
 - Reading server-calculated percentile scores (p50, p90)
 - Detecting performance degradation under load
+
+Note: This example runs 10 concurrent calls. Real test would have a higher limit, 
+reach out to Okareo to run with a higher load.
 """
 import os
 from okareo import Okareo
@@ -22,16 +25,17 @@ scenario = okareo.create_scenario_set(ScenarioSetCreate(
         {"input": "When does your subscription renew?", "result": "Agent provides renewal date"},
         {"input": "Get a copy of your last invoice.", "result": "Agent sends invoice"},
         {"input": "Is there a fee to upgrade your plan?", "result": "Agent explains upgrade costs"},
+        {"input": "How do I add a second user to my account?", "result": "Agent explains multi-user setup"},
     ]),
 ))
 
 result = okareo.run_simulation(
     name="Load Test - Voice Quality",
-    target=Target(name="Voice Cookbook Target", target=TwilioVoiceTarget(to_phone_number=TARGET_PHONE, max_parallel_requests=4)),
+    target=Target(name="Voice Cookbook Target", target=TwilioVoiceTarget(to_phone_number=TARGET_PHONE, max_parallel_requests=10)),
     scenario=scenario,
     driver=DEFAULT_DRIVER,
     max_turns=3,
-    repeats=5,
+    repeats=2,
     checks=["avg_turn_taking_latency", "result_completed"],
 )
 
@@ -48,7 +52,7 @@ datapoints = okareo.find_test_data_points(
 print(f"Status: {result.status}")
 print(f"Results: {result.app_link}")
 print(f"\n--- Load Test Results ---")
-print(f"  Conversations: {len(datapoints)} (4 scenarios x 5 repeats = 20 expected)")
+print(f"  Conversations: {len(datapoints)} (5 scenarios x 2 repeats = 10 expected)")
 print(f"  Mean latency:       {scores.get('avg_turn_taking_latency', 'N/A')} ms")
 
 if latency_pct:
