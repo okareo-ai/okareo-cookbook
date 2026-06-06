@@ -44,7 +44,7 @@ class AugmentedSimParams:
             "first_turn": "driver",
             "repeats": 1,
             "augmentation": {
-                "noise": {"profile": "cafeteria", "snr_db": 10},
+                "noise": {"noise_profile": "cafeteria", "noise_snr_db": 10},
                 "barge_in": {
                     "probability": 0.5,
                     "min_offset_ms": 200,
