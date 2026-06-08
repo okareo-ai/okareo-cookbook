@@ -9,9 +9,9 @@ Demonstrates:
 """
 import os
 from okareo import Okareo
-from okareo.model_under_test import Driver, Target, TwilioVoiceTarget
+from okareo.model_under_test import Driver
 from okareo_api_client.models import ScenarioSetCreate
-from shared import TARGET_PHONE
+from shared import TARGET
 
 okareo = Okareo(os.environ["OKAREO_API_KEY"])
 
@@ -100,7 +100,7 @@ scenario = okareo.create_scenario_set(ScenarioSetCreate(
 
 result = okareo.run_simulation(
     name="Hesitant Persona Sim",
-    target=Target(name="Voice Cookbook Target", target=TwilioVoiceTarget(to_phone_number=TARGET_PHONE)),
+    target=TARGET,
     scenario=scenario,
     driver=driver,
     max_turns=6,

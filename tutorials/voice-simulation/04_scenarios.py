@@ -7,11 +7,10 @@ Demonstrates:
 - Extracting full conversation transcripts programmatically
 """
 import os
-import httpx
 from okareo import Okareo
-from okareo.model_under_test import Driver, Target, TwilioVoiceTarget
+from okareo.model_under_test import Driver
 from okareo_api_client.models import ScenarioSetCreate, FindTestDataPointPayload
-from shared import API_KEY, TARGET_PHONE, DRIVER_PROMPT, DEFAULT_VOICE_INSTRUCTIONS
+from shared import TARGET, DRIVER_PROMPT, DEFAULT_VOICE_INSTRUCTIONS
 
 okareo = Okareo(os.environ["OKAREO_API_KEY"])
 
@@ -39,7 +38,7 @@ scenario = okareo.create_scenario_set(ScenarioSetCreate(
 
 result = okareo.run_simulation(
     name="Multi-Scenario Voice Sim",
-    target=Target(name="Voice Cookbook Target", target=TwilioVoiceTarget(to_phone_number=TARGET_PHONE)),
+    target=TARGET,
     scenario=scenario,
     driver=driver,
     max_turns=4,
@@ -54,7 +53,6 @@ datapoints = okareo.find_test_data_points(
     FindTestDataPointPayload(test_run_id=result.id, full_data_point=True)
 )
 
-BASE_URL = os.environ.get("OKAREO_BASE_URL", "https://api.okareo.com")
 RECORDING_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "recordings")
 os.makedirs(RECORDING_DIR, exist_ok=True)
 
@@ -69,15 +67,14 @@ for i, dp in enumerate(datapoints):
 
     # Download full call recording
     if call_sid:
-        recording_url = f"{BASE_URL}/v0/voice/call_sid/{call_sid}"
         filepath = os.path.join(RECORDING_DIR, f"conv{i+1}_full.wav")
-        resp = httpx.get(recording_url, headers={"api-key": API_KEY}, follow_redirects=True)
-        if resp.status_code == 200:
+        try:
+            audio_bytes = okareo.download_call_recording(call_sid)
             with open(filepath, "wb") as f:
-                f.write(resp.content)
-            print(f"  Recording: {filepath} ({len(resp.content) // 1024} KB)")
-        else:
-            print(f"  Recording download failed: HTTP {resp.status_code}")
+                f.write(audio_bytes)
+            print(f"  Recording: {filepath} ({len(audio_bytes) // 1024} KB)")
+        except Exception as e:
+            print(f"  Recording download failed: {e}")
 
     # Print transcript
     for msg in messages:

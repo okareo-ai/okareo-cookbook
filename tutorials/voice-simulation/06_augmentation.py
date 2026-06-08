@@ -2,25 +2,16 @@
 Inject real-world conditions: background noise and barge-in.
 
 Demonstrates:
-- The augmentation block in simulation_params (not deprecated top-level params)
+- The augmentation parameter in run_simulation
 - noise + barge_in combo (valid: noise + one non-noise strategy)
-- Using ModelUnderTest.run_test() for advanced sim configuration
+- No need to drop down to register_model/run_test for augmentation
 """
 import os
 from okareo import Okareo
-from okareo.model_under_test import TwilioVoiceTarget, TestRunType
 from okareo_api_client.models import ScenarioSetCreate
-from shared import TARGET_PHONE, DEFAULT_DRIVER
+from shared import TARGET, DEFAULT_DRIVER
 
 okareo = Okareo(os.environ["OKAREO_API_KEY"])
-
-mut = okareo.register_model(
-    name="Voice Cookbook Target",
-    model=TwilioVoiceTarget(to_phone_number=TARGET_PHONE),
-    update=True,
-)
-
-driver_model = okareo.create_or_update_driver(DEFAULT_DRIVER)
 
 scenario = okareo.create_scenario_set(ScenarioSetCreate(
     name="Voice Sim - Augmentation",
@@ -31,38 +22,24 @@ scenario = okareo.create_scenario_set(ScenarioSetCreate(
     ]),
 ))
 
-
-class AugmentedSimParams:
-    """simulation_params with augmentation block.
-
-    Composition rule: max 2 strategies. If 2, one must be noise.
-    Valid combos: noise+barge_in, noise+cap, noise+backchannel, etc.
-    """
-    def to_dict(self):
-        return {
-            "max_turns": 5,
-            "first_turn": "driver",
-            "repeats": 1,
-            "augmentation": {
-                "noise": {"noise_profile": "cafeteria", "noise_snr_db": 10},
-                "barge_in": {
-                    "probability": 0.5,
-                    "min_offset_ms": 200,
-                    "max_offset_ms": 600,
-                    "prompt": "Ask for a very short polite interruption.",
-                },
-            },
-        }
-
-
-result = mut.run_test(
-    scenario=scenario,
+result = okareo.run_simulation(
     name="Augmentation - Noise + Barge-In",
-    test_run_type=TestRunType.MULTI_TURN,
+    target=TARGET,
+    scenario=scenario,
+    driver=DEFAULT_DRIVER,
+    max_turns=5,
+    first_turn="driver",
     checks=["avg_turn_taking_latency", "result_completed"],
     calculate_metrics=True,
-    simulation_params=AugmentedSimParams(),
-    driver_id=str(driver_model.id),
+    augmentation={
+        "noise": {"noise_profile": "cafeteria", "noise_snr_db": 10},
+        "barge_in": {
+            "probability": 0.5,
+            "min_offset_ms": 200,
+            "max_offset_ms": 600,
+            "prompt": "Ask for a very short polite interruption.",
+        },
+    },
 )
 
 print(f"Status: {result.status}")
