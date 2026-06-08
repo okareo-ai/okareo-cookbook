@@ -8,6 +8,7 @@ Demonstrates:
 """
 import os
 from okareo import Okareo
+from okareo.augmentations import Augmentation, NoiseAugmentation, BargeInAugmentation
 from okareo_api_client.models import ScenarioSetCreate
 from shared import TARGET, DEFAULT_DRIVER
 
@@ -31,15 +32,15 @@ result = okareo.run_simulation(
     first_turn="driver",
     checks=["avg_turn_taking_latency", "result_completed"],
     calculate_metrics=True,
-    augmentation={
-        "noise": {"noise_profile": "cafeteria", "noise_snr_db": 10},
-        "barge_in": {
-            "probability": 0.5,
-            "min_offset_ms": 200,
-            "max_offset_ms": 600,
-            "prompt": "Ask for a very short polite interruption.",
-        },
-    },
+    augmentation=[
+        Augmentation(noise=NoiseAugmentation(profile="cafeteria", snr_db=10)),
+        Augmentation(barge_in=BargeInAugmentation(
+            probability=0.5,
+            min_offset_ms=200,
+            max_offset_ms=600,
+            prompt="Ask for a very short polite interruption.",
+        )),
+    ],
 )
 
 print(f"Status: {result.status}")
