@@ -12,7 +12,7 @@ reach out to Okareo to run with a higher load.
 """
 import os
 from okareo import Okareo
-from okareo.model_under_test import Target, TwilioVoiceTarget
+from okareo.model_under_test import PhoneTarget, Target
 from okareo_api_client.models import ScenarioSetCreate, FindTestDataPointPayload
 from shared import DEFAULT_DRIVER, TARGET_PHONE
 
@@ -31,7 +31,7 @@ scenario = okareo.create_scenario_set(ScenarioSetCreate(
 
 result = okareo.run_simulation(
     name="Load Test - Voice Quality",
-    target=Target(name="Voice Cookbook Target", target=TwilioVoiceTarget(to_phone_number=TARGET_PHONE, max_parallel_requests=10)),
+    target=Target(name="Voice Cookbook Target", target=PhoneTarget(phone_number=TARGET_PHONE, max_parallel_requests=10)),
     scenario=scenario,
     driver=DEFAULT_DRIVER,
     max_turns=3,

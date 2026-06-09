@@ -8,9 +8,8 @@ Demonstrates:
 """
 import os
 from okareo import Okareo
-from okareo.model_under_test import Target, TwilioVoiceTarget
 from okareo_api_client.models import ScenarioSetCreate
-from shared import DEFAULT_DRIVER, TARGET_PHONE
+from shared import DEFAULT_DRIVER, TARGET
 
 okareo = Okareo(os.environ["OKAREO_API_KEY"])
 
@@ -33,7 +32,7 @@ CHECKS = [
 
 result = okareo.run_simulation(
     name="Voice Checks Demo",
-    target=Target(name="Voice Cookbook Target", target=TwilioVoiceTarget(to_phone_number=TARGET_PHONE)),
+    target=TARGET,
     scenario=scenario,
     driver=DEFAULT_DRIVER,
     max_turns=5,

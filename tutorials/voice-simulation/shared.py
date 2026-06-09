@@ -4,12 +4,15 @@ Provides the Okareo client, target factory, and reusable drivers so individual
 scripts stay focused on what they're teaching.
 """
 import os
-import httpx
-from okareo.model_under_test import Driver
+from okareo import Okareo
+from okareo.model_under_test import Driver, PhoneTarget, Target
 
 API_KEY = os.environ["OKAREO_API_KEY"]
-BASE_URL = os.environ.get("OKAREO_BASE_URL", "https://api.okareo.com")
 TARGET_PHONE = "+17623004777"
+
+okareo = Okareo(API_KEY)
+
+TARGET = Target(name="Voice Cookbook Target", target=PhoneTarget(phone_number=TARGET_PHONE))
 
 
 DEFAULT_VOICE_INSTRUCTIONS = """\
@@ -27,15 +30,8 @@ Pronunciation: Clear and natural. Spell out special characters when giving email
 
 def generate_driver_prompt(driver_main_goal: str, **kwargs) -> Driver:
     """One sentence in, production driver out."""
-    resp = httpx.post(
-        f"{BASE_URL}/v0/generate_driver_prompt",
-        headers={"api-key": API_KEY, "Content-Type": "application/json"},
-        json={"user_input": driver_main_goal},
-    )
-    resp.raise_for_status()
-    data = resp.json()
     kwargs.setdefault("voice_instructions", DEFAULT_VOICE_INSTRUCTIONS)
-    return Driver(name=data["suggested_name"], prompt_template=data["driver_prompt"], **kwargs)
+    return okareo.generate_driver_prompt(driver_main_goal, **kwargs)
 
 
 DRIVER_PROMPT = """\
